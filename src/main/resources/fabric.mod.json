@@ -20,6 +20,9 @@
   "entrypoints": {
     "main": [
       "com.kneelawk.extramodintegrations.ExtraModIntegrationsMod"
+    ],
+    "emi": [
+      "com.kneelawk.extramodintegrations.ExtraModIntegrationsPlugin"
     ]
   },
   "mixins": [

@@ -40,7 +40,7 @@ dependencies {
         transitive = false
     }
 
-    // TechReborn
+    // Tech Reborn
     modCompileOnly "curse.maven:techreborn-233564:${project.tech_reborn_id}"
     modRuntimeOnly "curse.maven:techreborn-233564:${project.tech_reborn_id}"
     modCompileOnly "curse.maven:reborncore-237903:${project.reborn_core_id}"
