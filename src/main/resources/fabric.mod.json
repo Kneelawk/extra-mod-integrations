@@ -1,38 +1,39 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "extra-mod-integrations",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Extra Mod Integrations",
+  "description": "EMI addon adding support for as many mods as possible",
   "authors": [
-    "Me!"
+    "Kneelawk"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/Kneelawk/extra-mod-integrations",
+    "sources": "https://github.com/Kneelawk/extra-mod-integrations"
   },
 
-  "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "license": "MIT",
+  "icon": "assets/extra-mod-integrations/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "com.kneelawk.extramodintegrations.ExtraModIntegrationsMod"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "extra-mod-integrations.mixins.json"
   ],
 
   "depends": {
     "fabricloader": ">=0.14.9",
     "fabric-api": "*",
     "minecraft": "~1.19",
-    "java": ">=17"
+    "java": ">=17",
+    "emi": "*"
   },
   "suggests": {
-    "another-mod": "*"
+    "techreborn": "*"
   }
 }
