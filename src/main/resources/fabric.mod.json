@@ -18,11 +18,11 @@
 
   "environment": "*",
   "entrypoints": {
-    "main": [
-      "com.kneelawk.extramodintegrations.ExtraModIntegrationsMod"
+    "client": [
+      "com.kneelawk.extramodintegrations.ExMIMod"
     ],
     "emi": [
-      "com.kneelawk.extramodintegrations.ExtraModIntegrationsPlugin"
+      "com.kneelawk.extramodintegrations.ExMIPlugin"
     ]
   },
   "mixins": [

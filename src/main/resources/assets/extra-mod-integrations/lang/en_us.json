@@ -1,4 +1,9 @@
 {
+  "gui.extra-mod-integrations.cook_time": "%d ticks",
+  "tooltip.extra-mod-integrations.techreborn.recipe_power": "%d E/t",
+
+  "emi.category.techreborn.grinder": "Grinding",
+
   "tag.c.advanced_alloy_blocks": "Advanced Alloy Blocks",
   "tag.c.advanced_alloy_ingots": "Advanced Alloy Ingots",
   "tag.c.advanced_alloy_plates": "Advanced Alloy Plates",
