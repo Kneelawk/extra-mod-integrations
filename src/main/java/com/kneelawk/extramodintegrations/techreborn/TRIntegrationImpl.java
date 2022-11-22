@@ -14,8 +14,13 @@ import static com.kneelawk.extramodintegrations.ExMIPlugin.SIMPLIFIED_ICONS;
 
 @SuppressWarnings("unused")
 public class TRIntegrationImpl extends TRIntegration {
+    public static final EmiStack ALLOY_SMELTER_STACK = EmiStack.of(TRContent.Machine.ALLOY_SMELTER);
+    public static final EmiStack IRON_ALLOY_FURNACE_STACK = EmiStack.of(TRContent.Machine.IRON_ALLOY_FURNACE);
     public static final EmiStack GRINDER_STACK = EmiStack.of(TRContent.Machine.GRINDER);
 
+    public static final EmiRecipeCategory ALLOY_SMELTER_CATEGORY =
+        new EmiRecipeCategory(new Identifier("techreborn:alloy_smelter"), ALLOY_SMELTER_STACK,
+            new EmiTexture(SIMPLIFIED_ICONS, 16, 0, 16, 16));
     public static final EmiRecipeCategory GRINDER_CATEGORY =
         new EmiRecipeCategory(new Identifier("techreborn:grinder"), GRINDER_STACK,
             new EmiTexture(SIMPLIFIED_ICONS, 0, 0, 16, 16));
@@ -24,6 +29,15 @@ public class TRIntegrationImpl extends TRIntegration {
     void registerImpl(EmiRegistry registry) {
         ExMIMod.LOGGER.info("[Extra Mod Integrations] Loading TechReborn Integration...");
 
+        // Alloy Smelting
+        registry.addCategory(ALLOY_SMELTER_CATEGORY);
+        registry.addWorkstation(ALLOY_SMELTER_CATEGORY, ALLOY_SMELTER_STACK);
+        registry.addWorkstation(ALLOY_SMELTER_CATEGORY, IRON_ALLOY_FURNACE_STACK);
+        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.ALLOY_SMELTER)) {
+            registry.addRecipe(new AlloySmelterEmiRecipe(recipe));
+        }
+
+        // Grinding
         registry.addCategory(GRINDER_CATEGORY);
         registry.addWorkstation(GRINDER_CATEGORY, GRINDER_STACK);
         for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.GRINDER)) {

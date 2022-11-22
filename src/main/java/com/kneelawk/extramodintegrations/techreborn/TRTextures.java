@@ -12,4 +12,6 @@ public class TRTextures {
 
     public static final EmiTexture ARROW_RIGHT_EMPTY = new EmiTexture(REBORNCORE_GUI_ELEMENTS, 58, 150, 16, 10);
     public static final EmiTexture ARROW_RIGHT_FULL = new EmiTexture(REBORNCORE_GUI_ELEMENTS, 74, 150, 16, 10);
+    public static final EmiTexture ARROW_LEFT_EMPTY = new EmiTexture(REBORNCORE_GUI_ELEMENTS, 74, 160, 16, 10);
+    public static final EmiTexture ARROW_LEFT_FULL = new EmiTexture(REBORNCORE_GUI_ELEMENTS, 58, 160, 16, 10);
 }
