@@ -7,7 +7,8 @@ import static com.kneelawk.extramodintegrations.ExMIMod.gui;
 
 public class UIUtils {
     public static OrderedText cookTime(int ticks) {
-        return gui("cook_time", ticks).asOrderedText();
+        float secs = ticks / 20f;
+        return gui("cook_time", secs).asOrderedText();
     }
 
     public static void cookTime(WidgetHolder widgets, int ticks, int x, int y) {

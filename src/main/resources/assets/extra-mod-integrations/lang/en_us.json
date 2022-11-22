@@ -1,5 +1,5 @@
 {
-  "gui.extra-mod-integrations.cook_time": "%d ticks",
+  "gui.extra-mod-integrations.cook_time": "%f secs",
   "tooltip.extra-mod-integrations.techreborn.recipe_power": "%d E/t",
 
   "emi.category.techreborn.alloy_smelter": "Alloy Smelting",
