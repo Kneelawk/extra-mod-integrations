@@ -1,16 +1,14 @@
 package com.kneelawk.extramodintegrations.techreborn;
 
+import com.kneelawk.extramodintegrations.ExMIIcons;
 import com.kneelawk.extramodintegrations.ExMIMod;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
-import dev.emi.emi.api.render.EmiTexture;
 import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.util.Identifier;
 import reborncore.common.crafting.RebornRecipe;
 import techreborn.init.ModRecipes;
 import techreborn.init.TRContent;
-
-import static com.kneelawk.extramodintegrations.ExMIPlugin.SIMPLIFIED_ICONS;
 
 @SuppressWarnings("unused")
 public class TRIntegrationImpl extends TRIntegration {
@@ -20,14 +18,11 @@ public class TRIntegrationImpl extends TRIntegration {
     public static final EmiStack GRINDER_STACK = EmiStack.of(TRContent.Machine.GRINDER);
 
     public static final EmiRecipeCategory ALLOY_SMELTER_CATEGORY =
-        new EmiRecipeCategory(new Identifier("techreborn:alloy_smelter"), ALLOY_SMELTER_STACK,
-            new EmiTexture(SIMPLIFIED_ICONS, 16, 0, 16, 16));
+        new EmiRecipeCategory(trId("alloy_smelter"), ALLOY_SMELTER_STACK, ExMIIcons.ALLOY_SMELTING);
     public static final EmiRecipeCategory ASSEMBLING_MACHINE_CATEGORY =
-        new EmiRecipeCategory(new Identifier("techreborn:assembling_machine"), ASSEMBLY_MACHINE_STACK,
-            new EmiTexture(SIMPLIFIED_ICONS, 32, 0, 16, 16));
+        new EmiRecipeCategory(trId("assembling_machine"), ASSEMBLY_MACHINE_STACK, ExMIIcons.ASSEMBLING);
     public static final EmiRecipeCategory GRINDER_CATEGORY =
-        new EmiRecipeCategory(new Identifier("techreborn:grinder"), GRINDER_STACK,
-            new EmiTexture(SIMPLIFIED_ICONS, 0, 0, 16, 16));
+        new EmiRecipeCategory(trId("grinder"), GRINDER_STACK, ExMIIcons.GRINDING);
 
     @Override
     void registerImpl(EmiRegistry registry) {
@@ -54,5 +49,9 @@ public class TRIntegrationImpl extends TRIntegration {
         for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.GRINDER)) {
             registry.addRecipe(new GrinderEmiRecipe(recipe));
         }
+    }
+
+    public static Identifier trId(String path) {
+        return new Identifier("techreborn", path);
     }
 }
