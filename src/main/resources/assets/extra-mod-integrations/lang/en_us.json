@@ -1,9 +1,11 @@
 {
-  "gui.extra-mod-integrations.cook_time": "%f secs",
+  "gui.extra-mod-integrations.cook_time": "%f s",
   "tooltip.extra-mod-integrations.techreborn.recipe_power": "%d E/t",
+  "tooltip.extra-mod-integrations.techreborn.heat": "%d Heat",
 
   "emi.category.techreborn.alloy_smelter": "Alloy Smelting",
   "emi.category.techreborn.assembling_machine": "Assembling",
+  "emi.category.techreborn.blast_furnace": "Blast Furnace",
   "emi.category.techreborn.grinder": "Grinding",
 
   "tag.c.advanced_alloy_blocks": "Advanced Alloy Blocks",

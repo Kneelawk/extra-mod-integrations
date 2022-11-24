@@ -5,8 +5,8 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.widget.WidgetHolder;
 import reborncore.common.crafting.RebornRecipe;
 
-public class AssemblingMachineEmiRecipe extends TREmiRecipe {
-    protected AssemblingMachineEmiRecipe(RebornRecipe recipe) {
+public class AssemblingMachineEmiRecipe extends TREmiRecipe<RebornRecipe> {
+    public AssemblingMachineEmiRecipe(RebornRecipe recipe) {
         super(recipe);
         checkOutputCount(1);
     }
@@ -32,7 +32,7 @@ public class AssemblingMachineEmiRecipe extends TREmiRecipe {
         widgets.addSlot(getInput(1), 16, (50 - 18 * 2 - 2) / 2 + 18 + 2);
         widgets.addSlot(getOutput(0), 16 + 18 + 24, (50 - 26) / 2).output(true).recipeContext(this);
 
-        TRUIUtils.energyBar(widgets, recipe, 0, 0);
+        TRUIUtils.energyBar(widgets, recipe, 10, 0, 0);
         TRUIUtils.arrowRight(widgets, recipe, 16 + 18 + 4, (50 - 10) / 2);
         UIUtils.cookTime(widgets, recipe.getTime(), 16 + 18 + 2, 0);
     }

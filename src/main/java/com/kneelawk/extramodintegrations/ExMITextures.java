@@ -1,12 +1,14 @@
 package com.kneelawk.extramodintegrations;
 
+import com.kneelawk.extramodintegrations.util.NinePatchTexture;
 import dev.emi.emi.api.render.EmiTexture;
 import net.minecraft.util.Identifier;
 
 import static com.kneelawk.extramodintegrations.ExMIMod.id;
 
-public class ExMIIcons {
+public class ExMITextures {
     public static final Identifier SIMPLIFIED_ICONS = id("textures/gui/simplified_icons.png");
+    public static final Identifier WIDGETS = id("textures/gui/widgets.png");
 
     public static final EmiTexture GRINDING = new EmiTexture(SIMPLIFIED_ICONS, 0, 0, 16, 16);
     public static final EmiTexture ALLOY_SMELTING = new EmiTexture(SIMPLIFIED_ICONS, 16, 0, 16, 16);
@@ -27,4 +29,6 @@ public class ExMIIcons {
     public static final EmiTexture FUSION_REACTOR = new EmiTexture(SIMPLIFIED_ICONS, 0, 16, 16, 16);
     public static final EmiTexture ROLLING_MACHINE = new EmiTexture(SIMPLIFIED_ICONS, 16, 16, 16, 16);
     public static final EmiTexture WIRE_MILLING = new EmiTexture(SIMPLIFIED_ICONS, 32, 16, 16, 16);
+
+    public static final NinePatchTexture SLOT_BG = new NinePatchTexture(WIDGETS, 0, 0, 3, 3, 1, 1, 1, 1, false);
 }

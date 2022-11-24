@@ -1,12 +1,13 @@
 package com.kneelawk.extramodintegrations.techreborn;
 
-import com.kneelawk.extramodintegrations.ExMIIcons;
+import com.kneelawk.extramodintegrations.ExMITextures;
 import com.kneelawk.extramodintegrations.ExMIMod;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.util.Identifier;
 import reborncore.common.crafting.RebornRecipe;
+import techreborn.api.recipe.recipes.BlastFurnaceRecipe;
 import techreborn.init.ModRecipes;
 import techreborn.init.TRContent;
 
@@ -15,14 +16,17 @@ public class TRIntegrationImpl extends TRIntegration {
     public static final EmiStack ALLOY_SMELTER_STACK = EmiStack.of(TRContent.Machine.ALLOY_SMELTER);
     public static final EmiStack IRON_ALLOY_FURNACE_STACK = EmiStack.of(TRContent.Machine.IRON_ALLOY_FURNACE);
     public static final EmiStack ASSEMBLY_MACHINE_STACK = EmiStack.of(TRContent.Machine.ASSEMBLY_MACHINE);
+    public static final EmiStack BLAST_FURNACE_STACK = EmiStack.of(TRContent.Machine.INDUSTRIAL_BLAST_FURNACE);
     public static final EmiStack GRINDER_STACK = EmiStack.of(TRContent.Machine.GRINDER);
 
     public static final EmiRecipeCategory ALLOY_SMELTER_CATEGORY =
-        new EmiRecipeCategory(trId("alloy_smelter"), ALLOY_SMELTER_STACK, ExMIIcons.ALLOY_SMELTING);
+        new EmiRecipeCategory(trId("alloy_smelter"), ALLOY_SMELTER_STACK, ExMITextures.ALLOY_SMELTING);
     public static final EmiRecipeCategory ASSEMBLING_MACHINE_CATEGORY =
-        new EmiRecipeCategory(trId("assembling_machine"), ASSEMBLY_MACHINE_STACK, ExMIIcons.ASSEMBLING);
+        new EmiRecipeCategory(trId("assembling_machine"), ASSEMBLY_MACHINE_STACK, ExMITextures.ASSEMBLING);
+    public static final EmiRecipeCategory BLAST_FURNACE_CATEGORY =
+        new EmiRecipeCategory(trId("blast_furnace"), BLAST_FURNACE_STACK, ExMITextures.BLAST_FURNACE);
     public static final EmiRecipeCategory GRINDER_CATEGORY =
-        new EmiRecipeCategory(trId("grinder"), GRINDER_STACK, ExMIIcons.GRINDING);
+        new EmiRecipeCategory(trId("grinder"), GRINDER_STACK, ExMITextures.GRINDING);
 
     @Override
     void registerImpl(EmiRegistry registry) {
@@ -41,6 +45,13 @@ public class TRIntegrationImpl extends TRIntegration {
         registry.addWorkstation(ASSEMBLING_MACHINE_CATEGORY, ASSEMBLY_MACHINE_STACK);
         for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.ASSEMBLING_MACHINE)) {
             registry.addRecipe(new AssemblingMachineEmiRecipe(recipe));
+        }
+
+        // Blast Furnace
+        registry.addCategory(BLAST_FURNACE_CATEGORY);
+        registry.addWorkstation(BLAST_FURNACE_CATEGORY, BLAST_FURNACE_STACK);
+        for (BlastFurnaceRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.BLAST_FURNACE)) {
+            registry.addRecipe(new BlastFurnaceEmiRecipe(recipe));
         }
 
         // Grinding

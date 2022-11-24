@@ -10,13 +10,13 @@ import reborncore.common.crafting.RebornRecipe;
 
 import java.util.List;
 
-public abstract class TREmiRecipe implements EmiRecipe {
-    protected final RebornRecipe recipe;
+public abstract class TREmiRecipe<R extends RebornRecipe> implements EmiRecipe {
+    protected final R recipe;
     protected final @Nullable Identifier id;
     protected final List<EmiIngredient> inputs;
     protected final List<EmiStack> outputs;
 
-    protected TREmiRecipe(RebornRecipe recipe) {
+    public TREmiRecipe(R recipe) {
         this.recipe = recipe;
         id = recipe.getId();
         inputs = recipe.getRebornIngredients().stream().map(ing -> EmiIngredient.of(ing.getPreview(), ing.getCount()))
@@ -54,7 +54,7 @@ public abstract class TREmiRecipe implements EmiRecipe {
     }
 
     protected EmiIngredient getInput(int index) {
-        if (index > inputs.size()) {
+        if (index >= inputs.size()) {
             return EmiStack.EMPTY;
         } else {
             return inputs.get(index);
@@ -62,7 +62,7 @@ public abstract class TREmiRecipe implements EmiRecipe {
     }
 
     protected EmiStack getOutput(int index) {
-        if (index > outputs.size()) {
+        if (index >= outputs.size()) {
             return EmiStack.EMPTY;
         } else {
             return outputs.get(index);

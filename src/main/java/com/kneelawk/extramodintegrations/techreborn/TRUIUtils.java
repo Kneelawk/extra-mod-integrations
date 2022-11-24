@@ -9,10 +9,10 @@ import java.util.List;
 import static com.kneelawk.extramodintegrations.ExMIMod.tooltip;
 
 public class TRUIUtils {
-    public static void energyBar(WidgetHolder widgets, RebornRecipe recipe, int x, int y) {
+    public static void energyBar(WidgetHolder widgets, RebornRecipe recipe, int machineEnergy, int x, int y) {
         widgets.addTexture(TRTextures.ENERGY_BAR_EMPTY, x, y).tooltip((mx, my) -> List.of(
             TooltipComponent.of(tooltip("techreborn.recipe_power", recipe.getPower()).asOrderedText())));
-        widgets.addAnimatedTexture(TRTextures.ENERGY_BAR_FULL, x, y, 1000 / recipe.getPower() * 50, false, true, true);
+        widgets.addAnimatedTexture(TRTextures.ENERGY_BAR_FULL, x, y, machineEnergy * 1000 / recipe.getPower() * 50, false, true, true);
     }
 
     public static void arrowRight(WidgetHolder widgets, RebornRecipe recipe, int x, int y) {
