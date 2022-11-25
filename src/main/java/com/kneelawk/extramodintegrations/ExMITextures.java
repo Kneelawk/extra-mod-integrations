@@ -29,6 +29,7 @@ public class ExMITextures {
     public static final EmiTexture FUSION_REACTOR = new EmiTexture(SIMPLIFIED_ICONS, 0, 16, 16, 16);
     public static final EmiTexture ROLLING_MACHINE = new EmiTexture(SIMPLIFIED_ICONS, 16, 16, 16, 16);
     public static final EmiTexture WIRE_MILLING = new EmiTexture(SIMPLIFIED_ICONS, 32, 16, 16, 16);
+    public static final EmiTexture CANNING = new EmiTexture(SIMPLIFIED_ICONS, 48, 16, 16, 16);
 
     public static final NinePatchTexture SLOT_BG = new NinePatchTexture(WIDGETS, 0, 0, 3, 3, 1, 1, 1, 1, false);
 }
