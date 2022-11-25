@@ -13,6 +13,7 @@ import techreborn.init.TRContent;
 
 @SuppressWarnings("unused")
 public class TRIntegrationImpl extends TRIntegration {
+    public static final EmiStack CELL = EmiStack.of(TRContent.CELL);
     public static final EmiStack ALLOY_SMELTER_STACK = EmiStack.of(TRContent.Machine.ALLOY_SMELTER);
     public static final EmiStack IRON_ALLOY_FURNACE_STACK = EmiStack.of(TRContent.Machine.IRON_ALLOY_FURNACE);
     public static final EmiStack ASSEMBLY_MACHINE_STACK = EmiStack.of(TRContent.Machine.ASSEMBLY_MACHINE);
@@ -70,6 +71,9 @@ public class TRIntegrationImpl extends TRIntegration {
         for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.GRINDER)) {
             registry.addRecipe(new GrinderEmiRecipe(recipe));
         }
+
+        // Cells should be compared with NBT data
+        registry.setDefaultComparison(CELL, comp -> comp.copy().nbt(true).build());
     }
 
     public static Identifier trId(String path) {
