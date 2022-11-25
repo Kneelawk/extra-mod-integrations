@@ -1,7 +1,7 @@
 package com.kneelawk.extramodintegrations.techreborn;
 
-import com.kneelawk.extramodintegrations.ExMITextures;
 import com.kneelawk.extramodintegrations.ExMIMod;
+import com.kneelawk.extramodintegrations.ExMITextures;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiStack;
@@ -17,6 +17,7 @@ public class TRIntegrationImpl extends TRIntegration {
     public static final EmiStack IRON_ALLOY_FURNACE_STACK = EmiStack.of(TRContent.Machine.IRON_ALLOY_FURNACE);
     public static final EmiStack ASSEMBLY_MACHINE_STACK = EmiStack.of(TRContent.Machine.ASSEMBLY_MACHINE);
     public static final EmiStack BLAST_FURNACE_STACK = EmiStack.of(TRContent.Machine.INDUSTRIAL_BLAST_FURNACE);
+    public static final EmiStack INDUSTRIAL_CENTRIFUGE_STACK = EmiStack.of(TRContent.Machine.INDUSTRIAL_CENTRIFUGE);
     public static final EmiStack GRINDER_STACK = EmiStack.of(TRContent.Machine.GRINDER);
 
     public static final EmiRecipeCategory ALLOY_SMELTER_CATEGORY =
@@ -25,6 +26,8 @@ public class TRIntegrationImpl extends TRIntegration {
         new EmiRecipeCategory(trId("assembling_machine"), ASSEMBLY_MACHINE_STACK, ExMITextures.ASSEMBLING);
     public static final EmiRecipeCategory BLAST_FURNACE_CATEGORY =
         new EmiRecipeCategory(trId("blast_furnace"), BLAST_FURNACE_STACK, ExMITextures.BLAST_FURNACE);
+    public static final EmiRecipeCategory CENTRIFUGE_CATEGORY =
+        new EmiRecipeCategory(trId("centrifuge"), INDUSTRIAL_CENTRIFUGE_STACK, ExMITextures.CENTRIFUGE);
     public static final EmiRecipeCategory GRINDER_CATEGORY =
         new EmiRecipeCategory(trId("grinder"), GRINDER_STACK, ExMITextures.GRINDING);
 
@@ -52,6 +55,13 @@ public class TRIntegrationImpl extends TRIntegration {
         registry.addWorkstation(BLAST_FURNACE_CATEGORY, BLAST_FURNACE_STACK);
         for (BlastFurnaceRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.BLAST_FURNACE)) {
             registry.addRecipe(new BlastFurnaceEmiRecipe(recipe));
+        }
+
+        // Centrifuge
+        registry.addCategory(CENTRIFUGE_CATEGORY);
+        registry.addWorkstation(CENTRIFUGE_CATEGORY, INDUSTRIAL_CENTRIFUGE_STACK);
+        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.CENTRIFUGE)) {
+            registry.addRecipe(new CentrifugeEmiRecipe(recipe));
         }
 
         // Grinding
