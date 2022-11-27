@@ -9,6 +9,10 @@
   "emi.category.techreborn.centrifuge": "Centrifuge",
   "emi.category.techreborn.chemical_reactor": "Chemical Reacting",
   "emi.category.techreborn.compressor": "Compressing",
+  "emi.category.techreborn.distillation_tower": "Distillation Tower",
+  "emi.category.techreborn.extractor": "Extracting",
+  "emi.category.techreborn.implosion_compressor": "Implosion Compressing",
+  "emi.category.techreborn.industrial_electrolyzer": "Electrolyzing",
   "emi.category.techreborn.grinder": "Grinding",
 
   "tag.c.advanced_alloy_blocks": "Advanced Alloy Blocks",

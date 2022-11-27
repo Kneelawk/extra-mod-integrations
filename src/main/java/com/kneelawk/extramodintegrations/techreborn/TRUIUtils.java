@@ -24,4 +24,9 @@ public class TRUIUtils {
         widgets.addTexture(TRTextures.ARROW_LEFT_EMPTY, x, y);
         widgets.addAnimatedTexture(TRTextures.ARROW_LEFT_FULL, x, y, recipe.getTime() * 50, true, true, false);
     }
+
+    public static void arrowUp(WidgetHolder widgets, RebornRecipe recipe, int x, int y) {
+        widgets.addTexture(TRTextures.ARROW_UP_EMPTY, x, y);
+        widgets.addAnimatedTexture(TRTextures.ARROW_UP_FULL, x, y, recipe.getTime() * 50, false, true, false);
+    }
 }

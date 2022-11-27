@@ -21,6 +21,10 @@ public class TRIntegrationImpl extends TRIntegration {
     public static final EmiStack INDUSTRIAL_CENTRIFUGE_STACK = EmiStack.of(TRContent.Machine.INDUSTRIAL_CENTRIFUGE);
     public static final EmiStack CHEMICAL_REACTOR_STACK = EmiStack.of(TRContent.Machine.CHEMICAL_REACTOR);
     public static final EmiStack COMPRESSOR_STACK = EmiStack.of(TRContent.Machine.COMPRESSOR);
+    public static final EmiStack DISTILLATION_TOWER_STACK = EmiStack.of(TRContent.Machine.DISTILLATION_TOWER);
+    public static final EmiStack EXTRACTOR_STACK = EmiStack.of(TRContent.Machine.EXTRACTOR);
+    public static final EmiStack IMPLOSION_COMPRESSOR_STACK = EmiStack.of(TRContent.Machine.IMPLOSION_COMPRESSOR);
+    public static final EmiStack INDUSTRIAL_ELECTROLYZER_STACK = EmiStack.of(TRContent.Machine.INDUSTRIAL_ELECTROLYZER);
     public static final EmiStack GRINDER_STACK = EmiStack.of(TRContent.Machine.GRINDER);
 
     public static final EmiRecipeCategory ALLOY_SMELTER_CATEGORY =
@@ -35,6 +39,16 @@ public class TRIntegrationImpl extends TRIntegration {
         new EmiRecipeCategory(trId("chemical_reactor"), CHEMICAL_REACTOR_STACK, ExMITextures.CHEMICAL_REACTING);
     public static final EmiRecipeCategory COMPRESSOR_CATEGORY =
         new EmiRecipeCategory(trId("compressor"), COMPRESSOR_STACK, ExMITextures.COMPRESSING);
+    public static final EmiRecipeCategory DISTILLATION_TOWER_CATEGORY =
+        new EmiRecipeCategory(trId("distillation_tower"), DISTILLATION_TOWER_STACK, ExMITextures.DISTILLATION_TOWER);
+    public static final EmiRecipeCategory EXTRACTOR_CATEGORY =
+        new EmiRecipeCategory(trId("extractor"), EXTRACTOR_STACK, ExMITextures.EXTRACTING);
+    public static final EmiRecipeCategory IMPLOSION_COMPRESSOR_CATEGORY =
+        new EmiRecipeCategory(trId("implosion_compressor"), IMPLOSION_COMPRESSOR_STACK,
+            ExMITextures.IMPLOSION_COMPRESSING);
+    public static final EmiRecipeCategory INDUSTRIAL_ELECTROLYZER_CATEGORY =
+        new EmiRecipeCategory(trId("industrial_electrolyzer"), INDUSTRIAL_ELECTROLYZER_STACK,
+            ExMITextures.ELECTROLYZING);
     public static final EmiRecipeCategory GRINDER_CATEGORY =
         new EmiRecipeCategory(trId("grinder"), GRINDER_STACK, ExMITextures.GRINDING);
 
@@ -85,11 +99,39 @@ public class TRIntegrationImpl extends TRIntegration {
             registry.addRecipe(new SimpleOneInputEmiRecipe(recipe, COMPRESSOR_CATEGORY, 1));
         }
 
+        // Distillation Tower
+        registry.addCategory(DISTILLATION_TOWER_CATEGORY);
+        registry.addWorkstation(DISTILLATION_TOWER_CATEGORY, DISTILLATION_TOWER_STACK);
+        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.DISTILLATION_TOWER)) {
+            registry.addRecipe(new DistillationTowerEmiRecipe(recipe));
+        }
+
+        // Extracting
+        registry.addCategory(EXTRACTOR_CATEGORY);
+        registry.addWorkstation(EXTRACTOR_CATEGORY, EXTRACTOR_STACK);
+        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.EXTRACTOR)) {
+            registry.addRecipe(new SimpleOneInputEmiRecipe(recipe, EXTRACTOR_CATEGORY, 1));
+        }
+
         // Grinding
         registry.addCategory(GRINDER_CATEGORY);
         registry.addWorkstation(GRINDER_CATEGORY, GRINDER_STACK);
         for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.GRINDER)) {
             registry.addRecipe(new SimpleOneInputEmiRecipe(recipe, GRINDER_CATEGORY, 1));
+        }
+
+        // Implosion Compressor
+        registry.addCategory(IMPLOSION_COMPRESSOR_CATEGORY);
+        registry.addWorkstation(IMPLOSION_COMPRESSOR_CATEGORY, IMPLOSION_COMPRESSOR_STACK);
+        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.IMPLOSION_COMPRESSOR)) {
+            registry.addRecipe(new ImplosionCompressorEmiRecipe(recipe));
+        }
+
+        // Industrial Electrolyzing
+        registry.addCategory(INDUSTRIAL_ELECTROLYZER_CATEGORY);
+        registry.addWorkstation(INDUSTRIAL_ELECTROLYZER_CATEGORY, INDUSTRIAL_ELECTROLYZER_STACK);
+        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.INDUSTRIAL_ELECTROLYZER)) {
+            registry.addRecipe(new IndustrialElectrolyzerEmiRecipe(recipe));
         }
 
         // Cells should be compared with NBT data
