@@ -4,6 +4,7 @@ import com.kneelawk.extramodintegrations.ExMIMod;
 import com.kneelawk.extramodintegrations.ExMITextures;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
+import dev.emi.emi.api.recipe.VanillaEmiRecipeCategories;
 import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.util.Identifier;
 import reborncore.common.crafting.RebornRecipe;
@@ -26,6 +27,10 @@ public class TRIntegrationImpl extends TRIntegration {
     public static final EmiStack IMPLOSION_COMPRESSOR_STACK = EmiStack.of(TRContent.Machine.IMPLOSION_COMPRESSOR);
     public static final EmiStack INDUSTRIAL_ELECTROLYZER_STACK = EmiStack.of(TRContent.Machine.INDUSTRIAL_ELECTROLYZER);
     public static final EmiStack GRINDER_STACK = EmiStack.of(TRContent.Machine.GRINDER);
+
+    public static final EmiStack AUTO_CRAFTING_TABLE_STACK = EmiStack.of(TRContent.Machine.AUTO_CRAFTING_TABLE);
+    public static final EmiStack IRON_FURNACE_STACK = EmiStack.of(TRContent.Machine.IRON_FURNACE);
+    public static final EmiStack ELECTRIC_FURNACE_STACK = EmiStack.of(TRContent.Machine.ELECTRIC_FURNACE);
 
     public static final EmiRecipeCategory ALLOY_SMELTER_CATEGORY =
         new EmiRecipeCategory(trId("alloy_smelter"), ALLOY_SMELTER_STACK, ExMITextures.ALLOY_SMELTING);
@@ -133,6 +138,10 @@ public class TRIntegrationImpl extends TRIntegration {
         for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.INDUSTRIAL_ELECTROLYZER)) {
             registry.addRecipe(new IndustrialElectrolyzerEmiRecipe(recipe));
         }
+
+        registry.addWorkstation(VanillaEmiRecipeCategories.CRAFTING, AUTO_CRAFTING_TABLE_STACK);
+        registry.addWorkstation(VanillaEmiRecipeCategories.SMELTING, IRON_FURNACE_STACK);
+        registry.addWorkstation(VanillaEmiRecipeCategories.SMELTING, ELECTRIC_FURNACE_STACK);
 
         // Cells should be compared with NBT data
         registry.setDefaultComparison(CELL, comp -> comp.copy().nbt(true).build());
