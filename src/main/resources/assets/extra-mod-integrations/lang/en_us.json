@@ -3,6 +3,8 @@
   "tooltip.extra-mod-integrations.techreborn.recipe_power": "%d E/t",
   "tooltip.extra-mod-integrations.techreborn.heat": "%d Heat",
 
+  "emi.category.extra-mod-integrations.techreborn.fluid_from_cell": "Fluid from Tech Reborn Cell",
+  "emi.category.extra-mod-integrations.techreborn.fluid_into_cell": "Fluid into Tech Reborn Cell",
   "emi.category.techreborn.alloy_smelter": "Alloy Smelting",
   "emi.category.techreborn.assembling_machine": "Assembling",
   "emi.category.techreborn.blast_furnace": "Blast Furnace",
@@ -11,9 +13,10 @@
   "emi.category.techreborn.compressor": "Compressing",
   "emi.category.techreborn.distillation_tower": "Distillation Tower",
   "emi.category.techreborn.extractor": "Extracting",
+  "emi.category.techreborn.grinder": "Grinding",
   "emi.category.techreborn.implosion_compressor": "Implosion Compressing",
   "emi.category.techreborn.industrial_electrolyzer": "Electrolyzing",
-  "emi.category.techreborn.grinder": "Grinding",
+  "emi.category.techreborn.industrial_grinder": "Industrial Grinding",
 
   "tag.c.advanced_alloy_blocks": "Advanced Alloy Blocks",
   "tag.c.advanced_alloy_ingots": "Advanced Alloy Ingots",

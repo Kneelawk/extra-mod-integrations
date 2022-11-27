@@ -6,11 +6,17 @@ import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.recipe.VanillaEmiRecipeCategories;
 import dev.emi.emi.api.stack.EmiStack;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import reborncore.common.crafting.RebornRecipe;
 import techreborn.api.recipe.recipes.BlastFurnaceRecipe;
+import techreborn.api.recipe.recipes.IndustrialGrinderRecipe;
 import techreborn.init.ModRecipes;
 import techreborn.init.TRContent;
+import techreborn.items.DynamicCellItem;
+
+import static com.kneelawk.extramodintegrations.ExMIMod.id;
 
 @SuppressWarnings("unused")
 public class TRIntegrationImpl extends TRIntegration {
@@ -24,9 +30,10 @@ public class TRIntegrationImpl extends TRIntegration {
     public static final EmiStack COMPRESSOR_STACK = EmiStack.of(TRContent.Machine.COMPRESSOR);
     public static final EmiStack DISTILLATION_TOWER_STACK = EmiStack.of(TRContent.Machine.DISTILLATION_TOWER);
     public static final EmiStack EXTRACTOR_STACK = EmiStack.of(TRContent.Machine.EXTRACTOR);
+    public static final EmiStack GRINDER_STACK = EmiStack.of(TRContent.Machine.GRINDER);
     public static final EmiStack IMPLOSION_COMPRESSOR_STACK = EmiStack.of(TRContent.Machine.IMPLOSION_COMPRESSOR);
     public static final EmiStack INDUSTRIAL_ELECTROLYZER_STACK = EmiStack.of(TRContent.Machine.INDUSTRIAL_ELECTROLYZER);
-    public static final EmiStack GRINDER_STACK = EmiStack.of(TRContent.Machine.GRINDER);
+    public static final EmiStack INDUSTRIAL_GRINDER_STACK = EmiStack.of(TRContent.Machine.INDUSTRIAL_GRINDER);
 
     public static final EmiStack AUTO_CRAFTING_TABLE_STACK = EmiStack.of(TRContent.Machine.AUTO_CRAFTING_TABLE);
     public static final EmiStack IRON_FURNACE_STACK = EmiStack.of(TRContent.Machine.IRON_FURNACE);
@@ -48,14 +55,21 @@ public class TRIntegrationImpl extends TRIntegration {
         new EmiRecipeCategory(trId("distillation_tower"), DISTILLATION_TOWER_STACK, ExMITextures.DISTILLATION_TOWER);
     public static final EmiRecipeCategory EXTRACTOR_CATEGORY =
         new EmiRecipeCategory(trId("extractor"), EXTRACTOR_STACK, ExMITextures.EXTRACTING);
+    public static final EmiRecipeCategory GRINDER_CATEGORY =
+        new EmiRecipeCategory(trId("grinder"), GRINDER_STACK, ExMITextures.GRINDING);
     public static final EmiRecipeCategory IMPLOSION_COMPRESSOR_CATEGORY =
         new EmiRecipeCategory(trId("implosion_compressor"), IMPLOSION_COMPRESSOR_STACK,
             ExMITextures.IMPLOSION_COMPRESSING);
     public static final EmiRecipeCategory INDUSTRIAL_ELECTROLYZER_CATEGORY =
         new EmiRecipeCategory(trId("industrial_electrolyzer"), INDUSTRIAL_ELECTROLYZER_STACK,
             ExMITextures.ELECTROLYZING);
-    public static final EmiRecipeCategory GRINDER_CATEGORY =
-        new EmiRecipeCategory(trId("grinder"), GRINDER_STACK, ExMITextures.GRINDING);
+    public static final EmiRecipeCategory INDUSTRIAL_GRINDER_CATEGORY =
+        new EmiRecipeCategory(trId("industrial_grinder"), INDUSTRIAL_GRINDER_STACK, ExMITextures.INDUSTRIAL_GRINDING);
+
+    public static final EmiRecipeCategory FLUID_FROM_CELL_CATEGORY =
+        new EmiRecipeCategory(id("techreborn/fluid_from_cell"), CELL, ExMITextures.FLUID_FROM_CAN);
+    public static final EmiRecipeCategory FLUID_INTO_CELL_CATEGORY =
+        new EmiRecipeCategory(id("techreborn/fluid_into_cell"), CELL, ExMITextures.FLUID_INTO_CAN);
 
     @Override
     void registerImpl(EmiRegistry registry) {
@@ -139,12 +153,41 @@ public class TRIntegrationImpl extends TRIntegration {
             registry.addRecipe(new IndustrialElectrolyzerEmiRecipe(recipe));
         }
 
+        // Industrial Grinding
+        registry.addCategory(INDUSTRIAL_GRINDER_CATEGORY);
+        registry.addWorkstation(INDUSTRIAL_GRINDER_CATEGORY, INDUSTRIAL_GRINDER_STACK);
+        for (IndustrialGrinderRecipe recipe : registry.getRecipeManager()
+            .listAllOfType(ModRecipes.INDUSTRIAL_GRINDER)) {
+            registry.addRecipe(new IndustrialGrinderEmiRecipe(recipe));
+        }
+
         registry.addWorkstation(VanillaEmiRecipeCategories.CRAFTING, AUTO_CRAFTING_TABLE_STACK);
         registry.addWorkstation(VanillaEmiRecipeCategories.SMELTING, IRON_FURNACE_STACK);
         registry.addWorkstation(VanillaEmiRecipeCategories.SMELTING, ELECTRIC_FURNACE_STACK);
 
         // Cells should be compared with NBT data
         registry.setDefaultComparison(CELL, comp -> comp.copy().nbt(true).build());
+
+        // Fluid into and from Cells
+        registry.addCategory(FLUID_FROM_CELL_CATEGORY);
+        registry.addCategory(FLUID_INTO_CELL_CATEGORY);
+        for (Identifier fluidId : Registry.FLUID.getIds()) {
+            Fluid fluid = Registry.FLUID.get(fluidId);
+
+            if (!fluid.isStill(fluid.getDefaultState())) {
+                continue;
+            }
+
+            EmiStack fluidStack = EmiStack.of(fluid, 1000 * 81);
+            EmiStack fluidCellStack = EmiStack.of(DynamicCellItem.getCellWithFluid(fluid));
+
+            Identifier fromId = new Identifier(
+                FLUID_FROM_CELL_CATEGORY.id.getNamespace(), FLUID_FROM_CELL_CATEGORY.id.getPath() + "/" + fluidId.getNamespace() + "/" + fluidId.getPath());
+            registry.addRecipe(new FluidFromCellEmiRecipe(fromId, fluidStack, fluidCellStack, CELL));
+            Identifier intoId = new Identifier(
+                FLUID_INTO_CELL_CATEGORY.id.getNamespace(), FLUID_INTO_CELL_CATEGORY.id.getPath() + "/" + fluidId.getNamespace() + "/" + fluidId.getPath());
+            registry.addRecipe(new FluidIntoCellEmiRecipe(intoId, fluidStack, fluidCellStack, CELL));
+        }
     }
 
     public static Identifier trId(String path) {
