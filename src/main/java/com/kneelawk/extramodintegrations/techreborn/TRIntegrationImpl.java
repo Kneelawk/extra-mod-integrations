@@ -19,6 +19,8 @@ public class TRIntegrationImpl extends TRIntegration {
     public static final EmiStack ASSEMBLY_MACHINE_STACK = EmiStack.of(TRContent.Machine.ASSEMBLY_MACHINE);
     public static final EmiStack BLAST_FURNACE_STACK = EmiStack.of(TRContent.Machine.INDUSTRIAL_BLAST_FURNACE);
     public static final EmiStack INDUSTRIAL_CENTRIFUGE_STACK = EmiStack.of(TRContent.Machine.INDUSTRIAL_CENTRIFUGE);
+    public static final EmiStack CHEMICAL_REACTOR_STACK = EmiStack.of(TRContent.Machine.CHEMICAL_REACTOR);
+    public static final EmiStack COMPRESSOR_STACK = EmiStack.of(TRContent.Machine.COMPRESSOR);
     public static final EmiStack GRINDER_STACK = EmiStack.of(TRContent.Machine.GRINDER);
 
     public static final EmiRecipeCategory ALLOY_SMELTER_CATEGORY =
@@ -29,6 +31,10 @@ public class TRIntegrationImpl extends TRIntegration {
         new EmiRecipeCategory(trId("blast_furnace"), BLAST_FURNACE_STACK, ExMITextures.BLAST_FURNACE);
     public static final EmiRecipeCategory CENTRIFUGE_CATEGORY =
         new EmiRecipeCategory(trId("centrifuge"), INDUSTRIAL_CENTRIFUGE_STACK, ExMITextures.CENTRIFUGE);
+    public static final EmiRecipeCategory CHEMICAL_REACTOR_CATEGORY =
+        new EmiRecipeCategory(trId("chemical_reactor"), CHEMICAL_REACTOR_STACK, ExMITextures.CHEMICAL_REACTING);
+    public static final EmiRecipeCategory COMPRESSOR_CATEGORY =
+        new EmiRecipeCategory(trId("compressor"), COMPRESSOR_STACK, ExMITextures.COMPRESSING);
     public static final EmiRecipeCategory GRINDER_CATEGORY =
         new EmiRecipeCategory(trId("grinder"), GRINDER_STACK, ExMITextures.GRINDING);
 
@@ -41,7 +47,7 @@ public class TRIntegrationImpl extends TRIntegration {
         registry.addWorkstation(ALLOY_SMELTER_CATEGORY, ALLOY_SMELTER_STACK);
         registry.addWorkstation(ALLOY_SMELTER_CATEGORY, IRON_ALLOY_FURNACE_STACK);
         for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.ALLOY_SMELTER)) {
-            registry.addRecipe(new AlloySmelterEmiRecipe(recipe));
+            registry.addRecipe(new SimpleTwoInputEmiRecipe(recipe, ALLOY_SMELTER_CATEGORY, 1));
         }
 
         // Assembling
@@ -65,11 +71,25 @@ public class TRIntegrationImpl extends TRIntegration {
             registry.addRecipe(new CentrifugeEmiRecipe(recipe));
         }
 
+        // Chemical Reacting
+        registry.addCategory(CHEMICAL_REACTOR_CATEGORY);
+        registry.addWorkstation(CHEMICAL_REACTOR_CATEGORY, CHEMICAL_REACTOR_STACK);
+        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.CHEMICAL_REACTOR)) {
+            registry.addRecipe(new SimpleTwoInputEmiRecipe(recipe, CHEMICAL_REACTOR_CATEGORY, 10));
+        }
+
+        // Compressing
+        registry.addCategory(COMPRESSOR_CATEGORY);
+        registry.addWorkstation(COMPRESSOR_CATEGORY, COMPRESSOR_STACK);
+        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.COMPRESSOR)) {
+            registry.addRecipe(new SimpleOneInputEmiRecipe(recipe, COMPRESSOR_CATEGORY, 1));
+        }
+
         // Grinding
         registry.addCategory(GRINDER_CATEGORY);
         registry.addWorkstation(GRINDER_CATEGORY, GRINDER_STACK);
         for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.GRINDER)) {
-            registry.addRecipe(new GrinderEmiRecipe(recipe));
+            registry.addRecipe(new SimpleOneInputEmiRecipe(recipe, GRINDER_CATEGORY, 1));
         }
 
         // Cells should be compared with NBT data

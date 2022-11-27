@@ -30,10 +30,10 @@ public class CentrifugeEmiRecipe extends TREmiRecipe<RebornRecipe> {
         widgets.addSlot(getInput(0), 16, (56 - 18 * 2 - 2) / 2);
         widgets.addSlot(getInput(1), 16, (56 - 18 * 2 - 2) / 2 + 18 + 2);
 
-        widgets.addSlot(getOutput(0), 16 + 18 + 24, (56 - 18) / 2);
-        widgets.addSlot(getOutput(1), 16 + 18 + 24 + 18 + 1, 0);
-        widgets.addSlot(getOutput(2), 16 + 18 + 24 + 18 * 2 + 2, (56 - 18) / 2);
-        widgets.addSlot(getOutput(3), 16 + 18 + 24 + 18 + 1, 56 - 18);
+        widgets.addSlot(getOutput(0), 16 + 18 + 24, (56 - 18) / 2).recipeContext(this);
+        widgets.addSlot(getOutput(1), 16 + 18 + 24 + 18 + 1, 0).recipeContext(this);
+        widgets.addSlot(getOutput(2), 16 + 18 + 24 + 18 * 2 + 2, (56 - 18) / 2).recipeContext(this);
+        widgets.addSlot(getOutput(3), 16 + 18 + 24 + 18 + 1, 56 - 18).recipeContext(this);
 
         TRUIUtils.energyBar(widgets, recipe, 10, 0, 3);
         TRUIUtils.arrowRight(widgets, recipe, 16 + 18 + 4, (56 - 10) / 2);
