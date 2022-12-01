@@ -7,7 +7,7 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.widget.WidgetHolder;
 import techreborn.api.recipe.recipes.BlastFurnaceRecipe;
 
-import static com.kneelawk.extramodintegrations.ExMIMod.tooltip;
+import static com.kneelawk.extramodintegrations.ExMIMod.gui;
 
 public class BlastFurnaceEmiRecipe extends TREmiRecipe<BlastFurnaceRecipe> {
     public BlastFurnaceEmiRecipe(BlastFurnaceRecipe recipe) {
@@ -41,6 +41,7 @@ public class BlastFurnaceEmiRecipe extends TREmiRecipe<BlastFurnaceRecipe> {
         TRUIUtils.energyBar(widgets, recipe, 40, 0, 0);
         TRUIUtils.arrowRight(widgets, recipe, 16 + 18 + 4, (50 - 10) / 2);
         UIUtils.cookTime(widgets, recipe.getTime(), 16 + 18 + 2, 0);
-        widgets.addText(tooltip("techreborn.heat", recipe.getHeat()).asOrderedText(), 16 + 18 + 2, 50 - 9, 0xFF3F3F3F, false);
+        widgets.addText(gui("techreborn.heat", recipe.getHeat()).asOrderedText(), 16 + 18 + 2, 50 - 9, 0xFF3F3F3F,
+            false);
     }
 }

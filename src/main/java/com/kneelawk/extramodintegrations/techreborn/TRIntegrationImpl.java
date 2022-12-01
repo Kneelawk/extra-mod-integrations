@@ -10,8 +10,10 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import reborncore.common.crafting.RebornRecipe;
-import techreborn.api.recipe.recipes.BlastFurnaceRecipe;
-import techreborn.api.recipe.recipes.IndustrialGrinderRecipe;
+import techreborn.api.generator.EFluidGenerator;
+import techreborn.api.generator.FluidGeneratorRecipe;
+import techreborn.api.generator.GeneratorRecipeHelper;
+import techreborn.api.recipe.recipes.*;
 import techreborn.init.ModRecipes;
 import techreborn.init.TRContent;
 import techreborn.items.DynamicCellItem;
@@ -34,6 +36,21 @@ public class TRIntegrationImpl extends TRIntegration {
     public static final EmiStack IMPLOSION_COMPRESSOR_STACK = EmiStack.of(TRContent.Machine.IMPLOSION_COMPRESSOR);
     public static final EmiStack INDUSTRIAL_ELECTROLYZER_STACK = EmiStack.of(TRContent.Machine.INDUSTRIAL_ELECTROLYZER);
     public static final EmiStack INDUSTRIAL_GRINDER_STACK = EmiStack.of(TRContent.Machine.INDUSTRIAL_GRINDER);
+    public static final EmiStack INDUSTRIAL_SAWMILL_STACK = EmiStack.of(TRContent.Machine.INDUSTRIAL_SAWMILL);
+    public static final EmiStack SCRAP_BOX_STACK = EmiStack.of(TRContent.SCRAP_BOX);
+    public static final EmiStack SCRAPBOXINATOR_STACK = EmiStack.of(TRContent.Machine.SCRAPBOXINATOR);
+    public static final EmiStack VACUUM_FREEZER_STACK = EmiStack.of(TRContent.Machine.VACUUM_FREEZER);
+    public static final EmiStack FLUID_REPLICATOR_STACK = EmiStack.of(TRContent.Machine.FLUID_REPLICATOR);
+    public static final EmiStack FUSION_CONTROL_COMPUTER_STACK = EmiStack.of(TRContent.Machine.FUSION_CONTROL_COMPUTER);
+    public static final EmiStack ROLLING_MACHINE_STACK = EmiStack.of(TRContent.Machine.ROLLING_MACHINE);
+    public static final EmiStack SOLID_CANNING_MACHINE_STACK = EmiStack.of(TRContent.Machine.SOLID_CANNING_MACHINE);
+    public static final EmiStack WIRE_MILL_STACK = EmiStack.of(TRContent.Machine.WIRE_MILL);
+
+    public static final EmiStack THERMAL_GENERATOR_STACK = EmiStack.of(TRContent.Machine.THERMAL_GENERATOR);
+    public static final EmiStack GAS_TURBINE_STACK = EmiStack.of(TRContent.Machine.GAS_TURBINE);
+    public static final EmiStack DIESEL_GENERATOR_STACK = EmiStack.of(TRContent.Machine.DIESEL_GENERATOR);
+    public static final EmiStack SEMI_FLUID_GENERATOR_STACK = EmiStack.of(TRContent.Machine.SEMI_FLUID_GENERATOR);
+    public static final EmiStack PLASMA_GENERATOR_STACK = EmiStack.of(TRContent.Machine.PLASMA_GENERATOR);
 
     public static final EmiStack AUTO_CRAFTING_TABLE_STACK = EmiStack.of(TRContent.Machine.AUTO_CRAFTING_TABLE);
     public static final EmiStack IRON_FURNACE_STACK = EmiStack.of(TRContent.Machine.IRON_FURNACE);
@@ -65,6 +82,33 @@ public class TRIntegrationImpl extends TRIntegration {
             ExMITextures.ELECTROLYZING);
     public static final EmiRecipeCategory INDUSTRIAL_GRINDER_CATEGORY =
         new EmiRecipeCategory(trId("industrial_grinder"), INDUSTRIAL_GRINDER_STACK, ExMITextures.INDUSTRIAL_GRINDING);
+    public static final EmiRecipeCategory INDUSTRIAL_SAWMILL_CATEGORY =
+        new EmiRecipeCategory(trId("industrial_sawmill"), INDUSTRIAL_SAWMILL_STACK, ExMITextures.SAWMILLING);
+    public static final EmiRecipeCategory SCRAPBOX_CATEGORY =
+        new EmiRecipeCategory(trId("scrapbox"), SCRAP_BOX_STACK, ExMITextures.SCRAPBOX);
+    public static final EmiRecipeCategory VACUUM_FREEZER_CATEGORY =
+        new EmiRecipeCategory(trId("vacuum_freezer"), VACUUM_FREEZER_STACK, ExMITextures.VACUUM_FREEZING);
+    public static final EmiRecipeCategory FLUID_REPLICATOR_CATEGORY =
+        new EmiRecipeCategory(trId("fluid_replicator"), FLUID_REPLICATOR_STACK, ExMITextures.FLUID_REPLICATING);
+    public static final EmiRecipeCategory FUSION_REACTOR_CATEGORY =
+        new EmiRecipeCategory(trId("fusion_reactor"), FUSION_CONTROL_COMPUTER_STACK, ExMITextures.FUSION_REACTOR);
+    public static final EmiRecipeCategory ROLLING_MACHINE_CATEGORY =
+        new EmiRecipeCategory(trId("rolling_machine"), ROLLING_MACHINE_STACK, ExMITextures.ROLLING_MACHINE);
+    public static final EmiRecipeCategory SOLID_CANNING_MACHINE_CATEGORY =
+        new EmiRecipeCategory(trId("solid_canning_machine"), SOLID_CANNING_MACHINE_STACK, ExMITextures.CANNING);
+    public static final EmiRecipeCategory WIRE_MILL_CATEGORY =
+        new EmiRecipeCategory(trId("wire_mill"), WIRE_MILL_STACK, ExMITextures.WIRE_MILLING);
+
+    public static final EmiRecipeCategory THERMAL_GENERATOR_CATEGORY =
+        new EmiRecipeCategory(trId("thermal_generator"), THERMAL_GENERATOR_STACK, THERMAL_GENERATOR_STACK);
+    public static final EmiRecipeCategory GAS_TURBINE_CATEGORY =
+        new EmiRecipeCategory(trId("gas_turbine"), GAS_TURBINE_STACK, GAS_TURBINE_STACK);
+    public static final EmiRecipeCategory DIESEL_GENERATOR_CATEGORY =
+        new EmiRecipeCategory(trId("diesel_generator"), DIESEL_GENERATOR_STACK, DIESEL_GENERATOR_STACK);
+    public static final EmiRecipeCategory SEMI_FLUID_GENERATOR_CATEGORY =
+        new EmiRecipeCategory(trId("semi_fluid_generator"), SEMI_FLUID_GENERATOR_STACK, SEMI_FLUID_GENERATOR_STACK);
+    public static final EmiRecipeCategory PLASMA_GENERATOR_CATEGORY =
+        new EmiRecipeCategory(trId("plasma_generator"), PLASMA_GENERATOR_STACK, PLASMA_GENERATOR_STACK);
 
     public static final EmiRecipeCategory FLUID_FROM_CELL_CATEGORY =
         new EmiRecipeCategory(id("techreborn/fluid_from_cell"), CELL, ExMITextures.FLUID_FROM_CAN);
@@ -161,6 +205,105 @@ public class TRIntegrationImpl extends TRIntegration {
             registry.addRecipe(new IndustrialGrinderEmiRecipe(recipe));
         }
 
+        // Industrial Sawmilling
+        registry.addCategory(INDUSTRIAL_SAWMILL_CATEGORY);
+        registry.addWorkstation(INDUSTRIAL_SAWMILL_CATEGORY, INDUSTRIAL_SAWMILL_STACK);
+        for (IndustrialSawmillRecipe recipe : registry.getRecipeManager()
+            .listAllOfType(ModRecipes.INDUSTRIAL_SAWMILL)) {
+            registry.addRecipe(new IndustrialSawmillEmiRecipe(recipe));
+        }
+
+        // Scrapbox
+        registry.addCategory(SCRAPBOX_CATEGORY);
+        registry.addWorkstation(SCRAPBOX_CATEGORY, SCRAPBOXINATOR_STACK);
+        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.SCRAPBOX)) {
+            registry.addRecipe(new SimpleOneInputEmiRecipe(recipe, SCRAPBOX_CATEGORY, 1));
+        }
+
+        // Vacuum Freezing
+        registry.addCategory(VACUUM_FREEZER_CATEGORY);
+        registry.addWorkstation(VACUUM_FREEZER_CATEGORY, VACUUM_FREEZER_STACK);
+        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.VACUUM_FREEZER)) {
+            registry.addRecipe(new SimpleOneInputEmiRecipe(recipe, VACUUM_FREEZER_CATEGORY, 64));
+        }
+
+        // Fluid Replicating
+        registry.addCategory(FLUID_REPLICATOR_CATEGORY);
+        registry.addWorkstation(FLUID_REPLICATOR_CATEGORY, FLUID_REPLICATOR_STACK);
+        for (FluidReplicatorRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.FLUID_REPLICATOR)) {
+            registry.addRecipe(new FluidReplicatorEmiRecipe(recipe));
+        }
+
+        // Fusion Reactor
+        registry.addCategory(FUSION_REACTOR_CATEGORY);
+        registry.addWorkstation(FUSION_REACTOR_CATEGORY, FUSION_CONTROL_COMPUTER_STACK);
+        for (FusionReactorRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.FUSION_REACTOR)) {
+            registry.addRecipe(new FusionReactorEmiRecipe(recipe));
+        }
+
+        // Rolling Machine
+        registry.addCategory(ROLLING_MACHINE_CATEGORY);
+        registry.addWorkstation(ROLLING_MACHINE_CATEGORY, ROLLING_MACHINE_STACK);
+        for (RollingMachineRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.ROLLING_MACHINE)) {
+            registry.addRecipe(new RollingMachineEmiRecipe(recipe));
+        }
+
+        // Solid Canning
+        registry.addCategory(SOLID_CANNING_MACHINE_CATEGORY);
+        registry.addWorkstation(SOLID_CANNING_MACHINE_CATEGORY, SOLID_CANNING_MACHINE_STACK);
+        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.SOLID_CANNING_MACHINE)) {
+            registry.addRecipe(new SimpleTwoInputEmiRecipe(recipe, SOLID_CANNING_MACHINE_CATEGORY, 1));
+        }
+
+        // Wire Milling
+        registry.addCategory(WIRE_MILL_CATEGORY);
+        registry.addWorkstation(WIRE_MILL_CATEGORY, WIRE_MILL_STACK);
+        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.WIRE_MILL)) {
+            registry.addRecipe(new SimpleOneInputEmiRecipe(recipe, WIRE_MILL_CATEGORY, 1));
+        }
+
+        // Generators
+        registry.addCategory(THERMAL_GENERATOR_CATEGORY);
+        registry.addWorkstation(THERMAL_GENERATOR_CATEGORY, THERMAL_GENERATOR_STACK);
+        for (FluidGeneratorRecipe recipe : GeneratorRecipeHelper.getFluidRecipesForGenerator(EFluidGenerator.THERMAL)
+            .getRecipes()) {
+            registry.addRecipe(new FluidGeneratorEmiRecipe(recipe, THERMAL_GENERATOR_CATEGORY,
+                generatorRecipeId(THERMAL_GENERATOR_CATEGORY, recipe), 10, 1000000));
+        }
+
+        registry.addCategory(GAS_TURBINE_CATEGORY);
+        registry.addWorkstation(GAS_TURBINE_CATEGORY, GAS_TURBINE_STACK);
+        for (FluidGeneratorRecipe recipe : GeneratorRecipeHelper.getFluidRecipesForGenerator(EFluidGenerator.GAS)
+            .getRecipes()) {
+            registry.addRecipe(new FluidGeneratorEmiRecipe(recipe, GAS_TURBINE_CATEGORY,
+                generatorRecipeId(GAS_TURBINE_CATEGORY, recipe), 10, 1000000));
+        }
+
+        registry.addCategory(DIESEL_GENERATOR_CATEGORY);
+        registry.addWorkstation(DIESEL_GENERATOR_CATEGORY, DIESEL_GENERATOR_STACK);
+        for (FluidGeneratorRecipe recipe : GeneratorRecipeHelper.getFluidRecipesForGenerator(EFluidGenerator.DIESEL)
+            .getRecipes()) {
+            registry.addRecipe(new FluidGeneratorEmiRecipe(recipe, DIESEL_GENERATOR_CATEGORY,
+                generatorRecipeId(DIESEL_GENERATOR_CATEGORY, recipe), 10, 10000));
+        }
+
+        registry.addCategory(SEMI_FLUID_GENERATOR_CATEGORY);
+        registry.addWorkstation(SEMI_FLUID_GENERATOR_CATEGORY, SEMI_FLUID_GENERATOR_STACK);
+        for (FluidGeneratorRecipe recipe : GeneratorRecipeHelper.getFluidRecipesForGenerator(EFluidGenerator.SEMIFLUID)
+            .getRecipes()) {
+            registry.addRecipe(new FluidGeneratorEmiRecipe(recipe, SEMI_FLUID_GENERATOR_CATEGORY,
+                generatorRecipeId(SEMI_FLUID_GENERATOR_CATEGORY, recipe), 10, 1000000));
+        }
+
+        registry.addCategory(PLASMA_GENERATOR_CATEGORY);
+        registry.addWorkstation(PLASMA_GENERATOR_CATEGORY, PLASMA_GENERATOR_STACK);
+        for (FluidGeneratorRecipe recipe : GeneratorRecipeHelper.getFluidRecipesForGenerator(EFluidGenerator.PLASMA)
+            .getRecipes()) {
+            registry.addRecipe(new FluidGeneratorEmiRecipe(recipe, PLASMA_GENERATOR_CATEGORY,
+                generatorRecipeId(PLASMA_GENERATOR_CATEGORY, recipe), 10, 500000000));
+        }
+
+        // Add machines that do vanilla things
         registry.addWorkstation(VanillaEmiRecipeCategories.CRAFTING, AUTO_CRAFTING_TABLE_STACK);
         registry.addWorkstation(VanillaEmiRecipeCategories.SMELTING, IRON_FURNACE_STACK);
         registry.addWorkstation(VanillaEmiRecipeCategories.SMELTING, ELECTRIC_FURNACE_STACK);
@@ -182,15 +325,23 @@ public class TRIntegrationImpl extends TRIntegration {
             EmiStack fluidCellStack = EmiStack.of(DynamicCellItem.getCellWithFluid(fluid));
 
             Identifier fromId = new Identifier(
-                FLUID_FROM_CELL_CATEGORY.id.getNamespace(), FLUID_FROM_CELL_CATEGORY.id.getPath() + "/" + fluidId.getNamespace() + "/" + fluidId.getPath());
+                FLUID_FROM_CELL_CATEGORY.id.getNamespace(),
+                FLUID_FROM_CELL_CATEGORY.id.getPath() + "/" + fluidId.getNamespace() + "/" + fluidId.getPath());
             registry.addRecipe(new FluidFromCellEmiRecipe(fromId, fluidStack, fluidCellStack, CELL));
             Identifier intoId = new Identifier(
-                FLUID_INTO_CELL_CATEGORY.id.getNamespace(), FLUID_INTO_CELL_CATEGORY.id.getPath() + "/" + fluidId.getNamespace() + "/" + fluidId.getPath());
+                FLUID_INTO_CELL_CATEGORY.id.getNamespace(),
+                FLUID_INTO_CELL_CATEGORY.id.getPath() + "/" + fluidId.getNamespace() + "/" + fluidId.getPath());
             registry.addRecipe(new FluidIntoCellEmiRecipe(intoId, fluidStack, fluidCellStack, CELL));
         }
     }
 
     public static Identifier trId(String path) {
         return new Identifier("techreborn", path);
+    }
+
+    private static Identifier generatorRecipeId(EmiRecipeCategory category, FluidGeneratorRecipe recipe) {
+        Identifier fluidId = Registry.FLUID.getId(recipe.fluid());
+        return new Identifier(category.id.getNamespace(),
+            category.id.getPath() + "/" + fluidId.getNamespace() + "/" + fluidId.getPath());
     }
 }

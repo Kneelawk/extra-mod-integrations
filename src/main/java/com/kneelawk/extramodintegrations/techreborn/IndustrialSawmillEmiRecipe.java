@@ -1,19 +1,20 @@
 package com.kneelawk.extramodintegrations.techreborn;
 
+import com.kneelawk.extramodintegrations.util.UIUtils;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import reborncore.common.fluid.container.FluidInstance;
-import techreborn.api.recipe.recipes.IndustrialGrinderRecipe;
+import techreborn.api.recipe.recipes.IndustrialSawmillRecipe;
 
 import java.util.List;
 import java.util.stream.Stream;
 
-public class IndustrialGrinderEmiRecipe extends TREmiRecipe<IndustrialGrinderRecipe> {
+public class IndustrialSawmillEmiRecipe extends TREmiRecipe<IndustrialSawmillRecipe> {
     private final List<EmiIngredient> inputsWithFluids;
 
-    public IndustrialGrinderEmiRecipe(IndustrialGrinderRecipe recipe) {
+    public IndustrialSawmillEmiRecipe(IndustrialSawmillRecipe recipe) {
         super(recipe);
         FluidInstance instance = recipe.getFluidInstance();
         inputsWithFluids = Stream.concat(inputs.stream(),
@@ -22,7 +23,7 @@ public class IndustrialGrinderEmiRecipe extends TREmiRecipe<IndustrialGrinderRec
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return TRIntegrationImpl.INDUSTRIAL_GRINDER_CATEGORY;
+        return TRIntegrationImpl.INDUSTRIAL_SAWMILL_CATEGORY;
     }
 
     @Override
@@ -37,19 +38,21 @@ public class IndustrialGrinderEmiRecipe extends TREmiRecipe<IndustrialGrinderRec
 
     @Override
     public int getDisplayHeight() {
-        return 18 * 4;
+        return 56;
     }
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addSlot(getInput(0), 16 + 22 + 2, 18 * 3 / 2);
-        widgets.add(new TRFluidSlotWidget(recipe.getFluidInstance(), 16, (18 * 4 - 56) / 2, 16 * 1000 * 81));
+        widgets.addSlot(getInput(0), 16 + 22 + 2, (56 - 18) / 2);
 
-        for (int i = 0; i < 4; i++) {
-            widgets.addSlot(getOutput(i), 16 + 22 + 2 + 18 + 24, i * 18).recipeContext(this);
-        }
+        widgets.add(new TRFluidSlotWidget(recipe.getFluidInstance(), 16, 0, 16 * 1000 * 81));
 
-        TRUIUtils.energyBar(widgets, recipe, 10, 0, (18 * 4 - 50) / 2);
-        TRUIUtils.arrowRight(widgets, recipe, 16 + 22 + 2 + 18 + 4, (18 * 4 - 10) / 2);
+        widgets.addSlot(getOutput(0), 16 + 22 + 2 + 18 + 24, (56 - 18 * 3) / 2).recipeContext(this);
+        widgets.addSlot(getOutput(1), 16 + 22 + 2 + 18 + 24, (56 - 18 * 3) / 2 + 18).recipeContext(this);
+        widgets.addSlot(getOutput(2), 16 + 22 + 2 + 18 + 24, (56 - 18 * 3) / 2 + 18 * 2).recipeContext(this);
+
+        TRUIUtils.energyBar(widgets, recipe, 10, 0, 3);
+        TRUIUtils.arrowRight(widgets, recipe, 16 + 22 + 2 + 18 + 4, (56 - 10) / 2);
+        UIUtils.cookTime(widgets, recipe.getTime(), 16 + 22 + 2, 0);
     }
 }
