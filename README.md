@@ -4,7 +4,7 @@ EMI addon adding support for as many mods as possible.
 
 ## Supported Mods
 
-| Mod                      |        Support        | Notes:            |
+| Mod                      |        Support        | Notes             |
 |--------------------------|:---------------------:|-------------------|
 | Tech Reborn              |  :heavy_check_mark:   | Added in `v0.1.0` |
 | Advanced Reborn          | :black_square_button: |                   |
