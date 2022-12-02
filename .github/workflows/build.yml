@@ -29,6 +29,7 @@ jobs:
         with:
           path: |
             ~/.gradle/caches
+            !~/.gradle/caches/modules-2/modules-2.lock
             ~/.gradle/wrapper
             .gradle/loom-cache
           key: ${{ runner.os }}-jdk${{ matrix.java }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '.github/workflows/build.yml') }}
