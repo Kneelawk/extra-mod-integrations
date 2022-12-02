@@ -18,8 +18,8 @@
   "tooltip.extra-mod-integrations.techreborn.recipe_power.consumed": "%d E/t Consumed",
   "tooltip.extra-mod-integrations.techreborn.recipe_power.produced": "%d E/t Produced",
 
-  "emi.category.extra-mod-integrations.techreborn.fluid_from_cell": "Fluid from Tech Reborn Cell",
-  "emi.category.extra-mod-integrations.techreborn.fluid_into_cell": "Fluid into Tech Reborn Cell",
+  "emi.category.extra-mod-integrations.fluid_from_container": "Fluid from Container",
+  "emi.category.extra-mod-integrations.fluid_into_container": "Fluid into Container",
   "emi.category.techreborn.alloy_smelter": "Alloy Smelting",
   "emi.category.techreborn.assembling_machine": "Assembling",
   "emi.category.techreborn.blast_furnace": "Blast Furnace",

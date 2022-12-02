@@ -1,7 +1,6 @@
 package com.kneelawk.extramodintegrations.techreborn;
 
-import com.kneelawk.extramodintegrations.ExMIMod;
-import com.kneelawk.extramodintegrations.ExMITextures;
+import com.kneelawk.extramodintegrations.*;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.recipe.EmiRecipeSorting;
@@ -18,8 +17,6 @@ import techreborn.api.recipe.recipes.*;
 import techreborn.init.ModRecipes;
 import techreborn.init.TRContent;
 import techreborn.items.DynamicCellItem;
-
-import static com.kneelawk.extramodintegrations.ExMIMod.id;
 
 @SuppressWarnings("unused")
 public class TRIntegrationImpl extends TRIntegration {
@@ -132,13 +129,6 @@ public class TRIntegrationImpl extends TRIntegration {
             EmiRecipeSorting.compareInputThenOutput());
     public static final EmiRecipeCategory PLASMA_GENERATOR_CATEGORY =
         new EmiRecipeCategory(trId("plasma_generator"), PLASMA_GENERATOR_STACK, PLASMA_GENERATOR_STACK,
-            EmiRecipeSorting.compareInputThenOutput());
-
-    public static final EmiRecipeCategory FLUID_FROM_CELL_CATEGORY =
-        new EmiRecipeCategory(id("techreborn/fluid_from_cell"), CELL, ExMITextures.FLUID_FROM_CAN,
-            EmiRecipeSorting.compareOutputThenInput());
-    public static final EmiRecipeCategory FLUID_INTO_CELL_CATEGORY =
-        new EmiRecipeCategory(id("techreborn/fluid_into_cell"), CELL, ExMITextures.FLUID_INTO_CAN,
             EmiRecipeSorting.compareInputThenOutput());
 
     @Override
@@ -338,8 +328,7 @@ public class TRIntegrationImpl extends TRIntegration {
         registry.setDefaultComparison(CELL, comp -> comp.copy().nbt(true).build());
 
         // Fluid into and from Cells
-        registry.addCategory(FLUID_FROM_CELL_CATEGORY);
-        registry.addCategory(FLUID_INTO_CELL_CATEGORY);
+        Identifier cellId = CELL.getId();
         for (Identifier fluidId : Registry.FLUID.getIds()) {
             Fluid fluid = Registry.FLUID.get(fluidId);
 
@@ -350,14 +339,14 @@ public class TRIntegrationImpl extends TRIntegration {
             EmiStack fluidStack = EmiStack.of(fluid, 1000 * 81);
             EmiStack fluidCellStack = EmiStack.of(DynamicCellItem.getCellWithFluid(fluid));
 
-            Identifier fromId = new Identifier(
-                FLUID_FROM_CELL_CATEGORY.id.getNamespace(),
-                FLUID_FROM_CELL_CATEGORY.id.getPath() + "/" + fluidId.getNamespace() + "/" + fluidId.getPath());
-            registry.addRecipe(new FluidFromCellEmiRecipe(fromId, fluidStack, fluidCellStack, CELL));
-            Identifier intoId = new Identifier(
-                FLUID_INTO_CELL_CATEGORY.id.getNamespace(),
-                FLUID_INTO_CELL_CATEGORY.id.getPath() + "/" + fluidId.getNamespace() + "/" + fluidId.getPath());
-            registry.addRecipe(new FluidIntoCellEmiRecipe(intoId, fluidStack, fluidCellStack, CELL));
+            Identifier fromId = new Identifier(ExMIPlugin.FLUID_FROM_CONTAINER_CATEGORY.id.getNamespace(),
+                ExMIPlugin.FLUID_FROM_CONTAINER_CATEGORY.id.getPath() + "/" + cellId.getNamespace() + "/" +
+                    cellId.getNamespace() + "/" + fluidId.getNamespace() + "/" + fluidId.getPath());
+            registry.addRecipe(new FluidFromContainerEmiRecipe(fromId, fluidStack, fluidCellStack, CELL));
+            Identifier intoId = new Identifier(ExMIPlugin.FLUID_INTO_CONTAINER_CATEGORY.id.getNamespace(),
+                ExMIPlugin.FLUID_INTO_CONTAINER_CATEGORY.id.getPath() + "/" + cellId.getNamespace() + "/" +
+                    cellId.getNamespace() + "/" + fluidId.getNamespace() + "/" + fluidId.getPath());
+            registry.addRecipe(new FluidIntoContainerEmiRecipe(intoId, fluidStack, fluidCellStack, CELL));
         }
     }
 

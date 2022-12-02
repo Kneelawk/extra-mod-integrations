@@ -1,6 +1,5 @@
-package com.kneelawk.extramodintegrations.techreborn;
+package com.kneelawk.extramodintegrations;
 
-import com.kneelawk.extramodintegrations.ExMITextures;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
@@ -11,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class FluidFromCellEmiRecipe implements EmiRecipe {
+public class FluidFromContainerEmiRecipe implements EmiRecipe {
     private final Identifier id;
     private final EmiStack fluid;
     private final EmiStack container;
@@ -19,7 +18,7 @@ public class FluidFromCellEmiRecipe implements EmiRecipe {
     private final List<EmiIngredient> inputs;
     private final List<EmiStack> outputs;
 
-    public FluidFromCellEmiRecipe(Identifier id, EmiStack fluid, EmiStack container, EmiStack emptyContainer) {
+    public FluidFromContainerEmiRecipe(Identifier id, EmiStack fluid, EmiStack container, EmiStack emptyContainer) {
         this.id = id;
         this.fluid = fluid;
         this.container = container;
@@ -34,7 +33,7 @@ public class FluidFromCellEmiRecipe implements EmiRecipe {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return TRIntegrationImpl.FLUID_FROM_CELL_CATEGORY;
+        return ExMIPlugin.FLUID_FROM_CONTAINER_CATEGORY;
     }
 
     @Override
@@ -69,7 +68,7 @@ public class FluidFromCellEmiRecipe implements EmiRecipe {
     @Override
     public void addWidgets(WidgetHolder widgets) {
         widgets.addSlot(container, 0, 0);
-        widgets.addTexture(TRTextures.ARROW_RIGHT_EMPTY, 18 + 4, 4);
+        widgets.addTexture(ExMITextures.RIGHT_ARROW, 18 + 4, 1);
         widgets.addSlot(fluid, 18 + 24, 0).recipeContext(this);
 
         if (!emptyContainer.isEmpty()) {

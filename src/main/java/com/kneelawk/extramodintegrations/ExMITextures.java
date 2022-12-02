@@ -34,5 +34,6 @@ public class ExMITextures {
     public static final EmiTexture FLUID_INTO_CAN = new EmiTexture(SIMPLIFIED_ICONS, 80, 16, 16, 16);
 
     public static final NinePatchTexture SLOT_BG = new NinePatchTexture(WIDGETS, 0, 0, 3, 3, 1, 1, 1, 1, false);
-    public static final EmiTexture PLUS_LARGE_SYMBOL = new EmiTexture(WIDGETS, 240, 240, 16, 15);
+    public static final EmiTexture PLUS_LARGE_SYMBOL = new EmiTexture(WIDGETS, 240, 240, 16, 16);
+    public static final EmiTexture RIGHT_ARROW = new EmiTexture(WIDGETS, 224, 240, 16, 16);
 }
