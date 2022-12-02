@@ -6,8 +6,18 @@ plugins {
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
+String modVersion
+if (System.getenv("RELEASE_TAG") != null) {
+    String releaseTag = System.getenv("RELEASE_TAG")
+    modVersion = releaseTag.substring(1)
+    println("Detected Release Version: $modVersion")
+} else {
+    modVersion = project.mod_version
+    println("Detected Local Version: $modVersion")
+}
+
 archivesBaseName = project.archives_base_name
-version = project.mod_version
+version = modVersion
 group = project.maven_group
 
 repositories {
