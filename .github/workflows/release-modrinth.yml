@@ -1,5 +1,5 @@
-# Performs a GitHub release
-name: release-github
+# Performs a Modrinth release
+name: release-modrinth
 
 on:
   push:
@@ -30,10 +30,8 @@ jobs:
         run: ./gradlew build --no-daemon
         env:
           RELEASE_TAG: ${{ steps.tag_version.outputs.tag }}
-      - name: Github Release
-        uses: softprops/action-gh-release@v1
-        with:
-          body_path: changelogs/changelog-${{ steps.tag_version.outputs.tag }}.md
-          files: build/libs/*
+      - name: Modrinth Release
+        run: ./gradlew modrinth modrinthSyncBody --no-daemon
         env:
-          GITHUB_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          RELEASE_TAG: ${{ steps.tag_version.outputs.tag }}

@@ -1,6 +1,7 @@
 plugins {
-    id 'fabric-loom' version '1.0-SNAPSHOT'
+    id 'fabric-loom'
     id 'maven-publish'
+    id 'com.modrinth.minotaur'
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -86,6 +87,27 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
     }
+}
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = project.mrProjectId
+    versionNumber = modVersion
+    versionType = project.mrVeresionType
+    def file = rootProject.file("changelogs/changelog-v${modVersion}.md")
+    if (file.exists()) {
+        changelog = file.text
+    }
+    uploadFile = tasks.remapJar
+    additionalFiles = [tasks.sourcesJar]
+    gameVersions = project.mrGameVersions.split("\\s*,\\s*").toList()
+    loaders = project.mrLoaders.split("\\s*,\\s*").toList()
+    dependencies {
+        for (final def projectId in project.mrDependencies.split("\\s*,\\s*")) {
+            required.project projectId
+        }
+    }
+    syncBodyFrom = rootProject.file("README.md").text
 }
 
 // configure the maven publication

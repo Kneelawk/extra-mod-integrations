@@ -7,6 +7,10 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+    plugins {
+        id 'fabric-loom' version settings.loom_version
+        id 'com.modrinth.minotaur' version settings.minotaur_version
+    }
 }
 
 rootProject.name = "extra-mod-integrations"
