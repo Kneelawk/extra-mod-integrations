@@ -27,7 +27,7 @@ jobs:
       - name: Make Gradle Wrapper Executable
         run: chmod +x ./gradlew
       - name: Build
-        run: ./gradlew build
+        run: ./gradlew build --nodaemon
         env:
           RELEASE_TAG: ${{ steps.tag_version.outputs.tag }}
       - name: Github Release

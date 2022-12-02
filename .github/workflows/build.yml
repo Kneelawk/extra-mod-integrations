@@ -29,7 +29,6 @@ jobs:
         with:
           path: |
             ~/.gradle/caches
-            !~/.gradle/caches/modules-2/modules-2.lock
             ~/.gradle/wrapper
             .gradle/loom-cache
           key: ${{ runner.os }}-jdk${{ matrix.java }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '.github/workflows/build.yml') }}
@@ -41,7 +40,7 @@ jobs:
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: Build
-        run: ./gradlew build
+        run: ./gradlew build --nodaemon
       - name: Capture Build Artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
         uses: actions/upload-artifact@v2
