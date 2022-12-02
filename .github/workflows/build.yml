@@ -32,7 +32,6 @@ jobs:
             ~/.gradle/wrapper
             .gradle/loom-cache
           key: ${{ runner.os }}-jdk${{ matrix.java }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '.github/workflows/build.yml') }}
-          restore-keys: ${{ runner.os }}-gradle-
       - name: Setup JDK ${{ matrix.java }}
         uses: actions/setup-java@v1
         with:
