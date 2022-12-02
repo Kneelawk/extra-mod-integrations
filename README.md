@@ -4,19 +4,19 @@ EMI addon adding support for as many mods as possible.
 
 ## Supported Mods
 
-| Mod                      |        Support        | Notes             |
-|--------------------------|:---------------------:|-------------------|
-| Tech Reborn              |  :heavy_check_mark:   | Added in `v0.1.0` |
-| Advanced Reborn          | :black_square_button: |                   |
-| Modern Industrialization | :black_square_button: |                   |
-| Industrial Revolution    | :black_square_button: |                   |
-| Extra Generators         |    :grey_question:    |                   |
+| Mod                      | Support | Notes             |
+|--------------------------|:-------:|-------------------|
+| Tech Reborn              |    ✅    | Added in `v0.1.0` |
+| Advanced Reborn          |   🔲    |                   |
+| Modern Industrialization |   🔲    |                   |
+| Industrial Revolution    |   🔲    |                   |
+| Extra Generators         |    ⁇    |                   |
 
-:heavy_check_mark: : Support Completed<br>
-:construction: : Support In Progress<br>
-:black_square_button: : Support Planned<br>
-:grey_question: : Maybe Support Eventually<br>
-:x: : Not Supported<br>
+✅: Support Completed<br>
+🚧: Support In Progress<br>
+🔲: Support Planned<br>
+⁇: Maybe Support Eventually<br>
+❌: Not Supported<br>
 
 ## License
 
