@@ -4,6 +4,7 @@ import com.kneelawk.extramodintegrations.ExMIMod;
 import com.kneelawk.extramodintegrations.ExMITextures;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
+import dev.emi.emi.api.recipe.EmiRecipeSorting;
 import dev.emi.emi.api.recipe.VanillaEmiRecipeCategories;
 import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.fluid.Fluid;
@@ -57,63 +58,88 @@ public class TRIntegrationImpl extends TRIntegration {
     public static final EmiStack ELECTRIC_FURNACE_STACK = EmiStack.of(TRContent.Machine.ELECTRIC_FURNACE);
 
     public static final EmiRecipeCategory ALLOY_SMELTER_CATEGORY =
-        new EmiRecipeCategory(trId("alloy_smelter"), ALLOY_SMELTER_STACK, ExMITextures.ALLOY_SMELTING);
+        new EmiRecipeCategory(trId("alloy_smelter"), ALLOY_SMELTER_STACK, ExMITextures.ALLOY_SMELTING,
+            EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory ASSEMBLING_MACHINE_CATEGORY =
-        new EmiRecipeCategory(trId("assembling_machine"), ASSEMBLY_MACHINE_STACK, ExMITextures.ASSEMBLING);
+        new EmiRecipeCategory(trId("assembling_machine"), ASSEMBLY_MACHINE_STACK, ExMITextures.ASSEMBLING,
+            EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory BLAST_FURNACE_CATEGORY =
-        new EmiRecipeCategory(trId("blast_furnace"), BLAST_FURNACE_STACK, ExMITextures.BLAST_FURNACE);
+        new EmiRecipeCategory(trId("blast_furnace"), BLAST_FURNACE_STACK, ExMITextures.BLAST_FURNACE,
+            EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory CENTRIFUGE_CATEGORY =
-        new EmiRecipeCategory(trId("centrifuge"), INDUSTRIAL_CENTRIFUGE_STACK, ExMITextures.CENTRIFUGE);
+        new EmiRecipeCategory(trId("centrifuge"), INDUSTRIAL_CENTRIFUGE_STACK, ExMITextures.CENTRIFUGE,
+            EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory CHEMICAL_REACTOR_CATEGORY =
-        new EmiRecipeCategory(trId("chemical_reactor"), CHEMICAL_REACTOR_STACK, ExMITextures.CHEMICAL_REACTING);
+        new EmiRecipeCategory(trId("chemical_reactor"), CHEMICAL_REACTOR_STACK, ExMITextures.CHEMICAL_REACTING,
+            EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory COMPRESSOR_CATEGORY =
-        new EmiRecipeCategory(trId("compressor"), COMPRESSOR_STACK, ExMITextures.COMPRESSING);
+        new EmiRecipeCategory(trId("compressor"), COMPRESSOR_STACK, ExMITextures.COMPRESSING,
+            EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory DISTILLATION_TOWER_CATEGORY =
-        new EmiRecipeCategory(trId("distillation_tower"), DISTILLATION_TOWER_STACK, ExMITextures.DISTILLATION_TOWER);
+        new EmiRecipeCategory(trId("distillation_tower"), DISTILLATION_TOWER_STACK, ExMITextures.DISTILLATION_TOWER,
+            EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory EXTRACTOR_CATEGORY =
-        new EmiRecipeCategory(trId("extractor"), EXTRACTOR_STACK, ExMITextures.EXTRACTING);
+        new EmiRecipeCategory(trId("extractor"), EXTRACTOR_STACK, ExMITextures.EXTRACTING,
+            EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory GRINDER_CATEGORY =
-        new EmiRecipeCategory(trId("grinder"), GRINDER_STACK, ExMITextures.GRINDING);
+        new EmiRecipeCategory(trId("grinder"), GRINDER_STACK, ExMITextures.GRINDING,
+            EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory IMPLOSION_COMPRESSOR_CATEGORY =
         new EmiRecipeCategory(trId("implosion_compressor"), IMPLOSION_COMPRESSOR_STACK,
-            ExMITextures.IMPLOSION_COMPRESSING);
+            ExMITextures.IMPLOSION_COMPRESSING, EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory INDUSTRIAL_ELECTROLYZER_CATEGORY =
         new EmiRecipeCategory(trId("industrial_electrolyzer"), INDUSTRIAL_ELECTROLYZER_STACK,
-            ExMITextures.ELECTROLYZING);
+            ExMITextures.ELECTROLYZING, EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory INDUSTRIAL_GRINDER_CATEGORY =
-        new EmiRecipeCategory(trId("industrial_grinder"), INDUSTRIAL_GRINDER_STACK, ExMITextures.INDUSTRIAL_GRINDING);
+        new EmiRecipeCategory(trId("industrial_grinder"), INDUSTRIAL_GRINDER_STACK, ExMITextures.INDUSTRIAL_GRINDING,
+            EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory INDUSTRIAL_SAWMILL_CATEGORY =
-        new EmiRecipeCategory(trId("industrial_sawmill"), INDUSTRIAL_SAWMILL_STACK, ExMITextures.SAWMILLING);
+        new EmiRecipeCategory(trId("industrial_sawmill"), INDUSTRIAL_SAWMILL_STACK, ExMITextures.SAWMILLING,
+            EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory SCRAPBOX_CATEGORY =
-        new EmiRecipeCategory(trId("scrapbox"), SCRAP_BOX_STACK, ExMITextures.SCRAPBOX);
+        new EmiRecipeCategory(trId("scrapbox"), SCRAP_BOX_STACK, ExMITextures.SCRAPBOX,
+            EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory VACUUM_FREEZER_CATEGORY =
-        new EmiRecipeCategory(trId("vacuum_freezer"), VACUUM_FREEZER_STACK, ExMITextures.VACUUM_FREEZING);
+        new EmiRecipeCategory(trId("vacuum_freezer"), VACUUM_FREEZER_STACK, ExMITextures.VACUUM_FREEZING,
+            EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory FLUID_REPLICATOR_CATEGORY =
-        new EmiRecipeCategory(trId("fluid_replicator"), FLUID_REPLICATOR_STACK, ExMITextures.FLUID_REPLICATING);
+        new EmiRecipeCategory(trId("fluid_replicator"), FLUID_REPLICATOR_STACK, ExMITextures.FLUID_REPLICATING,
+            EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory FUSION_REACTOR_CATEGORY =
-        new EmiRecipeCategory(trId("fusion_reactor"), FUSION_CONTROL_COMPUTER_STACK, ExMITextures.FUSION_REACTOR);
+        new EmiRecipeCategory(trId("fusion_reactor"), FUSION_CONTROL_COMPUTER_STACK, ExMITextures.FUSION_REACTOR,
+            EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory ROLLING_MACHINE_CATEGORY =
-        new EmiRecipeCategory(trId("rolling_machine"), ROLLING_MACHINE_STACK, ExMITextures.ROLLING_MACHINE);
+        new EmiRecipeCategory(trId("rolling_machine"), ROLLING_MACHINE_STACK, ExMITextures.ROLLING_MACHINE,
+            EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory SOLID_CANNING_MACHINE_CATEGORY =
-        new EmiRecipeCategory(trId("solid_canning_machine"), SOLID_CANNING_MACHINE_STACK, ExMITextures.CANNING);
+        new EmiRecipeCategory(trId("solid_canning_machine"), SOLID_CANNING_MACHINE_STACK, ExMITextures.CANNING,
+            EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory WIRE_MILL_CATEGORY =
-        new EmiRecipeCategory(trId("wire_mill"), WIRE_MILL_STACK, ExMITextures.WIRE_MILLING);
+        new EmiRecipeCategory(trId("wire_mill"), WIRE_MILL_STACK, ExMITextures.WIRE_MILLING,
+            EmiRecipeSorting.compareOutputThenInput());
 
     public static final EmiRecipeCategory THERMAL_GENERATOR_CATEGORY =
-        new EmiRecipeCategory(trId("thermal_generator"), THERMAL_GENERATOR_STACK, THERMAL_GENERATOR_STACK);
+        new EmiRecipeCategory(trId("thermal_generator"), THERMAL_GENERATOR_STACK, THERMAL_GENERATOR_STACK,
+            EmiRecipeSorting.compareInputThenOutput());
     public static final EmiRecipeCategory GAS_TURBINE_CATEGORY =
-        new EmiRecipeCategory(trId("gas_turbine"), GAS_TURBINE_STACK, GAS_TURBINE_STACK);
+        new EmiRecipeCategory(trId("gas_turbine"), GAS_TURBINE_STACK, GAS_TURBINE_STACK,
+            EmiRecipeSorting.compareInputThenOutput());
     public static final EmiRecipeCategory DIESEL_GENERATOR_CATEGORY =
-        new EmiRecipeCategory(trId("diesel_generator"), DIESEL_GENERATOR_STACK, DIESEL_GENERATOR_STACK);
+        new EmiRecipeCategory(trId("diesel_generator"), DIESEL_GENERATOR_STACK, DIESEL_GENERATOR_STACK,
+            EmiRecipeSorting.compareInputThenOutput());
     public static final EmiRecipeCategory SEMI_FLUID_GENERATOR_CATEGORY =
-        new EmiRecipeCategory(trId("semi_fluid_generator"), SEMI_FLUID_GENERATOR_STACK, SEMI_FLUID_GENERATOR_STACK);
+        new EmiRecipeCategory(trId("semi_fluid_generator"), SEMI_FLUID_GENERATOR_STACK, SEMI_FLUID_GENERATOR_STACK,
+            EmiRecipeSorting.compareInputThenOutput());
     public static final EmiRecipeCategory PLASMA_GENERATOR_CATEGORY =
-        new EmiRecipeCategory(trId("plasma_generator"), PLASMA_GENERATOR_STACK, PLASMA_GENERATOR_STACK);
+        new EmiRecipeCategory(trId("plasma_generator"), PLASMA_GENERATOR_STACK, PLASMA_GENERATOR_STACK,
+            EmiRecipeSorting.compareInputThenOutput());
 
     public static final EmiRecipeCategory FLUID_FROM_CELL_CATEGORY =
-        new EmiRecipeCategory(id("techreborn/fluid_from_cell"), CELL, ExMITextures.FLUID_FROM_CAN);
+        new EmiRecipeCategory(id("techreborn/fluid_from_cell"), CELL, ExMITextures.FLUID_FROM_CAN,
+            EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory FLUID_INTO_CELL_CATEGORY =
-        new EmiRecipeCategory(id("techreborn/fluid_into_cell"), CELL, ExMITextures.FLUID_INTO_CAN);
+        new EmiRecipeCategory(id("techreborn/fluid_into_cell"), CELL, ExMITextures.FLUID_INTO_CAN,
+            EmiRecipeSorting.compareInputThenOutput());
 
     @Override
     void registerImpl(EmiRegistry registry) {
