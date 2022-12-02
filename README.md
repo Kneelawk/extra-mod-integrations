@@ -10,11 +10,12 @@ EMI addon adding support for as many mods as possible.
 | Advanced Reborn          | :black_square_button: |                   |
 | Modern Industrialization | :black_square_button: |                   |
 | Industrial Revolution    | :black_square_button: |                   |
+| Extra Generators         |    :grey_question:    |                   |
 
 :heavy_check_mark: : Support Completed<br>
 :construction: : Support In Progress<br>
 :black_square_button: : Support Planned<br>
-:grey_question: : Not Planned, but open to contributions<br>
+:grey_question: : Maybe Support Eventually<br>
 :x: : Not Supported<br>
 
 ## License
