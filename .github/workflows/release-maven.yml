@@ -30,7 +30,7 @@ jobs:
       - name: Make Gradle Wrapper Executable
         run: chmod +x ./gradlew
       - name: Build
-        run: ./gradlew build --no-daemon
+        run: ./gradlew build
         env:
           RELEASE_TAG: ${{ steps.tag_version.outputs.tag }}
       # Next is the rather cursed maven deployment mechanism

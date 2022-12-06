@@ -27,11 +27,11 @@ jobs:
       - name: Make Gradle Wrapper Executable
         run: chmod +x ./gradlew
       - name: Build
-        run: ./gradlew build --no-daemon
+        run: ./gradlew build
         env:
           RELEASE_TAG: ${{ steps.tag_version.outputs.tag }}
       - name: Modrinth Release
-        run: ./gradlew modrinth modrinthSyncBody --no-daemon
+        run: ./gradlew modrinth modrinthSyncBody
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           RELEASE_TAG: ${{ steps.tag_version.outputs.tag }}
