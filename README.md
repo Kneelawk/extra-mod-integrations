@@ -4,13 +4,13 @@ EMI addon adding support for as many mods as possible.
 
 ## Supported Mods
 
-| Mod                      | Support | Notes                       |
-|--------------------------|:-------:|-----------------------------|
-| Tech Reborn              |    ✅    | Added in `v0.1.0`           |
-| Advanced Reborn          |   🔲    |                             |
-| Modern Industrialization |   🔲    | Native EMI support planned. |
-| Industrial Revolution    |   🔲    |                             |
-| Extra Generators         |    ⁇    |                             |
+| Mod                      | Support | Notes                         |
+|--------------------------|:-------:|-------------------------------|
+| Tech Reborn              |    ✅   | Added in `v0.1.0`             |
+| Advanced Reborn          |    🔲   |                               |
+| Modern Industrialization |    ❌   | MI will support EMI natively. |
+| Industrial Revolution    |    🔲   |                               |
+| Extra Generators         |    ⁇   |                               |
 
 ✅: Support Completed<br>
 🚧: Support In Progress<br>
