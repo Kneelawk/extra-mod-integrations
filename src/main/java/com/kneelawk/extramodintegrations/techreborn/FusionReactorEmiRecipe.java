@@ -18,7 +18,7 @@ public class FusionReactorEmiRecipe extends TREmiRecipe<FusionReactorRecipe> {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return TRIntegrationImpl.FUSION_REACTOR_CATEGORY;
+        return TRIntegration.FUSION_REACTOR_CATEGORY;
     }
 
     @Override

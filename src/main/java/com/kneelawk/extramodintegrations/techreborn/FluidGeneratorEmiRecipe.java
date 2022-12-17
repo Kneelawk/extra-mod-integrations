@@ -70,7 +70,7 @@ public class FluidGeneratorEmiRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.add(new TRFluidSlotWidget(FluidVariant.of(fluid), 1000 * 81, 0, 0, (long) fluidCapacity * 1000 * 81));
+        widgets.add(new TRFluidSlotWidget(FluidVariant.of(fluid), 1000 * 81, 0, 0, (long) fluidCapacity * 100 * 81));
 
         widgets.addTexture(TRTextures.ARROW_RIGHT_EMPTY, 22 + 4, (56 - 10) / 2);
         widgets.addAnimatedTexture(TRTextures.ARROW_RIGHT_FULL, 22 + 4, (56 - 10) / 2,  1000, true, false, false);

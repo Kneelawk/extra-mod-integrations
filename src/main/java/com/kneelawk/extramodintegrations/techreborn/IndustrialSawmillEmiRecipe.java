@@ -1,5 +1,6 @@
 package com.kneelawk.extramodintegrations.techreborn;
 
+import com.kneelawk.extramodintegrations.util.LongHolder;
 import com.kneelawk.extramodintegrations.util.UIUtils;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
@@ -13,17 +14,23 @@ import java.util.stream.Stream;
 
 public class IndustrialSawmillEmiRecipe extends TREmiRecipe<IndustrialSawmillRecipe> {
     private final List<EmiIngredient> inputsWithFluids;
+    private final LongHolder capacityHolder;
 
-    public IndustrialSawmillEmiRecipe(IndustrialSawmillRecipe recipe) {
+    public IndustrialSawmillEmiRecipe(IndustrialSawmillRecipe recipe, LongHolder capacityHolder) {
         super(recipe);
+        this.capacityHolder = capacityHolder;
         FluidInstance instance = recipe.getFluidInstance();
-        inputsWithFluids = Stream.concat(inputs.stream(),
-            Stream.of(EmiStack.of(instance.getVariant(), instance.getAmount().getRawValue()))).toList();
+        long amount = instance.getAmount().getRawValue();
+        inputsWithFluids = Stream.concat(inputs.stream(), Stream.of(EmiStack.of(instance.getVariant(), amount))).toList();
+
+        if (amount > capacityHolder.getValue()) {
+            capacityHolder.setValue(amount);
+        }
     }
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return TRIntegrationImpl.INDUSTRIAL_SAWMILL_CATEGORY;
+        return TRIntegration.INDUSTRIAL_SAWMILL_CATEGORY;
     }
 
     @Override
@@ -45,7 +52,7 @@ public class IndustrialSawmillEmiRecipe extends TREmiRecipe<IndustrialSawmillRec
     public void addWidgets(WidgetHolder widgets) {
         widgets.addSlot(getInput(0), 16 + 22 + 2, (56 - 18) / 2);
 
-        widgets.add(new TRFluidSlotWidget(recipe.getFluidInstance(), 16, 0, 16 * 1000 * 81));
+        widgets.add(new TRFluidSlotWidget(recipe.getFluidInstance(), 16, 0, capacityHolder.getValue()));
 
         widgets.addSlot(getOutput(0), 16 + 22 + 2 + 18 + 24, (56 - 18 * 3) / 2).recipeContext(this);
         widgets.addSlot(getOutput(1), 16 + 22 + 2 + 18 + 24, (56 - 18 * 3) / 2 + 18).recipeContext(this);

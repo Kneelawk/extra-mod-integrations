@@ -1,5 +1,6 @@
 package com.kneelawk.extramodintegrations.techreborn;
 
+import com.kneelawk.extramodintegrations.util.LongHolder;
 import com.kneelawk.extramodintegrations.util.UIUtils;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiStack;
@@ -11,16 +12,23 @@ import java.util.List;
 
 public class FluidReplicatorEmiRecipe extends TREmiRecipe<FluidReplicatorRecipe> {
     private final List<EmiStack> fluidOutput;
+    private final LongHolder capacityHolder;
 
-    public FluidReplicatorEmiRecipe(FluidReplicatorRecipe recipe) {
+    public FluidReplicatorEmiRecipe(FluidReplicatorRecipe recipe, LongHolder capacityHolder) {
         super(recipe);
+        this.capacityHolder = capacityHolder;
         FluidInstance instance = recipe.getFluidInstance();
-        fluidOutput = List.of(EmiStack.of(instance.getVariant(), instance.getAmount().getRawValue()));
+        long amount = instance.getAmount().getRawValue();
+        fluidOutput = List.of(EmiStack.of(instance.getVariant(), amount));
+
+        if (amount > capacityHolder.getValue()) {
+            capacityHolder.setValue(amount);
+        }
     }
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return TRIntegrationImpl.FLUID_REPLICATOR_CATEGORY;
+        return TRIntegration.FLUID_REPLICATOR_CATEGORY;
     }
 
     @Override
@@ -42,7 +50,7 @@ public class FluidReplicatorEmiRecipe extends TREmiRecipe<FluidReplicatorRecipe>
     public void addWidgets(WidgetHolder widgets) {
         widgets.addSlot(getInput(0), 16, (56 - 18) / 2);
 
-        widgets.add(new TRFluidSlotWidget(recipe.getFluidInstance(), 16 + 18 + 24, 0, 16 * 1000 * 81))
+        widgets.add(new TRFluidSlotWidget(recipe.getFluidInstance(), 16 + 18 + 24, 0, capacityHolder.getValue()))
             .recipeContext(this);
 
         TRUIUtils.energyBar(widgets, recipe, 400, 0, 3);

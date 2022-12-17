@@ -1,37 +1,28 @@
 package com.kneelawk.extramodintegrations.techreborn;
 
 import dev.emi.emi.api.render.EmiRender;
-import dev.emi.emi.api.stack.EmiStack;
-import dev.emi.emi.api.stack.FluidEmiStack;
 import dev.emi.emi.api.widget.Bounds;
-import dev.emi.emi.api.widget.SlotWidget;
 import reborncore.common.fluid.container.FluidInstance;
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 
 import net.minecraft.client.util.math.MatrixStack;
 
+import com.kneelawk.extramodintegrations.util.CustomFluidSlotWidget;
 import com.kneelawk.extramodintegrations.util.UIUtils;
 
-public class TRFluidSlotWidget extends SlotWidget {
+public class TRFluidSlotWidget extends CustomFluidSlotWidget {
     public static final int WIDTH = 22;
     public static final int HEIGHT = 56;
     public static final float FLUID_AREA_WIDTH = 14f;
     public static final float FLUID_AREA_HEIGHT = 48f;
 
-    protected final float fluidHeight;
-    protected final FluidVariant fluid;
-
     public TRFluidSlotWidget(FluidInstance fluid, int x, int y, long capacity) {
-        super(new FluidEmiStack(fluid.getVariant(), fluid.getAmount().getRawValue()), x, y);
-        fluidHeight = (float) ((double) stack.getAmount() / (double) capacity) * FLUID_AREA_HEIGHT;
-        this.fluid = fluid.getVariant();
+        super(fluid.getVariant(), fluid.getAmount().getRawValue(), x, y, capacity);
     }
 
     public TRFluidSlotWidget(FluidVariant fluid, long amount, int x, int y, long capacity) {
-        super(EmiStack.of(fluid, amount), x, y);
-        fluidHeight = (float) ((double) amount / (double) capacity) * FLUID_AREA_HEIGHT;
-        this.fluid = fluid;
+        super(fluid, amount, x, y, capacity);
     }
 
     @Override
@@ -45,11 +36,14 @@ public class TRFluidSlotWidget extends SlotWidget {
             TRTextures.TANK_BASE.render(matrices, x, y, delta);
         }
 
-        UIUtils.renderFluid(matrices, fluid, x + 4, y + 4, FLUID_AREA_HEIGHT, fluidHeight, FLUID_AREA_WIDTH);
+        if (fluid != null) {
+            UIUtils.renderFluid(matrices, fluid, x + 4, y + 4, FLUID_AREA_HEIGHT, fluidFullness * FLUID_AREA_HEIGHT,
+                FLUID_AREA_WIDTH);
+        }
 
         if (drawBack) {
             matrices.push();
-            matrices.translate(0.0, 0.0, 200.0);
+            matrices.translate(0.0, 0.0, 50.0);
             TRTextures.TANK_GRADUATION.render(matrices, x + 3, y + 3, delta);
             matrices.pop();
         }

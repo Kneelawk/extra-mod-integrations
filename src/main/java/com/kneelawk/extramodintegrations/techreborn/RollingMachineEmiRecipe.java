@@ -29,7 +29,7 @@ public class RollingMachineEmiRecipe implements EmiRecipe {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return TRIntegrationImpl.ROLLING_MACHINE_CATEGORY;
+        return TRIntegration.ROLLING_MACHINE_CATEGORY;
     }
 
     @Override

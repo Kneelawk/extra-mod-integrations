@@ -1,5 +1,7 @@
 package com.kneelawk.extramodintegrations.util;
 
+import java.util.List;
+
 import dev.emi.emi.api.widget.WidgetHolder;
 
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
@@ -8,6 +10,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.Tessellator;
@@ -38,6 +41,10 @@ public class UIUtils {
 
     public static void cookTime(WidgetHolder widgets, int ticks, int x, int y) {
         widgets.addText(cookTime(ticks), x, y, 0xFF3F3F3F, false);
+    }
+
+    public static void cookArrow(WidgetHolder widgets, int ticks, int x, int y) {
+        widgets.addFillingArrow(x, y, ticks * 50).tooltip((x1, y1) -> List.of(TooltipComponent.of(cookTime(ticks))));
     }
 
     public static Text metricNumber(int number) {
