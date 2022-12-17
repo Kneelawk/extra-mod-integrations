@@ -31,7 +31,7 @@ jobs:
         env:
           RELEASE_TAG: ${{ steps.tag_version.outputs.tag }}
       - name: Modrinth Release
-        run: ./gradlew modrinth modrinthSyncBody
+        run: ./gradlew modrinth
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           RELEASE_TAG: ${{ steps.tag_version.outputs.tag }}
