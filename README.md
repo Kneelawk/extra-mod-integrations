@@ -11,6 +11,7 @@ EMI addon adding support for as many mods as possible.
 | Modern Industrialization |    ❌   | MI will support EMI natively. |
 | Industrial Revolution    |    🔲   |                               |
 | Extra Generators         |    ⁇   |                               |
+| Hephaestus               |    🚧   |                               |
 
 ✅: Support Completed<br>
 🚧: Support In Progress<br>
@@ -20,12 +21,5 @@ EMI addon adding support for as many mods as possible.
 
 ## License
 
-This mod is licensed under the MIT license. This means you are free to use this mod in modpacks, make derivatives of it,
-and redistribute it so long as the `Copyright (c) 2022 Kneelawk` copyright notice and license permission grant is
-maintained.
-
-### For Authors of Supported Mods
-
-If you are an author of a mod currently supported by Extra Mod Integrations, permission is granted to use Extra Mod
-Integrations's assets and code in your mod if you do choose to support EMI natively. Please reach out to me and I will
-be sure to remove the EMI-integration code from this mod to avoid conflicts.
+This mod is licensed under the CC0 License. This means you can do pretty much whet ever you want with it, including
+adding it to your modpacks, or using its code or assets in your mod.
