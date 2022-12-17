@@ -2,6 +2,7 @@ package com.kneelawk.extramodintegrations;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,7 @@ public class ExMIMod implements ClientModInitializer {
     }
 
     public static Text tt(String prefix, String path, Object... args) {
-        return Text.translatable(prefix + "." + MOD_ID + "." + path, args);
+        return new TranslatableText(prefix + "." + MOD_ID + "." + path, args);
     }
 
     public static Text gui(String path, Object... args) {

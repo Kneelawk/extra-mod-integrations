@@ -1,7 +1,6 @@
 package com.kneelawk.extramodintegrations.techreborn;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.emi.emi.EmiConfig;
 import dev.emi.emi.EmiPort;
 import dev.emi.emi.EmiRenderHelper;
 import dev.emi.emi.api.render.EmiRender;
@@ -9,6 +8,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.stack.FluidEmiStack;
 import dev.emi.emi.api.widget.Bounds;
 import dev.emi.emi.api.widget.SlotWidget;
+import dev.emi.emi.config.EmiConfig;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.client.render.*;
