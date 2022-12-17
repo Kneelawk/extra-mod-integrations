@@ -13,7 +13,7 @@
     "sources": "https://github.com/Kneelawk/extra-mod-integrations"
   },
 
-  "license": "MIT",
+  "license": "CC0-1.0",
   "icon": "assets/extra-mod-integrations/icon.png",
 
   "environment": "*",
