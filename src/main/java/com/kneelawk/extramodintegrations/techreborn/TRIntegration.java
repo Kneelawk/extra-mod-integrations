@@ -1,6 +1,7 @@
 package com.kneelawk.extramodintegrations.techreborn;
 
 import com.kneelawk.extramodintegrations.*;
+import com.kneelawk.extramodintegrations.util.LongHolder;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.recipe.EmiRecipeSorting;
@@ -216,17 +217,19 @@ public class TRIntegration extends AbstractTRIntegration {
         // Industrial Grinding
         registry.addCategory(INDUSTRIAL_GRINDER_CATEGORY);
         registry.addWorkstation(INDUSTRIAL_GRINDER_CATEGORY, INDUSTRIAL_GRINDER_STACK);
+        LongHolder grinderCapacityHolder = new LongHolder(1000 * 81);
         for (IndustrialGrinderRecipe recipe : registry.getRecipeManager()
             .listAllOfType(ModRecipes.INDUSTRIAL_GRINDER)) {
-            registry.addRecipe(new IndustrialGrinderEmiRecipe(recipe));
+            registry.addRecipe(new IndustrialGrinderEmiRecipe(recipe, grinderCapacityHolder));
         }
 
         // Industrial Sawmilling
         registry.addCategory(INDUSTRIAL_SAWMILL_CATEGORY);
         registry.addWorkstation(INDUSTRIAL_SAWMILL_CATEGORY, INDUSTRIAL_SAWMILL_STACK);
+        LongHolder sawmillCapacityHolder = new LongHolder(1000 * 81);
         for (IndustrialSawmillRecipe recipe : registry.getRecipeManager()
             .listAllOfType(ModRecipes.INDUSTRIAL_SAWMILL)) {
-            registry.addRecipe(new IndustrialSawmillEmiRecipe(recipe));
+            registry.addRecipe(new IndustrialSawmillEmiRecipe(recipe, sawmillCapacityHolder));
         }
 
         // Scrapbox
@@ -246,8 +249,9 @@ public class TRIntegration extends AbstractTRIntegration {
         // Fluid Replicating
         registry.addCategory(FLUID_REPLICATOR_CATEGORY);
         registry.addWorkstation(FLUID_REPLICATOR_CATEGORY, FLUID_REPLICATOR_STACK);
+        LongHolder replicatorCapacityHolder = new LongHolder(1000 * 81);
         for (FluidReplicatorRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.FLUID_REPLICATOR)) {
-            registry.addRecipe(new FluidReplicatorEmiRecipe(recipe));
+            registry.addRecipe(new FluidReplicatorEmiRecipe(recipe, replicatorCapacityHolder));
         }
 
         // Fusion Reactor

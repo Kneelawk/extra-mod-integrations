@@ -1,5 +1,8 @@
 package com.kneelawk.extramodintegrations.techreborn;
 
+import java.util.List;
+import java.util.stream.Stream;
+
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
@@ -7,17 +10,23 @@ import dev.emi.emi.api.widget.WidgetHolder;
 import reborncore.common.fluid.container.FluidInstance;
 import techreborn.api.recipe.recipes.IndustrialGrinderRecipe;
 
-import java.util.List;
-import java.util.stream.Stream;
+import com.kneelawk.extramodintegrations.util.LongHolder;
 
 public class IndustrialGrinderEmiRecipe extends TREmiRecipe<IndustrialGrinderRecipe> {
     private final List<EmiIngredient> inputsWithFluids;
+    private final LongHolder capacityHolder;
 
-    public IndustrialGrinderEmiRecipe(IndustrialGrinderRecipe recipe) {
+    public IndustrialGrinderEmiRecipe(IndustrialGrinderRecipe recipe, LongHolder capacityHolder) {
         super(recipe);
+        this.capacityHolder = capacityHolder;
         FluidInstance instance = recipe.getFluidInstance();
-        inputsWithFluids = Stream.concat(inputs.stream(),
-            Stream.of(EmiStack.of(instance.getVariant(), instance.getAmount().getRawValue()))).toList();
+        long amount = instance.getAmount().getRawValue();
+        inputsWithFluids =
+            Stream.concat(inputs.stream(), Stream.of(EmiStack.of(instance.getVariant(), amount))).toList();
+
+        if (amount > capacityHolder.getValue()) {
+            capacityHolder.setValue(amount);
+        }
     }
 
     @Override
@@ -43,7 +52,7 @@ public class IndustrialGrinderEmiRecipe extends TREmiRecipe<IndustrialGrinderRec
     @Override
     public void addWidgets(WidgetHolder widgets) {
         widgets.addSlot(getInput(0), 16 + 22 + 2, 18 * 3 / 2);
-        widgets.add(new TRFluidSlotWidget(recipe.getFluidInstance(), 16, (18 * 4 - 56) / 2, 16 * 1000 * 81));
+        widgets.add(new TRFluidSlotWidget(recipe.getFluidInstance(), 16, (18 * 4 - 56) / 2, capacityHolder.getValue()));
 
         for (int i = 0; i < 4; i++) {
             widgets.addSlot(getOutput(i), 16 + 22 + 2 + 18 + 24, i * 18).recipeContext(this);
