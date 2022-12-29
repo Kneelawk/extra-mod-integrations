@@ -2,6 +2,7 @@ plugins {
     id 'fabric-loom'
     id 'maven-publish'
     id 'com.modrinth.minotaur'
+    id 'com.matthewprenger.cursegradle'
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -108,6 +109,27 @@ modrinth {
         }
     }
     syncBodyFrom = rootProject.file("README.md").text
+}
+
+String curseApiKey = System.getenv("CURSE_API_KEY")
+if (curseApiKey != null) {
+    curseforge {
+        apiKey = curseApiKey
+        project {
+            id = project.cfProjectId
+            changelogType = 'markdown'
+            changelog = rootProject.file("changelogs/changelog-v${modVersion}.md")
+            releaseType = project.cfReleaseType
+            project.cfMinecraftVersions.split("\\s*,\\s*").each {addGameVersion(it)}
+            mainArtifact(tasks.remapJar)
+            relations {
+                project.cfDependencies.split("\\s*,\\s*").each {requiredDependency(it)}
+            }
+        }
+        options {
+            forgeGradleIntegration = false
+        }
+    }
 }
 
 // configure the maven publication
