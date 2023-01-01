@@ -1,6 +1,8 @@
 # Extra Mod Integrations
 
-EMI addon adding support for as many mods as possible.
+This mod is an addon for the powerful, new recipe viewer [EMI]. This addon adds support for viewing the listed mods' recipes in EMI, including in the EMI Recipe Tree. This addon is still under construction and support for more mods is planned!
+
+[EMI]: https://modrinth.com/mod/emi
 
 ## Supported Mods
 
@@ -19,7 +21,15 @@ EMI addon adding support for as many mods as possible.
 ⁇: Maybe Support Eventually<br>
 ❌: Not Supported<br>
 
+## Screenshots
+
+![Quantum Armor Recipe Tree](https://cdn-raw.modrinth.com/data/bpRHnWUb/images/274b2566e63966a9cd6554b98352fab1874a00cd.png)
+
+![Fusion Reactor Recipes](https://cdn.modrinth.com/data/bpRHnWUb/images/4909b816de6dbd612a821e0a54e0460914cb6fb4.png)
+
 ## License
 
-This mod is licensed under the CC0 License. This means you can do pretty much whet ever you want with it, including
+This mod is licensed under the [CC0] License. This means you can do pretty much whet ever you want with it, including
 adding it to your modpacks, or using its code or assets in your mod.
+
+[CC0]: https://creativecommons.org/publicdomain/zero/1.0/
