@@ -1,6 +1,8 @@
 # Extra Mod Integrations
 
-EMI addon adding support for as many mods as possible.
+This mod is an addon for the powerful, new recipe viewer [EMI]. This addon adds support for viewing the listed mods' recipes in EMI, including in the EMI Recipe Tree. This addon is still under construction and support for more mods is planned!
+
+[EMI]: https://modrinth.com/mod/emi
 
 ## Supported Mods
 
@@ -11,6 +13,7 @@ EMI addon adding support for as many mods as possible.
 | Modern Industrialization |    ❌   | MI will support EMI natively. |
 | Industrial Revolution    |    🔲   |                               |
 | Extra Generators         |    ⁇   |                               |
+| Hephaestus               |    🚧   |                               |
 
 ✅: Support Completed<br>
 🚧: Support In Progress<br>
@@ -18,14 +21,15 @@ EMI addon adding support for as many mods as possible.
 ⁇: Maybe Support Eventually<br>
 ❌: Not Supported<br>
 
+## Screenshots
+
+![Quantum Armor Recipe Tree](https://cdn-raw.modrinth.com/data/bpRHnWUb/images/274b2566e63966a9cd6554b98352fab1874a00cd.png)
+
+![Fusion Reactor Recipes](https://cdn.modrinth.com/data/bpRHnWUb/images/4909b816de6dbd612a821e0a54e0460914cb6fb4.png)
+
 ## License
 
-This mod is licensed under the MIT license. This means you are free to use this mod in modpacks, make derivatives of it,
-and redistribute it so long as the `Copyright (c) 2022 Kneelawk` copyright notice and license permission grant is
-maintained.
+This mod is licensed under the [CC0] License. This means you can do pretty much whet ever you want with it, including
+adding it to your modpacks, or using its code or assets in your mod.
 
-### For Authors of Supported Mods
-
-If you are an author of a mod currently supported by Extra Mod Integrations, permission is granted to use Extra Mod
-Integrations's assets and code in your mod if you do choose to support EMI natively. Please reach out to me and I will
-be sure to remove the EMI-integration code from this mod to avoid conflicts.
+[CC0]: https://creativecommons.org/publicdomain/zero/1.0/
