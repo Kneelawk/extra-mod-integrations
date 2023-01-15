@@ -65,62 +65,56 @@ repositories {
 }
 
 dependencies {
-    dependencies.ext.lib = { dep, optional = false ->
+    dependencies.ext.mod = { String dep ->
         modCompileOnly(dep) {
             exclude group: "net.fabricmc.fabric-api"
             exclude group: "com.jamieswhiteshirt"
             exclude group: "io.github.prospector"
         }
-        modRuntimeOnly(dep) {
+        modLocalRuntime(dep) {
             exclude group: "net.fabricmc.fabric-api"
             exclude group: "com.jamieswhiteshirt"
             exclude group: "io.github.prospector"
-        }
-        if (!optional) {
-            include(dep) {
-                exclude group: "net.fabricmc.fabric-api"
-                exclude group: "com.jamieswhiteshirt"
-                exclude group: "io.github.prospector"
-            }
         }
     }
 
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    // Fabric API. This is technically optional, but you probably want it anyway.
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    // Don't commute Fabric or FAPI to anything that depends on us
+    modCompileOnly "net.fabricmc:fabric-loader:${project.loader_version}"
+    modLocalRuntime "net.fabricmc:fabric-loader:${project.loader_version}"
+    modCompileOnly "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modLocalRuntime "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     // EMI
     modImplementation("dev.emi:emi:${project.emi_version}") {
         transitive = false
     }
 
+    //
+    // Mods we add EMI integration with and their dependencies
+    //
 
     // Tech Reborn
-    modCompileOnly "curse.maven:techreborn-233564:${project.tech_reborn_id}"
-    modRuntimeOnly "curse.maven:techreborn-233564:${project.tech_reborn_id}"
-    modCompileOnly "curse.maven:reborncore-237903:${project.reborn_core_id}"
-    modRuntimeOnly "curse.maven:reborncore-237903:${project.reborn_core_id}"
-    modCompileOnly "teamreborn:energy:${project.energy_version}"
-    modRuntimeOnly "teamreborn:energy:${project.energy_version}"
+    dependencies.ext.mod "curse.maven:techreborn-233564:${project.tech_reborn_id}"
+    dependencies.ext.mod "curse.maven:reborncore-237903:${project.reborn_core_id}"
+    dependencies.ext.mod "teamreborn:energy:${project.energy_version}"
+
+    // Industrial Revolution
+    dependencies.ext.mod "curse.maven:industrial-revolution-391708:${project.industrial_rev_id}"
+    dependencies.ext.mod "net.fabricmc:fabric-language-kotlin:${project.kotlin_version}"
+    dependencies.ext.mod "io.github.cottonmc:LibGui:${project.libgui_version}"
+    dependencies.ext.mod "dev.cafeteria:fake-player-api:${project.fake_player_version}"
+    dependencies.ext.mod "com.github.GabrielOlvH:magna:${project.magna_version}"
+
+    //
+    // Stuff we just want to have at runtime
+    //
 
     // Mod Menu
     modRuntimeOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
-
-    // Industrial Revolution
-    dependencies.ext.lib "curse.maven:industrial-revolution-391708:${project.industrial_rev_id}"
-    dependencies.ext.lib "curse.maven:industrial-revolution-391708:${project.industrial_rev_id}"
-    dependencies.ext.lib "net.fabricmc:fabric-language-kotlin:${project.kotlin_version}"
-    dependencies.ext.lib "net.fabricmc:fabric-language-kotlin:${project.kotlin_version}"
-    dependencies.ext.lib "io.github.cottonmc:LibGui:${project.libgui_version}"
-    dependencies.ext.lib "io.github.cottonmc:LibGui:${project.libgui_version}"
-    dependencies.ext.lib "dev.cafeteria:fake-player-api:${project.fake_player_version}"
-    dependencies.ext.lib "dev.cafeteria:fake-player-api:${project.fake_player_version}"
-    dependencies.ext.lib "com.github.GabrielOlvH:magna:${project.magna_version}"
-    dependencies.ext.lib "com.github.GabrielOlvH:magna:${project.magna_version}"
 }
 
 processResources {
@@ -179,10 +173,10 @@ if (curseApiKey != null) {
             changelogType = 'markdown'
             changelog = rootProject.file("changelogs/changelog-v${modVersion}.md")
             releaseType = project.cfReleaseType
-            project.cfMinecraftVersions.split("\\s*,\\s*").each {addGameVersion(it)}
+            project.cfMinecraftVersions.split("\\s*,\\s*").each { addGameVersion(it) }
             mainArtifact(tasks.remapJar)
             relations {
-                project.cfDependencies.split("\\s*,\\s*").each {requiredDependency(it)}
+                project.cfDependencies.split("\\s*,\\s*").each { requiredDependency(it) }
             }
         }
         options {
