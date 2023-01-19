@@ -1,6 +1,5 @@
 package com.kneelawk.extramodintegrations.industrialrevolution;
 
-import com.kneelawk.extramodintegrations.techreborn.TRIntegration;
 import com.kneelawk.extramodintegrations.util.ReflectionUtils;
 import dev.emi.emi.api.EmiRegistry;
 import net.fabricmc.loader.api.FabricLoader;
@@ -12,7 +11,8 @@ public abstract class IRIntegration {
 
     static {
         if (FabricLoader.getInstance().isModLoaded("indrev")) {
-            INSTANCE = ReflectionUtils.newInstance("com.kneelawk.extramodintegrations.industrialrevolution.IRIntegrationImpl");
+            INSTANCE =
+                ReflectionUtils.newInstance("com.kneelawk.extramodintegrations.industrialrevolution.IRIntegrationImpl");
         } else {
             INSTANCE = null;
         }
