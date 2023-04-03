@@ -6,17 +6,17 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.recipe.ShapedRecipe;
-import net.minecraft.util.Identifier;
 import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.Nullable;
 import techreborn.api.recipe.recipes.RollingMachineRecipe;
 
 import java.util.List;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 
 public class RollingMachineEmiRecipe implements EmiRecipe {
     private final RollingMachineRecipe recipe;
-    private final Identifier id;
+    private final ResourceLocation id;
     private final List<EmiIngredient> input;
     private final EmiStack output;
 
@@ -24,7 +24,7 @@ public class RollingMachineEmiRecipe implements EmiRecipe {
         this.recipe = recipe;
         id = recipe.getId();
         input = padIngredients(recipe.getShapedRecipe());
-        output = EmiStack.of(recipe.getOutput());
+        output = EmiStack.of(recipe.getResultItem());
     }
 
     @Override
@@ -33,7 +33,7 @@ public class RollingMachineEmiRecipe implements EmiRecipe {
     }
 
     @Override
-    public @Nullable Identifier getId() {
+    public @Nullable ResourceLocation getId() {
         return id;
     }
 

@@ -36,12 +36,26 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    maven { url = "https://api.modrinth.com/maven" }
+    maven { url = "https://mvn.devos.one/snapshots" }
+    maven { url = "https://maven.shedaniel.me/"  }
+    maven { url = "https://maven.wispforest.io" } // TOP
+    maven { url = "https://maven.blamejared.com" } // CraftTweaker, Immersive Engineering
+    maven { url = "https://www.cursemaven.com" }
+    maven { url = "https://maven.jamieswhiteshirt.com/libs-release" }
+    maven { url = "https://ladysnake.jfrog.io/artifactory/mods" }
+    maven { url = "https://maven.parchmentmc.org" }
+    maven { url = "https://jitpack.io" }
+    maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" }
 }
 
 dependencies {
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    mappings loom.layered() {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${project.minecraft_version}:${project.parchment_version}@zip")
+    }
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     // Fabric API. This is technically optional, but you probably want it anyway.
@@ -59,6 +73,13 @@ dependencies {
     modRuntimeOnly "curse.maven:reborncore-237903:${project.reborn_core_id}"
     modCompileOnly "teamreborn:energy:${project.energy_version}"
     modRuntimeOnly "teamreborn:energy:${project.energy_version}"
+
+    // Hephaestus
+    modCompileOnly "net.minecraftforge:forgeconfigapiport-fabric:${project.forge_config_version}"
+    modCompileOnly "slimeknights.mantle:Mantle:${project.mantle_version}"
+    modCompileOnly "io.github.fabricators_of_create:Porting-Lib:${project.port_lib_version}"
+    modCompileOnly "slimeknights.tconstruct:Hephaestus:${project.hephaestus_version}"
+    // TODO: get hephaestus working in the dev env
 
     // Mod Menu
     modRuntimeOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"

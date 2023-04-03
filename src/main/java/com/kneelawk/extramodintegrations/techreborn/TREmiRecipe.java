@@ -4,15 +4,15 @@ import com.kneelawk.extramodintegrations.ExMIMod;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import reborncore.common.crafting.RebornRecipe;
 
 import java.util.List;
+import net.minecraft.resources.ResourceLocation;
 
 public abstract class TREmiRecipe<R extends RebornRecipe> implements EmiRecipe {
     protected final R recipe;
-    protected final @Nullable Identifier id;
+    protected final @Nullable ResourceLocation id;
     protected final List<EmiIngredient> inputs;
     protected final List<EmiStack> outputs;
 
@@ -25,7 +25,7 @@ public abstract class TREmiRecipe<R extends RebornRecipe> implements EmiRecipe {
     }
 
     @Override
-    public @Nullable Identifier getId() {
+    public @Nullable ResourceLocation getId() {
         return id;
     }
 

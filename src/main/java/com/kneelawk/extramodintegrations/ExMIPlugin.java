@@ -1,12 +1,13 @@
 package com.kneelawk.extramodintegrations;
 
+import com.kneelawk.extramodintegrations.hephaestus.HephaestusIntegration;
 import com.kneelawk.extramodintegrations.techreborn.TRIntegration;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.recipe.EmiRecipeSorting;
 import dev.emi.emi.api.stack.EmiStack;
-import net.minecraft.item.Items;
+import net.minecraft.world.item.Items;
 
 import static com.kneelawk.extramodintegrations.ExMIMod.id;
 
@@ -27,5 +28,6 @@ public class ExMIPlugin implements EmiPlugin {
         registry.addCategory(FLUID_INTO_CONTAINER_CATEGORY);
 
         TRIntegration.register(registry);
+        HephaestusIntegration.register(registry);
     }
 }

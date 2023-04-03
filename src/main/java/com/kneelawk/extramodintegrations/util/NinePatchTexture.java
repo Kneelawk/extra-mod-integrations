@@ -1,13 +1,19 @@
 package com.kneelawk.extramodintegrations.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.render.*;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Matrix4f;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.math.Matrix4f;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.resources.ResourceLocation;
 
 public class NinePatchTexture {
-    private final Identifier textureId;
+    private final ResourceLocation textureId;
     private final int textureWidth, textureHeight;
     private final int leftWidth, rightWidth, topHeight, bottomHeight;
     private final boolean tiling;
@@ -16,12 +22,12 @@ public class NinePatchTexture {
     private final float pieceU1, pieceV1, pieceU2, pieceV2;
     private final float leftRightU, rightLeftU, topBottomV, bottomTopV;
 
-    public NinePatchTexture(Identifier textureId, int u, int v, int width, int height, int leftWidth, int rightWidth,
+    public NinePatchTexture(ResourceLocation textureId, int u, int v, int width, int height, int leftWidth, int rightWidth,
                             int topHeight, int bottomHeight, boolean tiling) {
         this(textureId, 256, 256, u, v, width, height, leftWidth, rightWidth, topHeight, bottomHeight, tiling);
     }
 
-    public NinePatchTexture(Identifier textureId, int textureWidth, int textureHeight, int u, int v, int width,
+    public NinePatchTexture(ResourceLocation textureId, int textureWidth, int textureHeight, int u, int v, int width,
                             int height, int leftWidth, int rightWidth, int topHeight, int bottomHeight,
                             boolean tiling) {
         this.textureId = textureId;
@@ -57,15 +63,15 @@ public class NinePatchTexture {
         bottomTopV = (float) (endY - bottomHeight) / (float) textureHeight;
     }
 
-    public void render(MatrixStack stack, int x, int y, int w, int h) {
+    public void render(PoseStack stack, int x, int y, int w, int h) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, textureId);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
-        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
-        render(bufferBuilder, stack.peek().getPositionMatrix(), 0, x, y, w, h);
-        BufferRenderer.draw(bufferBuilder);
+        BufferBuilder bufferBuilder = Tesselator.getInstance().getBuilder();
+        bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        render(bufferBuilder, stack.last().pose(), 0, x, y, w, h);
+        BufferUploader.end(bufferBuilder);
     }
 
     private void render(VertexConsumer consumer, Matrix4f mat, int z, int x, int y, int w, int h) {
@@ -145,9 +151,9 @@ public class NinePatchTexture {
                              float v0, float u1, float v1) {
         int x1 = x0 + w;
         int y1 = y0 + h;
-        consumer.vertex(mat, x0, y1, z).texture(u0, v1).next();
-        consumer.vertex(mat, x1, y1, z).texture(u1, v1).next();
-        consumer.vertex(mat, x1, y0, z).texture(u1, v0).next();
-        consumer.vertex(mat, x0, y0, z).texture(u0, v0).next();
+        consumer.vertex(mat, x0, y1, z).uv(u0, v1).endVertex();
+        consumer.vertex(mat, x1, y1, z).uv(u1, v1).endVertex();
+        consumer.vertex(mat, x1, y0, z).uv(u1, v0).endVertex();
+        consumer.vertex(mat, x0, y0, z).uv(u0, v0).endVertex();
     }
 }

@@ -2,13 +2,13 @@ package com.kneelawk.extramodintegrations;
 
 import com.kneelawk.extramodintegrations.util.NinePatchTexture;
 import dev.emi.emi.api.render.EmiTexture;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import static com.kneelawk.extramodintegrations.ExMIMod.id;
 
 public class ExMITextures {
-    public static final Identifier SIMPLIFIED_ICONS = id("textures/gui/simplified_icons.png");
-    public static final Identifier WIDGETS = id("textures/gui/widgets.png");
+    public static final ResourceLocation SIMPLIFIED_ICONS = id("textures/gui/simplified_icons.png");
+    public static final ResourceLocation WIDGETS = id("textures/gui/widgets.png");
 
     public static final EmiTexture GRINDING = new EmiTexture(SIMPLIFIED_ICONS, 0, 0, 16, 16);
     public static final EmiTexture ALLOY_SMELTING = new EmiTexture(SIMPLIFIED_ICONS, 16, 0, 16, 16);

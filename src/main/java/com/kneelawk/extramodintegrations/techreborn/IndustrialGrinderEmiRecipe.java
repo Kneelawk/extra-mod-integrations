@@ -1,5 +1,6 @@
 package com.kneelawk.extramodintegrations.techreborn;
 
+import com.kneelawk.extramodintegrations.util.DynamicFluidSlotWidget;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
@@ -43,7 +44,9 @@ public class IndustrialGrinderEmiRecipe extends TREmiRecipe<IndustrialGrinderRec
     @Override
     public void addWidgets(WidgetHolder widgets) {
         widgets.addSlot(getInput(0), 16 + 22 + 2, 18 * 3 / 2);
-        widgets.add(new TRFluidSlotWidget(recipe.getFluidInstance(), 16, (18 * 4 - 56) / 2, 16 * 1000 * 81));
+        widgets.add(new DynamicFluidSlotWidget(recipe.getFluidInstance(), 16, (18 * 4 - 56) / 2, 22, 56, 16 * 1000 * 81))
+                .underlay(TRTextures.TANK_BASE)
+                .overlay(TRTextures.TANK_GRADUATION);
 
         for (int i = 0; i < 4; i++) {
             widgets.addSlot(getOutput(i), 16 + 22 + 2 + 18 + 24, i * 18).recipeContext(this);

@@ -5,20 +5,20 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import net.minecraft.resources.ResourceLocation;
 
 public class FluidFromContainerEmiRecipe implements EmiRecipe {
-    private final Identifier id;
+    private final ResourceLocation id;
     private final EmiStack fluid;
     private final EmiStack container;
     private final EmiStack emptyContainer;
     private final List<EmiIngredient> inputs;
     private final List<EmiStack> outputs;
 
-    public FluidFromContainerEmiRecipe(Identifier id, EmiStack fluid, EmiStack container, EmiStack emptyContainer) {
+    public FluidFromContainerEmiRecipe(ResourceLocation id, EmiStack fluid, EmiStack container, EmiStack emptyContainer) {
         this.id = id;
         this.fluid = fluid;
         this.container = container;
@@ -37,7 +37,7 @@ public class FluidFromContainerEmiRecipe implements EmiRecipe {
     }
 
     @Override
-    public @Nullable Identifier getId() {
+    public @Nullable ResourceLocation getId() {
         return id;
     }
 

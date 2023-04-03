@@ -1,8 +1,8 @@
 package com.kneelawk.extramodintegrations.util;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.emi.emi.api.widget.Bounds;
 import dev.emi.emi.api.widget.Widget;
-import net.minecraft.client.util.math.MatrixStack;
 
 public class NinePatchWidget extends Widget {
     private final NinePatchTexture texture;
@@ -22,7 +22,7 @@ public class NinePatchWidget extends Widget {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int i, int i1, float v) {
+    public void render(PoseStack matrixStack, int i, int i1, float v) {
         texture.render(matrixStack, x, y, w, h);
     }
 }
