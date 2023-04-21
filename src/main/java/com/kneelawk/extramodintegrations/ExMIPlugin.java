@@ -1,6 +1,5 @@
 package com.kneelawk.extramodintegrations;
 
-import com.kneelawk.extramodintegrations.techreborn.TRIntegration;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
@@ -26,6 +25,6 @@ public class ExMIPlugin implements EmiPlugin {
         registry.addCategory(FLUID_FROM_CONTAINER_CATEGORY);
         registry.addCategory(FLUID_INTO_CONTAINER_CATEGORY);
 
-        TRIntegration.register(registry);
+        AbstractTRIntegration.register(registry);
     }
 }

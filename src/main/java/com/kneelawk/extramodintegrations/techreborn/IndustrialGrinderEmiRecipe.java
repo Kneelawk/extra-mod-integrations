@@ -22,7 +22,7 @@ public class IndustrialGrinderEmiRecipe extends TREmiRecipe<IndustrialGrinderRec
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return TRIntegrationImpl.INDUSTRIAL_GRINDER_CATEGORY;
+        return TRIntegration.INDUSTRIAL_GRINDER_CATEGORY;
     }
 
     @Override

@@ -13,7 +13,7 @@ public class AssemblingMachineEmiRecipe extends TREmiRecipe<RebornRecipe> {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return TRIntegrationImpl.ASSEMBLING_MACHINE_CATEGORY;
+        return TRIntegration.ASSEMBLING_MACHINE_CATEGORY;
     }
 
     @Override

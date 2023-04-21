@@ -53,15 +53,27 @@ dependencies {
     }
 
     // Tech Reborn
-    modCompileOnly "curse.maven:techreborn-233564:${project.tech_reborn_id}"
-    modRuntimeOnly "curse.maven:techreborn-233564:${project.tech_reborn_id}"
-    modCompileOnly "curse.maven:reborncore-237903:${project.reborn_core_id}"
-    modRuntimeOnly "curse.maven:reborncore-237903:${project.reborn_core_id}"
-    modCompileOnly "teamreborn:energy:${project.energy_version}"
-    modRuntimeOnly "teamreborn:energy:${project.energy_version}"
+    if (tech_reborn_enabled.toBoolean()) {
+        modCompileOnly "curse.maven:techreborn-233564:${project.tech_reborn_id}"
+        modRuntimeOnly "curse.maven:techreborn-233564:${project.tech_reborn_id}"
+        modCompileOnly "curse.maven:reborncore-237903:${project.reborn_core_id}"
+        modRuntimeOnly "curse.maven:reborncore-237903:${project.reborn_core_id}"
+        modCompileOnly "teamreborn:energy:${project.energy_version}"
+        modRuntimeOnly "teamreborn:energy:${project.energy_version}"
+    }
 
     // Mod Menu
     modRuntimeOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
+}
+
+sourceSets {
+    main {
+        java {
+            if (!tech_reborn_enabled.toBoolean()) {
+                exclude('com/kneelawk/extramodintegrations/techreborn')
+            }
+        }
+    }
 }
 
 processResources {

@@ -20,7 +20,7 @@ public class FluidReplicatorEmiRecipe extends TREmiRecipe<FluidReplicatorRecipe>
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return TRIntegrationImpl.FLUID_REPLICATOR_CATEGORY;
+        return TRIntegration.FLUID_REPLICATOR_CATEGORY;
     }
 
     @Override

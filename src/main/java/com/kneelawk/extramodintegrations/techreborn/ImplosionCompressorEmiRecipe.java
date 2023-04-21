@@ -12,7 +12,7 @@ public class ImplosionCompressorEmiRecipe extends TREmiRecipe<RebornRecipe> {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return TRIntegrationImpl.IMPLOSION_COMPRESSOR_CATEGORY;
+        return TRIntegration.IMPLOSION_COMPRESSOR_CATEGORY;
     }
 
     @Override

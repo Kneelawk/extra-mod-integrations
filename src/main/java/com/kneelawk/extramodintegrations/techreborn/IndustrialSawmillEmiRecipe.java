@@ -23,7 +23,7 @@ public class IndustrialSawmillEmiRecipe extends TREmiRecipe<IndustrialSawmillRec
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return TRIntegrationImpl.INDUSTRIAL_SAWMILL_CATEGORY;
+        return TRIntegration.INDUSTRIAL_SAWMILL_CATEGORY;
     }
 
     @Override
