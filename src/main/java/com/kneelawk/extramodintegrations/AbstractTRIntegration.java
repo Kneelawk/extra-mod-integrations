@@ -13,20 +13,13 @@ public abstract class AbstractTRIntegration {
     public static final AbstractTRIntegration INSTANCE;
 
     static {
-        @Nullable AbstractTRIntegration instance;
         if (FabricLoader.getInstance().isModLoaded("techreborn")) {
-            try {
-                instance = ReflectionUtils.newInstance("com.kneelawk.extramodintegrations.techreborn.TRIntegration");
-            } catch (ClassNotFoundException e) {
-                ExMIMod.LOGGER.warn("[Extra Mod Integrations] Attempted to load Tech Reborn integration, but " +
-                    "Extra Mod Integrations was compiled with Tech Reborn integration disabled. " +
-                    "EMI <-> Tech Reborn integration will not work.");
-                instance = null;
-            }
+            INSTANCE =
+                ReflectionUtils.newIntegrationInstance("com.kneelawk.extramodintegrations.techreborn.TRIntegration",
+                    "Tech Reborn");
         } else {
-            instance = null;
+            INSTANCE = null;
         }
-        INSTANCE = instance;
     }
 
     protected abstract void registerImpl(EmiRegistry registry);
