@@ -16,7 +16,7 @@ public abstract class AbstractIRIntegration {
         if (FabricLoader.getInstance().isModLoaded("indrev")) {
             INSTANCE =
                 ReflectionUtils.newIntegrationInstance(
-                    "com.kneelawk.extramodintegrations.industrialrevolution.IRIntegration", "Industrial Revolution");
+                    "com.kneelawk.extramodintegrations.indrev.IRIntegration", "Industrial Revolution");
         } else {
             INSTANCE = null;
         }

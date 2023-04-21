@@ -106,7 +106,7 @@ dependencies {
 
     // Industrial Revolution
     if (indrev_enabled.toBoolean()) {
-        dependencies.ext.mod "curse.maven:industrial-revolution-391708:${project.industrial_rev_id}"
+        dependencies.ext.mod "curse.maven:industrial-revolution-391708:${project.indrev_id}"
         dependencies.ext.mod "net.fabricmc:fabric-language-kotlin:${project.kotlin_version}"
         dependencies.ext.mod "io.github.cottonmc:LibGui:${project.libgui_version}"
         dependencies.ext.mod "dev.cafeteria:fake-player-api:${project.fake_player_version}"
@@ -128,7 +128,7 @@ sourceSets {
                 exclude('com/kneelawk/extramodintegrations/techreborn')
             }
             if (!indrev_enabled.toBoolean()) {
-                exclude('com/kneelawk/extramodintegrations/industrialrevolution')
+                exclude('com/kneelawk/extramodintegrations/indrev')
             }
         }
     }

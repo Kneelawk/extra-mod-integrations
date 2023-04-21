@@ -1,4 +1,4 @@
-package com.kneelawk.extramodintegrations.industrialrevolution;
+package com.kneelawk.extramodintegrations.indrev;
 
 import com.kneelawk.extramodintegrations.AbstractIRIntegration;
 import com.kneelawk.extramodintegrations.ExMIMod;
