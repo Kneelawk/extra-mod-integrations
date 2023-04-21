@@ -1,6 +1,10 @@
 package com.kneelawk.extramodintegrations.util;
 
+import java.util.List;
+
 import dev.emi.emi.api.widget.WidgetHolder;
+
+import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
@@ -20,6 +24,10 @@ public class UIUtils {
 
     public static void cookTime(WidgetHolder widgets, int ticks, int x, int y) {
         widgets.addText(cookTime(ticks), x, y, 0xFF3F3F3F, false);
+    }
+
+    public static void cookArrow(WidgetHolder widgets, int ticks, int x, int y) {
+        widgets.addFillingArrow(x, y, ticks * 50).tooltip((x1, y1) -> List.of(TooltipComponent.of(cookTime(ticks))));
     }
 
     public static Text metricNumber(int number) {
