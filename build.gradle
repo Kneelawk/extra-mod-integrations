@@ -1,3 +1,5 @@
+import com.matthewprenger.cursegradle.CurseUploadTask
+
 plugins {
     id 'fabric-loom'
     id 'maven-publish'
@@ -141,6 +143,11 @@ if (curseApiKey != null) {
         options {
             forgeGradleIntegration = false
         }
+    }
+}
+tasks.withType(CurseUploadTask).configureEach {
+    doLast {
+        file("curse-file-id.txt").text = mainArtifact.fileID
     }
 }
 
