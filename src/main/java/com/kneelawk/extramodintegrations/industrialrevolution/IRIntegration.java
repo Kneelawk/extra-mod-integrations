@@ -1,28 +1,41 @@
 package com.kneelawk.extramodintegrations.industrialrevolution;
 
-import com.kneelawk.extramodintegrations.util.ReflectionUtils;
+import com.kneelawk.extramodintegrations.AbstractIRIntegration;
+import com.kneelawk.extramodintegrations.ExMIMod;
+import com.kneelawk.extramodintegrations.ExMITextures;
 import dev.emi.emi.api.EmiRegistry;
-import net.fabricmc.loader.api.FabricLoader;
-import org.jetbrains.annotations.Nullable;
+import dev.emi.emi.api.recipe.EmiRecipeCategory;
+import dev.emi.emi.api.recipe.EmiRecipeSorting;
+import dev.emi.emi.api.stack.EmiStack;
+import me.steven.indrev.recipes.machines.CompressorRecipe;
+import me.steven.indrev.registry.MachineRegistry;
+import net.minecraft.util.Identifier;
 
-public abstract class IRIntegration {
-    @Nullable
-    public static final IRIntegration INSTANCE;
+import java.util.Arrays;
 
-    static {
-        if (FabricLoader.getInstance().isModLoaded("indrev")) {
-            INSTANCE =
-                ReflectionUtils.newInstance("com.kneelawk.extramodintegrations.industrialrevolution.IRIntegrationImpl");
-        } else {
-            INSTANCE = null;
+@SuppressWarnings("unused")
+public class IRIntegration extends AbstractIRIntegration {
+    public static final EmiStack[] COMPRESSOR_STACKS = getAllTiers(MachineRegistry.Companion.getCOMPRESSOR_REGISTRY());
+
+    public static final EmiRecipeCategory COMPRESSOR_CATEGORY = new EmiRecipeCategory(irId("compressor"), COMPRESSOR_STACKS[0], ExMITextures.COMPRESSING, EmiRecipeSorting.compareOutputThenInput());
+
+    @Override
+    protected void registerImpl(EmiRegistry registry) {
+        ExMIMod.LOGGER.info("[Extra Mod Integrations] Loading Industrial Revolution Integration...");
+
+        // Compressor
+        registry.addCategory(COMPRESSOR_CATEGORY);
+        for (EmiStack stack : COMPRESSOR_STACKS) registry.addWorkstation(COMPRESSOR_CATEGORY, stack);
+        for (CompressorRecipe recipe : registry.getRecipeManager().listAllOfType(CompressorRecipe.Companion.getTYPE())) {
+            // TODO: Make CompressorEmiRecipe and use it here
         }
     }
 
-    abstract void registerImpl(EmiRegistry registry);
+    private static EmiStack[] getAllTiers(MachineRegistry registry) {
+        return Arrays.stream(registry.getTiers()).map(registry::block).map(EmiStack::of).toArray(EmiStack[]::new);
+    }
 
-    public static void register(EmiRegistry registry) {
-        if (INSTANCE != null) {
-            INSTANCE.registerImpl(registry);
-        }
+    public static Identifier irId(String path) {
+        return new Identifier("indrev", path);
     }
 }

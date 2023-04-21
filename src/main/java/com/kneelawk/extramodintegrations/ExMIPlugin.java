@@ -8,8 +8,6 @@ import dev.emi.emi.api.stack.EmiStack;
 
 import net.minecraft.item.Items;
 
-import com.kneelawk.extramodintegrations.industrialrevolution.IRIntegration;
-
 import static com.kneelawk.extramodintegrations.ExMIMod.id;
 
 public class ExMIPlugin implements EmiPlugin {
@@ -29,6 +27,6 @@ public class ExMIPlugin implements EmiPlugin {
         registry.addCategory(FLUID_INTO_CONTAINER_CATEGORY);
 
         AbstractTRIntegration.register(registry);
-        IRIntegration.register(registry);
+        AbstractIRIntegration.register(registry);
     }
 }
