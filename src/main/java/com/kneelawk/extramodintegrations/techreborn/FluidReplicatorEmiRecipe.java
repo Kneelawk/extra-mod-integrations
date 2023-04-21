@@ -42,7 +42,7 @@ public class FluidReplicatorEmiRecipe extends TREmiRecipe<FluidReplicatorRecipe>
     public void addWidgets(WidgetHolder widgets) {
         widgets.addSlot(getInput(0), 16, (56 - 18) / 2);
 
-        widgets.add(new TRFluidSlotWidget(recipe.getFluidInstance(), 16 + 18 + 24, 0, 16 * 1000 * 81))
+        widgets.add(new TRFluidSlotWidget(recipe.getFluidInstance(), 16 + 18 + 24, 0, 16 * 100 * 81))
             .recipeContext(this);
 
         TRUIUtils.energyBar(widgets, recipe, 400, 0, 3);
