@@ -98,9 +98,11 @@ dependencies {
     //
 
     // Tech Reborn
-    dependencies.ext.mod "curse.maven:techreborn-233564:${project.tech_reborn_id}"
-    dependencies.ext.mod "curse.maven:reborncore-237903:${project.reborn_core_id}"
-    dependencies.ext.mod "teamreborn:energy:${project.energy_version}"
+    if (tech_reborn_enabled.toBoolean()) {
+        dependencies.ext.mod "curse.maven:techreborn-233564:${project.tech_reborn_id}"
+        dependencies.ext.mod "curse.maven:reborncore-237903:${project.reborn_core_id}"
+        dependencies.ext.mod "teamreborn:energy:${project.energy_version}"
+    }
 
     // Industrial Revolution
     dependencies.ext.mod "curse.maven:industrial-revolution-391708:${project.industrial_rev_id}"
@@ -115,6 +117,16 @@ dependencies {
 
     // Mod Menu
     modRuntimeOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
+}
+
+sourceSets {
+    main {
+        java {
+            if (!tech_reborn_enabled.toBoolean()) {
+                exclude('com/kneelawk/extramodintegrations/techreborn')
+            }
+        }
+    }
 }
 
 processResources {

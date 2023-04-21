@@ -14,7 +14,7 @@ public class IndustrialElectrolyzerEmiRecipe extends TREmiRecipe<RebornRecipe> {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return TRIntegrationImpl.INDUSTRIAL_ELECTROLYZER_CATEGORY;
+        return TRIntegration.INDUSTRIAL_ELECTROLYZER_CATEGORY;
     }
 
     @Override

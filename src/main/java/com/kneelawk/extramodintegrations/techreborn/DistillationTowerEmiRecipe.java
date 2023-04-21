@@ -14,7 +14,7 @@ public class DistillationTowerEmiRecipe extends TREmiRecipe<RebornRecipe> {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return TRIntegrationImpl.DISTILLATION_TOWER_CATEGORY;
+        return TRIntegration.DISTILLATION_TOWER_CATEGORY;
     }
 
     @Override

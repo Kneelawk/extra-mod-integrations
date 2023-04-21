@@ -12,7 +12,7 @@ public class CentrifugeEmiRecipe extends TREmiRecipe<RebornRecipe> {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return TRIntegrationImpl.CENTRIFUGE_CATEGORY;
+        return TRIntegration.CENTRIFUGE_CATEGORY;
     }
 
     @Override

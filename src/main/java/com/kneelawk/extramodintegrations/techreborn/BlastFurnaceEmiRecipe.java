@@ -16,7 +16,7 @@ public class BlastFurnaceEmiRecipe extends TREmiRecipe<BlastFurnaceRecipe> {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return TRIntegrationImpl.BLAST_FURNACE_CATEGORY;
+        return TRIntegration.BLAST_FURNACE_CATEGORY;
     }
 
     @Override
