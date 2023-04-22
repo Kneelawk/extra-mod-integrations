@@ -1,5 +1,7 @@
 package com.kneelawk.extramodintegrations.util;
 
+import dev.emi.emi.EmiPort;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
@@ -65,7 +67,7 @@ public class NinePatchTexture {
         BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
         render(bufferBuilder, stack.peek().getPositionMatrix(), 0, x, y, w, h);
-        BufferRenderer.draw(bufferBuilder);
+        EmiPort.draw(bufferBuilder);
     }
 
     private void render(VertexConsumer consumer, Matrix4f mat, int z, int x, int y, int w, int h) {
