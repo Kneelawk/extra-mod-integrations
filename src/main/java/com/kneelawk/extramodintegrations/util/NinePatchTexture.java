@@ -1,5 +1,7 @@
 package com.kneelawk.extramodintegrations.util;
 
+import dev.emi.emi.EmiPort;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferUploader;
@@ -71,7 +73,7 @@ public class NinePatchTexture {
         BufferBuilder bufferBuilder = Tesselator.getInstance().getBuilder();
         bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
         render(bufferBuilder, stack.last().pose(), 0, x, y, w, h);
-        BufferUploader.end(bufferBuilder);
+        EmiPort.draw(bufferBuilder);
     }
 
     private void render(VertexConsumer consumer, Matrix4f mat, int z, int x, int y, int w, int h) {
