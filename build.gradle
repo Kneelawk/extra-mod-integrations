@@ -44,10 +44,14 @@ dependencies {
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    // Fabric API. This is technically optional, but you probably want it anyway.
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    // Avoid leaking dependencies
+    modCompileOnly "net.fabricmc:fabric-loader:${project.loader_version}"
+    modLocalRuntime "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    // Avoid leaking dependencies
+    modCompileOnly "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modLocalRuntime "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     // EMI
     modImplementation("dev.emi:emi:${project.emi_version}") {
@@ -57,15 +61,21 @@ dependencies {
     // Tech Reborn
     if (tech_reborn_enabled.toBoolean()) {
         modCompileOnly "curse.maven:techreborn-233564:${project.tech_reborn_id}"
-        modRuntimeOnly "curse.maven:techreborn-233564:${project.tech_reborn_id}"
+        modLocalRuntime "curse.maven:techreborn-233564:${project.tech_reborn_id}"
         modCompileOnly "curse.maven:reborncore-237903:${project.reborn_core_id}"
-        modRuntimeOnly "curse.maven:reborncore-237903:${project.reborn_core_id}"
+        modLocalRuntime "curse.maven:reborncore-237903:${project.reborn_core_id}"
         modCompileOnly "teamreborn:energy:${project.energy_version}"
-        modRuntimeOnly "teamreborn:energy:${project.energy_version}"
+        modLocalRuntime ("teamreborn:energy:${project.energy_version}") {
+            exclude group: "net.fabricmc.fabric-api"
+            exclude group: "net.fabricmc"
+        }
     }
 
     // Mod Menu
-    modRuntimeOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
+    modLocalRuntime("com.terraformersmc:modmenu:${project.mod_menu_version}") {
+        exclude group: "net.fabricmc.fabric-api"
+        exclude group: "net.fabricmc"
+    }
 }
 
 sourceSets {
