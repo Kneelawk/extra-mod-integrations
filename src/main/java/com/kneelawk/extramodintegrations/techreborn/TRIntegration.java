@@ -7,8 +7,8 @@ import dev.emi.emi.api.recipe.EmiRecipeSorting;
 import dev.emi.emi.api.recipe.VanillaEmiRecipeCategories;
 import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import reborncore.common.crafting.RebornRecipe;
 import techreborn.api.generator.EFluidGenerator;
 import techreborn.api.generator.FluidGeneratorRecipe;
@@ -329,8 +329,8 @@ public class TRIntegration extends AbstractTRIntegration {
 
         // Fluid into and from Cells
         Identifier cellId = CELL.getId();
-        for (Identifier fluidId : Registry.FLUID.getIds()) {
-            Fluid fluid = Registry.FLUID.get(fluidId);
+        for (Identifier fluidId : Registries.FLUID.getIds()) {
+            Fluid fluid = Registries.FLUID.get(fluidId);
 
             if (!fluid.isStill(fluid.getDefaultState())) {
                 continue;
@@ -355,7 +355,7 @@ public class TRIntegration extends AbstractTRIntegration {
     }
 
     private static Identifier generatorRecipeId(EmiRecipeCategory category, FluidGeneratorRecipe recipe) {
-        Identifier fluidId = Registry.FLUID.getId(recipe.fluid());
+        Identifier fluidId = Registries.FLUID.getId(recipe.fluid());
         return new Identifier(category.id.getNamespace(),
             category.id.getPath() + "/" + fluidId.getNamespace() + "/" + fluidId.getPath());
     }

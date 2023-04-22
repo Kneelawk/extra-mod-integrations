@@ -1,10 +1,13 @@
 package com.kneelawk.extramodintegrations.util;
 
+import dev.emi.emi.EmiPort;
+
+import org.joml.Matrix4f;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Matrix4f;
 
 public class NinePatchTexture {
     private final Identifier textureId;
@@ -58,14 +61,14 @@ public class NinePatchTexture {
     }
 
     public void render(MatrixStack stack, int x, int y, int w, int h) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, textureId);
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
         render(bufferBuilder, stack.peek().getPositionMatrix(), 0, x, y, w, h);
-        BufferRenderer.drawWithShader(bufferBuilder.end());
+        EmiPort.draw(bufferBuilder);
     }
 
     private void render(VertexConsumer consumer, Matrix4f mat, int z, int x, int y, int w, int h) {
