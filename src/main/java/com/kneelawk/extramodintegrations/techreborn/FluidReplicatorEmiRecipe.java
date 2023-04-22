@@ -43,9 +43,8 @@ public class FluidReplicatorEmiRecipe extends TREmiRecipe<FluidReplicatorRecipe>
     public void addWidgets(WidgetHolder widgets) {
         widgets.addSlot(getInput(0), 16, (56 - 18) / 2);
 
-        widgets.add(new DynamicFluidSlotWidget(recipe.getFluidInstance(), 16 + 18 + 24, 0, 22, 56, 16 * 1000 * 81))
-                .underlay(TRTextures.TANK_BASE)
-                .overlay(TRTextures.TANK_GRADUATION)
+        widgets.addTexture(TRTextures.TANK_BASE, 16 + 18 + 24, 0);
+        widgets.add(new DynamicFluidSlotWidget(recipe.getFluidInstance(), 16 + 18 + 24 + 4, 4, 22 - 8, 56 - 8, 16 * 1000 * 81))
             .recipeContext(this);
 
         TRUIUtils.energyBar(widgets, recipe, 400, 0, 3);

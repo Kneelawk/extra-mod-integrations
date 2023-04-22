@@ -13,11 +13,16 @@ import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
 import slimeknights.tconstruct.plugin.jei.melting.MeltingFuelHandler;
 import slimeknights.tconstruct.smeltery.block.entity.module.FuelModule;
 
+import java.util.List;
+
 public class MeltingEmiRecipe extends AbstractMeltingEmiRecipe {
-private EmiTexture solidFuel = new EmiTexture(BACKGROUND_LOC, 164, 0, 18, 20);
+  private static final EmiTexture solidFuel = new EmiTexture(BACKGROUND_LOC, 164, 0, 18, 20);
+
+  private final EmiStack output;
 
   public MeltingEmiRecipe(MeltingRecipe recipe) {
     super(recipe);
+    output = EmiStack.of(recipe.getOutput().getFluid(), recipe.getOutput().getAmount());
   }
 
   @Override
@@ -26,17 +31,18 @@ private EmiTexture solidFuel = new EmiTexture(BACKGROUND_LOC, 164, 0, 18, 20);
   }
 
   @Override
+  public List<EmiStack> getOutputs() {
+    return List.of(output);
+  }
+
+  @Override
   public void addWidgets(WidgetHolder widgets) {
     super.addWidgets(widgets);
 
     // solid fuel slot
-    int temperature = recipe.getTemperature();
     if (temperature <= FuelModule.SOLID_TEMPERATURE) {
       widgets.addTexture(solidFuel, 1, 19);
     }
-
-    // input
-    widgets.addSlot(getInputs().get(0), 23, 17).drawBack(false);
 
     // output
 //    IMeltingContainer.OreRateType oreType = recipe.getOreType();
@@ -48,14 +54,14 @@ private EmiTexture solidFuel = new EmiTexture(BACKGROUND_LOC, 164, 0, 18, 20);
 //    } else {
 //      tooltip = MeltingCategory.MeltingFluidCallback.INSTANCE;
 //    }
-    widgets.add(new DynamicFluidSlotWidget(recipe.getOutput(), 96, 4, 32, 32, FluidValues.METAL_BLOCK))
+    widgets.add(new DynamicFluidSlotWidget(output, 96, 4, 32, 32, FluidValues.METAL_BLOCK))
             .overlay(tankOverlay)
             .recipeContext(this);
 
     // show fuels that are valid for this recipe
     int fuelHeight = 32;
     // solid fuel
-    if (recipe.getTemperature() <= FuelModule.SOLID_TEMPERATURE) {
+    if (temperature <= FuelModule.SOLID_TEMPERATURE) {
       fuelHeight = 15;
       EmiIngredient solidFuels = EmiIngredient.of(MeltingFuelHandler.SOLID_FUELS.get()
           .stream().map(EmiStack::of).toList());
@@ -63,8 +69,8 @@ private EmiTexture solidFuel = new EmiTexture(BACKGROUND_LOC, 164, 0, 18, 20);
     }
 
     // liquid fuel
-    EmiIngredient liquidFuels = EmiIngredient.of(MeltingFuelHandler.getUsableFuels(recipe.getTemperature())
+    EmiIngredient liquidFuels = EmiIngredient.of(MeltingFuelHandler.getUsableFuels(temperature)
       .stream().map(s -> FluidEmiStack.of(s.getFluid(), s.getAmount())).toList());
-    widgets.addSlot(liquidFuels, 4, 4).customBackground(null, 0, 0, 12, fuelHeight).drawBack(false);
+    widgets.add(new DynamicFluidSlotWidget(liquidFuels, 4, 4, 12, fuelHeight, 1));
   }
 }

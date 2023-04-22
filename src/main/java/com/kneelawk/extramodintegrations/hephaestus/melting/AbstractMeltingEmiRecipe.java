@@ -12,6 +12,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import slimeknights.tconstruct.TConstruct;
+import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer;
 import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
 
 import java.awt.*;
@@ -22,30 +23,29 @@ public abstract class AbstractMeltingEmiRecipe implements EmiRecipe {
   protected static final EmiTexture plus = new EmiTexture(BACKGROUND_LOC, 132, 34, 6, 6);
   protected static final EmiTexture arrow = new EmiTexture(BACKGROUND_LOC, 150, 41, 24, 17);
   protected static final EmiTexture tankOverlay = new EmiTexture(BACKGROUND_LOC, 132, 0, 32, 32);
-  protected final MeltingRecipe recipe;
+
+  protected final ResourceLocation id;
+  protected final EmiIngredient input;
+  protected final int time;
+  protected final IMeltingContainer.OreRateType oreType;
+  protected final int temperature;
 
   public AbstractMeltingEmiRecipe(MeltingRecipe recipe) {
-    this.recipe = recipe;
+    id = recipe.getId();
+    input = EmiIngredient.of(recipe.getInput());
+    time = recipe.getTime();
+    oreType = recipe.getOreType();
+    temperature = recipe.getTemperature();
   }
 
   @Override
   public ResourceLocation getId() {
-    return recipe.getId();
+    return id;
   }
 
   @Override
   public List<EmiIngredient> getInputs() {
-    return List.of(EmiIngredient.of(recipe.getInput()));
-  }
-
-  @Override
-  public List<EmiStack> getOutputs() {
-    // 0th output is main product, rest is byproducts
-    return recipe.getOutputWithByproducts()
-      .stream()
-      .map(e -> e.get(0))
-      .map(s -> FluidEmiStack.of(s.getFluid(), s.getAmount()))
-      .toList();
+    return List.of(input);
   }
 
   @Override
@@ -63,16 +63,16 @@ public abstract class AbstractMeltingEmiRecipe implements EmiRecipe {
     widgets.addTexture(BACKGROUND_LOC, 0, 0, 132, 40, 0, 0);
 
     // draw the arrow
-    widgets.addAnimatedTexture(arrow, 56, 18, recipe.getTime() * 250, true, false, false);
-    if (recipe.getOreType() != null) {
+    widgets.addAnimatedTexture(arrow, 56, 18, time * 250, true, false, false);
+    if (oreType != null) {
       widgets.addTexture(plus, 87, 31)
         .tooltip((mouseX, mouseY) -> List.of(ClientTooltipComponent.create(new TranslatableComponent("jei.tconstruct.melting.ore").getVisualOrderText())));
     }
 
-    // temperature
-    int temperature = recipe.getTemperature();
-
     Component temp = new TranslatableComponent("jei.tconstruct.temperature", temperature);
     widgets.addText(temp, 56, 3, Color.GRAY.getRGB(), false).horizontalAlign(TextWidget.Alignment.CENTER);
+
+    // input
+    widgets.addSlot(input, 23, 17).drawBack(false);
   }
 }

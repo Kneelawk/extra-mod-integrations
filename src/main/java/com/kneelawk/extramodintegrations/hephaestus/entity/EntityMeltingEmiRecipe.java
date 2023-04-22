@@ -24,12 +24,21 @@ import java.util.List;
 public class EntityMeltingEmiRecipe implements EmiRecipe {
   public static final ResourceLocation BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/melting.png");
   private static final EmiTexture arrow = new EmiTexture(BACKGROUND_LOC, 150, 41, 24, 17);
+  private static final EmiTexture tank = new EmiTexture(BACKGROUND_LOC, 150, 74, 16, 16);
   public static final EmiTexture icon = new EmiTexture(BACKGROUND_LOC, 174, 41, 16, 16);
 
-  private final EntityMeltingRecipe recipe;
+  private final ResourceLocation id;
+  private final EmiIngredient entity;
+  private final EmiIngredient spawnEgg;
+  private final EmiStack output;
+  private final int damage;
 
   public EntityMeltingEmiRecipe(EntityMeltingRecipe recipe) {
-    this.recipe = recipe;
+    id = recipe.getId();
+    entity = EmiIngredient.of(recipe.getEntityInputs().stream().map(e -> new EntityEmiStack(e, 32)).toList());
+    spawnEgg = EmiIngredient.of(recipe.getItemInputs().stream().map(EmiStack::of).toList());
+    output = FluidEmiStack.of(recipe.getOutput().getFluid(), recipe.getOutput().getAmount());
+    damage = recipe.getDamage();
   }
 
   @Override
@@ -39,17 +48,23 @@ public class EntityMeltingEmiRecipe implements EmiRecipe {
 
   @Override
   public @Nullable ResourceLocation getId() {
-    return recipe.getId();
+    return id;
   }
 
   @Override
   public List<EmiIngredient> getInputs() {
-    return List.of(EmiIngredient.of(recipe.getEntityInputs().stream().map(e -> new EntityEmiStack(e, 32)).toList()));
+    return List.of(entity);
+  }
+
+  @Override
+  public List<EmiIngredient> getCatalysts() {
+    // this is just so if u press u on a spawn egg the recipe shows up
+    return List.of(spawnEgg);
   }
 
   @Override
   public List<EmiStack> getOutputs() {
-    return List.of(FluidEmiStack.of(recipe.getOutput().getFluid(), recipe.getOutput().getAmount()));
+    return List.of(output);
   }
 
   @Override
@@ -69,18 +84,16 @@ public class EntityMeltingEmiRecipe implements EmiRecipe {
     widgets.addAnimatedTexture(arrow, 71, 21, 10000, true, false, false);
 
     // draw damage string next to the heart icon
-    String damage = Float.toString(recipe.getDamage() / 2f);
-    widgets.addText(new TextComponent(damage), 78, 8, Color.RED.getRGB(), false).horizontalAlign(TextWidget.Alignment.CENTER);
+    String damageStr = Float.toString(damage / 2f);
+    widgets.addText(new TextComponent(damageStr), 78, 8, Color.RED.getRGB(), false).horizontalAlign(TextWidget.Alignment.CENTER);
 
     // inputs, filtered by spawn egg item
-    widgets.addSlot(getInputs().get(0), 19, 11)
+    widgets.addSlot(entity, 19, 11)
       .drawBack(false)
       .customBackground(null, 0, 0, 32, 32);
-    // add spawn eggs as hidden inputs
-    //widgets.addInvisibleIngredients(RecipeIngredientRole.INPUT).addItemStacks(recipe.getItemInputs());
 
     // output
-    widgets.add(new DynamicFluidSlotWidget(recipe.getOutput(), 115, 11, 16, 32, FluidValues.INGOT * 2))
+    widgets.add(new DynamicFluidSlotWidget(output, 115, 11, 16, 32, FluidValues.INGOT * 2))
       .recipeContext(this);
 
     // show fuels that are valid for this recipe
@@ -89,8 +102,8 @@ public class EntityMeltingEmiRecipe implements EmiRecipe {
       .stream()
       .map(f -> FluidEmiStack.of(f.getFluid(), f.getAmount()))
       .toList());
-    widgets.addSlot(fuels, 74, 42)
-      .drawBack(false);
+    widgets.add(new DynamicFluidSlotWidget(fuels, 75, 43, 16, 16, 1))
+            .overlay(tank);
 
   }
 }

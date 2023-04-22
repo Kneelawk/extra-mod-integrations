@@ -46,9 +46,8 @@ public class IndustrialSawmillEmiRecipe extends TREmiRecipe<IndustrialSawmillRec
     public void addWidgets(WidgetHolder widgets) {
         widgets.addSlot(getInput(0), 16 + 22 + 2, (56 - 18) / 2);
 
-        widgets.add(new DynamicFluidSlotWidget(recipe.getFluidInstance(), 16, 0, 22, 56, 16 * 1000 * 81))
-                .underlay(TRTextures.TANK_BASE)
-                .overlay(TRTextures.TANK_GRADUATION);
+        widgets.addTexture(TRTextures.TANK_BASE, 16, 0);
+        widgets.add(new DynamicFluidSlotWidget(recipe.getFluidInstance(), 20, 4, 14, 48, 16 * 1000 * 81));
 
         widgets.addSlot(getOutput(0), 16 + 22 + 2 + 18 + 24, (56 - 18 * 3) / 2).recipeContext(this);
         widgets.addSlot(getOutput(1), 16 + 22 + 2 + 18 + 24, (56 - 18 * 3) / 2 + 18).recipeContext(this);

@@ -18,6 +18,7 @@ import slimeknights.tconstruct.library.recipe.alloying.AlloyRecipe;
 import slimeknights.tconstruct.plugin.jei.melting.MeltingFuelHandler;
 
 import java.awt.*;
+import java.util.LinkedList;
 import java.util.List;
 
 public class AlloyEmiRecipe implements EmiRecipe {
@@ -25,10 +26,21 @@ public class AlloyEmiRecipe implements EmiRecipe {
   private static final ResourceLocation BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/alloy.png");
 
   private static final EmiTexture arrow = new EmiTexture(BACKGROUND_LOC, 172, 0, 24, 17);
-  private final AlloyRecipe recipe;
+  private static final EmiTexture tank = new EmiTexture(BACKGROUND_LOC, 172, 17, 16, 16);
+  private final ResourceLocation id;
+  private final List<EmiIngredient> inputs;
+  private final EmiStack output;
+  private final int temperature;
 
   public AlloyEmiRecipe(AlloyRecipe recipe) {
-    this.recipe = recipe;
+    id = recipe.getId();
+    inputs = recipe.getDisplayInputs().stream()
+            .map(l -> EmiIngredient.of(l.stream()
+                    .map(f -> FluidEmiStack.of(f.getFluid(), f.getAmount()))
+                    .toList()))
+            .toList();
+    output = FluidEmiStack.of(recipe.getOutput().getFluid(), recipe.getOutput().getAmount());
+    temperature = recipe.getTemperature();
   }
 
   @Override
@@ -38,21 +50,17 @@ public class AlloyEmiRecipe implements EmiRecipe {
 
   @Override
   public @Nullable ResourceLocation getId() {
-    return recipe.getId();
+    return id;
   }
 
   @Override
   public List<EmiIngredient> getInputs() {
-    return recipe.getDisplayInputs().stream()
-      .map(l -> EmiIngredient.of(l.stream()
-        .map(f -> FluidEmiStack.of(f.getFluid(), f.getAmount()))
-        .toList()))
-      .toList();
+    return inputs;
   }
 
   @Override
   public List<EmiStack> getOutputs() {
-    return List.of(FluidEmiStack.of(recipe.getOutput().getFluid(), recipe.getOutput().getAmount()));
+    return List.of(output);
   }
 
   @Override
@@ -65,34 +73,27 @@ public class AlloyEmiRecipe implements EmiRecipe {
     return 62;
   }
 
-  private long drawVariableFluids(WidgetHolder widgets, int x, int y, int totalWidth, int height, List<EmiIngredient> fluids, long minAmount) {
+  /**
+   * @return the fluid slots
+   */
+  public static List<DynamicFluidSlotWidget> drawVariableFluids(WidgetHolder widgets, int x, int y, int totalWidth, int height, List<? extends EmiIngredient> fluids, long minAmount) {
     int count = fluids.size();
-    long maxAmount = minAmount;
-    if (count > 0) {
-      // first, find maximum used amount in the recipe so relations are correct
-      for(EmiIngredient ingredient : fluids) {
-        for(EmiStack input : ingredient.getEmiStacks()) {
-          if (input.getAmount() > maxAmount) {
-            maxAmount = input.getAmount();
-          }
-        }
-      }
-      // next, draw all fluids but the last
-      int w = totalWidth / count;
-      int max = count - 1;
-      for (int i = 0; i < max; i++) {
-        int fluidX = x + i * w;
-        widgets.addSlot(fluids.get(i).copy().setAmount(maxAmount), fluidX, y)
-          .drawBack(false)
-          .customBackground(null, 0, 0, w, height);
-      }
-      // for the last, the width is the full remaining width
-      int fluidX = x + max * w;
-      widgets.addSlot(fluids.get(max).copy().setAmount(maxAmount), fluidX, y)
-        .drawBack(false)
-        .customBackground(null, 0, 0, totalWidth - (w * max), height);
+    if (fluids.isEmpty()) throw new IllegalArgumentException("drawVariableFluids with zero fluids? what?");
+
+    // first, find maximum used amount in the recipe so relations are correct
+    long maxAmount = Long.max(minAmount, fluids.stream().mapToLong(EmiIngredient::getAmount).max().orElse(0));
+
+    List<DynamicFluidSlotWidget> slots = new LinkedList<>();
+    int w = totalWidth / count;
+    int max = count - 1;
+    // next, draw all fluids but the first
+    for (int i = 1; i < fluids.size(); i++) {
+      int fluidX = x + i * w;
+      slots.add(widgets.add(new DynamicFluidSlotWidget(fluids.get(i), fluidX, y, w, height, maxAmount)));
     }
-    return maxAmount;
+    // for the first, the width is the full remaining width
+    slots.add(0, widgets.add(new DynamicFluidSlotWidget(fluids.get(0), x, y, totalWidth - (w * max), height, maxAmount)));
+    return slots;
 
   }
 
@@ -102,23 +103,24 @@ public class AlloyEmiRecipe implements EmiRecipe {
 
     widgets.addAnimatedTexture(arrow, 90, 21, 10000, true, false, false);
     // temperature info
-    Component temp = new TranslatableComponent("jei.tconstruct.temperature", recipe.getTemperature());
+    Component temp = new TranslatableComponent("jei.tconstruct.temperature", temperature);
     widgets.addText(temp, 102, 5, Color.GRAY.getRGB(), false).horizontalAlign(TextWidget.Alignment.CENTER);
 
     // inputs
-    long maxAmount = drawVariableFluids(widgets, 19, 11, 48, 32, getInputs(), recipe.getOutput().getAmount());
+    drawVariableFluids(widgets, 19, 11, 48, 32, inputs, output.getAmount());
 
     // output
-    widgets.add(new DynamicFluidSlotWidget(recipe.getOutput(), 137, 11, 16, 32, maxAmount))
+    long maxAmount = Long.max(output.getAmount(), inputs.stream().mapToLong(EmiIngredient::getAmount).max().orElse(0));
+    widgets.add(new DynamicFluidSlotWidget(output, 137, 11, 16, 32, maxAmount))
             .recipeContext(this);
 
     // fuel
-    EmiIngredient fuel = EmiIngredient.of(MeltingFuelHandler.getUsableFuels(recipe.getTemperature())
+    EmiIngredient fuel = EmiIngredient.of(MeltingFuelHandler.getUsableFuels(temperature)
             .stream()
             .map(f -> EmiStack.of(f.getFluid(), f.getAmount()))
             .toList());
-    widgets.addSlot(fuel, 94, 43)
-      .drawBack(false);
+    widgets.add(new DynamicFluidSlotWidget(fuel, 94, 43, 16, 16, 1))
+            .overlay(tank);
   }
 
 }

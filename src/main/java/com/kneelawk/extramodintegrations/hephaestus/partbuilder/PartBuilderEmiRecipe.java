@@ -14,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import slimeknights.mantle.client.ResourceColorManager;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.materials.MaterialTooltipCache;
+import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.recipe.partbuilder.IDisplayPartBuilderRecipe;
 import slimeknights.tconstruct.plugin.jei.partbuilder.MaterialItemList;
 
@@ -23,10 +24,23 @@ import java.util.Objects;
 
 public class PartBuilderEmiRecipe implements EmiRecipe {
   private static final ResourceLocation BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/tinker_station.png");
-  private final IDisplayPartBuilderRecipe recipe;
+
+  private final ResourceLocation id;
+  private final EmiIngredient materialVariant;
+  private final EmiIngredient patternItems;
+  private final EmiIngredient pattern;
+  private final EmiStack output;
+  private final int cost;
+  private final MaterialVariantId variantId;
 
   public PartBuilderEmiRecipe(IDisplayPartBuilderRecipe recipe) {
-    this.recipe = recipe;
+    id = recipe.getId();
+    variantId = recipe.getMaterial().getVariant();
+    materialVariant = EmiIngredient.of(MaterialItemList.getItems(variantId).stream().map(EmiStack::of).toList());
+    patternItems = EmiIngredient.of(recipe.getPatternItems().stream().map(EmiStack::of).toList());
+    pattern = new PatternEmiStack(recipe.getPattern());
+    output = EmiStack.of(recipe.getResultItem());
+    cost = recipe.getCost();
   }
 
   @Override
@@ -36,24 +50,22 @@ public class PartBuilderEmiRecipe implements EmiRecipe {
 
   @Override
   public @Nullable ResourceLocation getId() {
-    return recipe.getId();
+    return id;
   }
 
   @Override
   public List<EmiIngredient> getInputs() {
-    EmiIngredient materialVariant = EmiIngredient.of(MaterialItemList.getItems(recipe.getMaterial().getVariant()).stream().map(EmiStack::of).toList());
-    EmiIngredient patternItems = EmiIngredient.of(recipe.getPatternItems().stream().map(EmiStack::of).toList());
     return List.of(materialVariant, patternItems);
   }
 
   @Override
   public List<EmiIngredient> getCatalysts() {
-    return List.of(new PatternEmiStack(recipe.getPattern()));
+    return List.of(pattern);
   }
 
   @Override
   public List<EmiStack> getOutputs() {
-    return List.of(EmiStack.of(recipe.getResultItem()));
+    return List.of(output);
   }
 
   @Override
@@ -71,19 +83,19 @@ public class PartBuilderEmiRecipe implements EmiRecipe {
     widgets.addTexture(new EmiTexture(BACKGROUND_LOC, 0, 117, 121, 46), 0, 0);
 
     // items
-    widgets.addSlot(getInputs().get(0), 24, 15).drawBack(false);
-    widgets.addSlot(getInputs().get(1), 3, 15).drawBack(false);
+    widgets.addSlot(materialVariant, 24, 15).drawBack(false);
+    widgets.addSlot(patternItems, 3, 15).drawBack(false);
     // patterns
-    widgets.addSlot(getCatalysts().get(0), 45, 15).drawBack(false).catalyst(true);
+    widgets.addSlot(pattern, 45, 15).drawBack(false);
     // TODO: material input?
 
     // output
-    widgets.addSlot(getOutputs().get(0), 91, 10).drawBack(false).output(true).recipeContext(this);
+    widgets.addSlot(output, 91, 10).drawBack(false).output(true).recipeContext(this);
 
     // texts
-    Component name = MaterialTooltipCache.getColoredDisplayName(recipe.getMaterial().getVariant());
+    Component name = MaterialTooltipCache.getColoredDisplayName(variantId);
     widgets.addText(name, 3, 2, Objects.requireNonNullElse(name.getStyle().getColor(), ResourceColorManager.WHITE).getValue(), true);
-    Component cooling = new TranslatableComponent("jei.tconstruct.part_builder.cost", recipe.getCost());
+    Component cooling = new TranslatableComponent("jei.tconstruct.part_builder.cost", cost);
     widgets.addText(cooling, 3, 35, Color.GRAY.getRGB(), false);
   }
 }

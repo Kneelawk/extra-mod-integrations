@@ -11,7 +11,7 @@ import dev.emi.emi.EmiPort;
 import dev.emi.emi.EmiRenderHelper;
 import dev.emi.emi.api.render.EmiRender;
 import dev.emi.emi.api.render.EmiTexture;
-import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.stack.*;
 import dev.emi.emi.api.widget.Bounds;
 import dev.emi.emi.api.widget.SlotWidget;
 import dev.emi.emi.config.EmiConfig;
@@ -20,42 +20,36 @@ import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.world.level.material.Fluid;
 import reborncore.common.fluid.container.FluidInstance;
 
 public class DynamicFluidSlotWidget extends SlotWidget {
-    public static final float FLUID_AREA_WIDTH = 32f;
     public static final float FLUID_PATCH_WIDTH = 16f;
-    public static final float FLUID_AREA_HEIGHT = 48f;
     public static final float FLUID_PATCH_HEIGHT = 16f;
 
-    protected final float fluidWidth;
-    protected final float fluidHeight;
-    protected final FluidVariant fluid;
     protected final int width;
     protected final int height;
-    protected EmiTexture underlay;
+    protected final long capacity;
     protected EmiTexture overlay;
 
-    public DynamicFluidSlotWidget(FluidStack fluid, int x, int y, int width, int height, long capacity) {
-        this(fluid.getType(), fluid.getAmount(), x, y, width, height, capacity);
-    }
-
     public DynamicFluidSlotWidget(FluidInstance fluid, int x, int y, int width, int height, long capacity) {
-        this(fluid.getVariant(), fluid.getAmount().getRawValue(), x, y, width, height, capacity);
+        this(FluidEmiStack.of(fluid.getFluid(), fluid.getAmount().getRawValue()), x, y, width, height, capacity);
     }
 
-    public DynamicFluidSlotWidget(FluidVariant fluid, long amount, int x, int y, int width, int height, long capacity) {
-        super(EmiStack.of(fluid.getFluid(), amount), x, y);
+    public DynamicFluidSlotWidget(FluidVariant fluid, int amount, int x, int y, int width, int height, long capacity) {
+        this(FluidEmiStack.of(fluid.getFluid(), amount), x, y, width, height, capacity);
+    }
+
+    public DynamicFluidSlotWidget(EmiIngredient stack, int x, int y, int width, int height, long capacity) {
+        super(stack, x, y);
+
+        if (stack.getEmiStacks().stream().anyMatch(s -> !(s instanceof FluidEmiStack))) {
+            throw new IllegalArgumentException("Ingredient must be fluid " + stack);
+        }
+
         this.width = width;
         this.height = height;
-        fluidHeight = (float) ((double) amount / (double) capacity) * height;
-        fluidWidth = (float) width;
-        this.fluid = fluid;
-    }
-
-    public DynamicFluidSlotWidget underlay(EmiTexture tex) {
-        underlay = tex;
-        return this;
+        this.capacity = capacity;
     }
 
     public DynamicFluidSlotWidget overlay(EmiTexture tex) {
@@ -70,11 +64,24 @@ public class DynamicFluidSlotWidget extends SlotWidget {
 
     @Override
     public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
-        if (underlay != null) {
-            underlay.render(matrices, x, y, delta);
+        float fluidWidth = (float) width;
+
+        FluidEmiStack fluidEmiStack = null;
+        if (stack instanceof FluidEmiStack s) {
+            fluidEmiStack = s;
+        } else if (stack instanceof ListEmiIngredient listEmiIngredient) {
+            int elementIndex = (int) (System.currentTimeMillis() / 1000 % listEmiIngredient.getEmiStacks().size());
+            fluidEmiStack = (FluidEmiStack) listEmiIngredient.getEmiStacks().get(elementIndex);
+        } else if (stack instanceof TagEmiIngredient tagEmiIngredient) {
+            if (tagEmiIngredient.getEmiStacks().size() > 0) {
+                // modeled tags are complicated so i'm just rendering the first element of the tag
+                fluidEmiStack = (FluidEmiStack) tagEmiIngredient.getEmiStacks().get(0);
+            }
         }
 
-        renderFluid(matrices, fluid, x, y, fluidWidth, fluidHeight, height);
+        if (fluidEmiStack != null) {
+            renderFluid(matrices, FluidVariant.of((Fluid) fluidEmiStack.getKey()), x, y, fluidWidth, ((float) fluidEmiStack.getAmount() / capacity) * height, height);
+        }
 
         if (overlay != null) {
             matrices.pushPose();
@@ -85,6 +92,13 @@ public class DynamicFluidSlotWidget extends SlotWidget {
 
         if (this.catalyst) {
             EmiRender.renderCatalystIcon(this.getStack(), matrices, x + 2, y + 4);
+        }
+
+        // TODO: only render these if the corresponding flag is set (where?)
+        if (stack instanceof TagEmiIngredient) {
+            EmiRender.renderTagIcon(stack, matrices, x, y + height - 4);
+        } else if (stack instanceof ListEmiIngredient) {
+            EmiRender.renderIngredientIcon(stack, matrices, x, y + height - 4);
         }
 
         Bounds bounds = getBounds();
@@ -99,6 +113,9 @@ public class DynamicFluidSlotWidget extends SlotWidget {
         if (sprites == null || sprites.length < 1 || sprites[0] == null) {
             return;
         }
+
+        // make sure the fluid doesn't overflow, and render small quantities as 1 pixel tall
+        fluidHeight = Float.max(1.0f, Float.min(fluidHeight, slotHeight));
 
         TextureAtlasSprite sprite = sprites[0];
         RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
@@ -157,11 +174,11 @@ public class DynamicFluidSlotWidget extends SlotWidget {
                                         float width, float height, float r, float g, float b) {
         float x1 = x0 + width;
         float y1 = y0 + height;
-        float uMax = sprite.getU1();
+        float uMin = sprite.getU0();
         float vMax = sprite.getV1();
         float spriteWidth = sprite.getU1() - sprite.getU0();
         float spriteHeight = sprite.getV1() - sprite.getV0();
-        float uMin = uMax - spriteWidth * width / 16f;
+        float uMax = uMin + spriteWidth * width / 16f;
         float vMin = vMax - spriteHeight * height / 16f;
         bufferBuilder.vertex(model, x0, y1, 1.0F).color(r, g, b, 1.0F).uv(uMin, vMax).endVertex();
         bufferBuilder.vertex(model, x1, y1, 1.0F).color(r, g, b, 1.0F).uv(uMax, vMax).endVertex();

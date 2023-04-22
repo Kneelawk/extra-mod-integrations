@@ -21,10 +21,19 @@ public class MoldingEmiRecipe implements EmiRecipe {
   private static final EmiTexture downArrow = new EmiTexture(BACKGROUND_LOC, 70, 55, 6, 6);
   private static final EmiTexture upArrow = new EmiTexture(BACKGROUND_LOC, 76, 55, 6, 6);
 
-  private final MoldingRecipe recipe;
-
+  private final ResourceLocation id;
+  private final EmiIngredient material;
+  private final EmiStack output;
+  private final EmiIngredient pattern;
+  private final boolean isPatternConsumed;
+  private final EmiTexture block;
   public MoldingEmiRecipe(MoldingRecipe recipe) {
-    this.recipe = recipe;
+    id = recipe.getId();
+    isPatternConsumed = recipe.isPatternConsumed();
+    pattern = EmiIngredient.of(recipe.getPattern());
+    material = EmiIngredient.of(recipe.getMaterial());
+    output = EmiStack.of(recipe.getResultItem());
+    block = recipe.getType() == TinkerRecipeTypes.MOLDING_BASIN.get() ? basin : table;
   }
 
   @Override
@@ -34,29 +43,22 @@ public class MoldingEmiRecipe implements EmiRecipe {
 
   @Override
   public @Nullable ResourceLocation getId() {
-    return recipe.getId();
+    return id;
   }
 
   @Override
   public List<EmiIngredient> getInputs() {
-    return List.of(
-      EmiIngredient.of(recipe.getMaterial()),
-      recipe.isPatternConsumed() ? EmiIngredient.of(recipe.getPattern()) : EmiStack.EMPTY
-    );
+    return List.of(material, isPatternConsumed ? pattern : EmiStack.EMPTY);
   }
 
   @Override
   public List<EmiIngredient> getCatalysts() {
-    return List.of(!recipe.isPatternConsumed() ? EmiIngredient.of(recipe.getPattern()) : EmiStack.EMPTY);
+    return List.of(!isPatternConsumed ? pattern : EmiStack.EMPTY);
   }
 
   @Override
   public List<EmiStack> getOutputs() {
-    return List.of(EmiStack.of(recipe.getResultItem()));
-  }
-
-  private EmiIngredient getPattern() {
-    return recipe.isPatternConsumed() ? getInputs().get(1) : getCatalysts().get(0);
+    return List.of(output);
   }
 
   @Override
@@ -74,11 +76,10 @@ public class MoldingEmiRecipe implements EmiRecipe {
     widgets.addTexture(new EmiTexture(BACKGROUND_LOC, 0, 55, 70, 57), 0, 0);
 
     // draw the main block
-    EmiTexture block = recipe.getType() == TinkerRecipeTypes.MOLDING_BASIN.get() ? basin : table;
     widgets.addTexture(block, 3, 40);
 
     // if no mold, we "pickup" the item, so draw no table
-    if (!getPattern().isEmpty()) {
+    if (!pattern.isEmpty()) {
       widgets.addTexture(block, 51, 40);
       widgets.addTexture(downArrow, 8, 17);
     } else {
@@ -86,12 +87,10 @@ public class MoldingEmiRecipe implements EmiRecipe {
     }
 
     // basic input output
-    widgets.addSlot(getInputs().get(0), 2, 23).drawBack(false);
-    widgets.addSlot(getOutputs().get(0), 50, 23).drawBack(false).recipeContext(this);
+    widgets.addSlot(material, 2, 23).drawBack(false);
+    widgets.addSlot(output, 50, 23).drawBack(false).recipeContext(this);
 
-    // if we have a mold, we are pressing into the table, so draw pressed item on input and output
-    EmiIngredient pattern = getPattern();
     if (!pattern.isEmpty())
-      widgets.addSlot(pattern, 2, 0).drawBack(false).catalyst(!recipe.isPatternConsumed());
+      widgets.addSlot(pattern, 2, 0).drawBack(false).catalyst(!isPatternConsumed);
   }
 }

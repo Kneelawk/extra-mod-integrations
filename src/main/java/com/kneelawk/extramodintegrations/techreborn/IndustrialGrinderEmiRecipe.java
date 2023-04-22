@@ -44,9 +44,8 @@ public class IndustrialGrinderEmiRecipe extends TREmiRecipe<IndustrialGrinderRec
     @Override
     public void addWidgets(WidgetHolder widgets) {
         widgets.addSlot(getInput(0), 16 + 22 + 2, 18 * 3 / 2);
-        widgets.add(new DynamicFluidSlotWidget(recipe.getFluidInstance(), 16, (18 * 4 - 56) / 2, 22, 56, 16 * 1000 * 81))
-                .underlay(TRTextures.TANK_BASE)
-                .overlay(TRTextures.TANK_GRADUATION);
+        widgets.addTexture(TRTextures.TANK_BASE, 16, (18 * 4 - 56) / 2);
+        widgets.add(new DynamicFluidSlotWidget(recipe.getFluidInstance(), 20, 12, 14, 48, 16 * 1000 * 81));
 
         for (int i = 0; i < 4; i++) {
             widgets.addSlot(getOutput(i), 16 + 22 + 2 + 18 + 24, i * 18).recipeContext(this);

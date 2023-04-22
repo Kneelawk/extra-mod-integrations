@@ -29,6 +29,7 @@ import org.jetbrains.annotations.Nullable;
 import slimeknights.mantle.client.model.NBTKeyModel;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.GuiUtil;
+import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.recipe.modifiers.adding.IDisplayModifierRecipe;
 import slimeknights.tconstruct.library.tools.SlotType;
 import slimeknights.tconstruct.tools.TinkerModifiers;
@@ -45,17 +46,25 @@ public class ModifierEmiRecipe implements EmiRecipe {
   protected static final ResourceLocation BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/tinker_station.png");
   private final List<EmiIngredient> input = new ArrayList<>();
   private final List<EmiIngredient> tools;
-  private final EmiStack output;
+  private final ModifierEntry entry;
   private final ResourceLocation id;
-  private final IDisplayModifierRecipe recipe;
   private final Map<SlotType,TextureAtlasSprite> slotTypeSprites = new HashMap<>();
+  private final boolean hasRequirements;
+  private final boolean isIncremental;
+  private final int maxLevel;
+  private final SlotType.SlotCount slots;
+  private final String requirementsError;
 
   public ModifierEmiRecipe(IDisplayModifierRecipe recipe) {
     id = recipe.getModifier().getId();
     tools = Stream.of(recipe.getToolWithoutModifier(), recipe.getToolWithModifier()).map(t -> t.stream().map(EmiStack::of).toList()).map(EmiIngredient::of).toList();
     IntStream.range(0, 5).forEachOrdered(i -> input.add(EmiIngredient.of(recipe.getDisplayItems(i).stream().map(EmiStack::of).toList())));
-    output = new ModifierEmiStack(recipe.getDisplayResult());
-    this.recipe = recipe;
+    entry = recipe.getDisplayResult();
+    requirementsError = recipe.getRequirementsError();
+    hasRequirements = recipe.hasRequirements();
+    isIncremental = recipe.isIncremental();
+    maxLevel = recipe.getMaxLevel();
+    slots = recipe.getSlots();
   }
 
   @Override
@@ -75,7 +84,7 @@ public class ModifierEmiRecipe implements EmiRecipe {
 
   @Override
   public List<EmiStack> getOutputs() {
-    return List.of(output);
+    return List.of(new ModifierEmiStack(entry));
   }
 
   @Override
@@ -105,15 +114,15 @@ public class ModifierEmiRecipe implements EmiRecipe {
     drawOutline(widgets, 4,  6, 57);
 
     // info icons
-    if (recipe.hasRequirements()) {
+    if (hasRequirements) {
       widgets.addTexture(BACKGROUND_LOC, 66, 58, 16, 16, 128, 17)
         .tooltip((checkX, checkY) -> {
           if (GuiUtil.isHovered(checkX, checkY, 66, 58, 16, 16))
-            return List.of(ClientTooltipComponent.create(new TranslatableComponent(recipe.getRequirementsError()).getVisualOrderText()));
+            return List.of(ClientTooltipComponent.create(new TranslatableComponent(requirementsError).getVisualOrderText()));
           return null;
         });
     }
-    if (recipe.isIncremental()) {
+    if (isIncremental) {
       widgets.addTexture(BACKGROUND_LOC, 83, 59, 16, 16, 128, 33)
         .tooltip((checkX, checkY) -> {
           if (GuiUtil.isHovered(checkX, checkY, 83, 59, 16, 16))
@@ -123,15 +132,13 @@ public class ModifierEmiRecipe implements EmiRecipe {
     }
 
     // max count
-    int max = recipe.getMaxLevel();
-    if (max > 0) {
-      widgets.addText(new TranslatableComponent("jei.tconstruct.modifiers.max").append(String.valueOf(max)),
+    if (maxLevel > 0) {
+      widgets.addText(new TranslatableComponent("jei.tconstruct.modifiers.max").append(String.valueOf(maxLevel)),
         66, 16, Color.GRAY.getRGB(), false);
     }
 
 
     // slot cost
-    SlotType.SlotCount slots = recipe.getSlots();
     widgets.add(new SlotCountWidget(110, 58, slots));
     if (slots != null) {
       Component text = new TextComponent(Integer.toString(slots.getCount()));
@@ -145,11 +152,8 @@ public class ModifierEmiRecipe implements EmiRecipe {
     widgets.addSlot(input.get(3), 42, 57).drawBack(false);
     widgets.addSlot(input.get(4),  6, 57).drawBack(false);
     // modifiers
-    //widgets.addSlot(output, 3, 3).recipeContext(this);
-    {
-      Component name = recipe.getModifier().getDisplayName(recipe.getDisplayResult().getLevel());
-      widgets.addText(name, 67, 4, -1, true).horizontalAlign(TextWidget.Alignment.CENTER);
-    }
+    widgets.add(new ModifierSlotWidget(entry, 2, 2, 124, 10))
+            .recipeContext(this);
     // tool
     widgets.addSlot(tools.get(0),  24, 37).drawBack(false);
     widgets.addSlot(tools.get(1), 100, 29).drawBack(false).output(true);

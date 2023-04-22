@@ -71,9 +71,8 @@ public class FluidGeneratorEmiRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.add(new DynamicFluidSlotWidget(FluidVariant.of(fluid), 1000 * 81, 0, 0, 22, 56, (long) fluidCapacity * 1000 * 81))
-                .underlay(TRTextures.TANK_BASE)
-                .overlay(TRTextures.TANK_GRADUATION);
+        widgets.addTexture(TRTextures.TANK_BASE, 0, 0);
+        widgets.add(new DynamicFluidSlotWidget(FluidVariant.of(fluid), 1000 * 81, 4, 4, 22 - 8, 56 - 8, (long) fluidCapacity * 1000 * 81));
 
         widgets.addTexture(TRTextures.ARROW_RIGHT_EMPTY, 22 + 4, (56 - 10) / 2);
         widgets.addAnimatedTexture(TRTextures.ARROW_RIGHT_FULL, 22 + 4, (56 - 10) / 2,  1000, true, false, false);
