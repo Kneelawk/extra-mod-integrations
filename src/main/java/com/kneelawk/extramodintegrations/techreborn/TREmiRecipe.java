@@ -21,7 +21,7 @@ public abstract class TREmiRecipe<R extends RebornRecipe> implements EmiRecipe {
         id = recipe.getId();
         inputs = recipe.getRebornIngredients().stream().map(ing -> EmiIngredient.of(ing.getPreview(), ing.getCount()))
             .toList();
-        outputs = recipe.getOutputs().stream().map(EmiStack::of).toList();
+        outputs = recipe.getOutputs(null).stream().map(EmiStack::of).toList();
     }
 
     @Override

@@ -24,7 +24,7 @@ public class RollingMachineEmiRecipe implements EmiRecipe {
         this.recipe = recipe;
         id = recipe.getId();
         input = padIngredients(recipe.getShapedRecipe());
-        output = EmiStack.of(recipe.getOutput());
+        output = EmiStack.of(recipe.getOutput(null));
     }
 
     @Override
