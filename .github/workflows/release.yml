@@ -12,6 +12,7 @@ env:
 # Changes:
 # 2023-04-22 - Kneelawk: Added changes & variant comments. Fixed Grab CF File ID task name. Renamed build job to
 #                        build-release. Reformatted.
+# 2023-04-22 - Kneelawk: Fix references to build job to point to build-release job.
 
 on:
   push:
@@ -49,7 +50,7 @@ jobs:
           path: build/
   github:
     runs-on: ubuntu-latest
-    needs: build
+    needs: build-release
     steps:
       - name: Get Tag Version
         uses: dawidd6/action-get-tag@v1
@@ -70,7 +71,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
   maven:
     runs-on: ubuntu-latest
-    needs: build
+    needs: build-release
     steps:
       - name: Get Tag Version
         uses: dawidd6/action-get-tag@v1
@@ -119,7 +120,7 @@ jobs:
           repository: Kneelawk/kneelawk.github.io
   modrinth:
     runs-on: ubuntu-latest
-    needs: build
+    needs: build-release
     steps:
       - name: Get Tag Version
         uses: dawidd6/action-get-tag@v1
@@ -146,7 +147,7 @@ jobs:
           RELEASE_TAG: ${{ steps.tag_version.outputs.tag }}
   curseforge:
     runs-on: ubuntu-latest
-    needs: build
+    needs: build-release
     steps:
       - name: Get Tag Version
         uses: dawidd6/action-get-tag@v1
