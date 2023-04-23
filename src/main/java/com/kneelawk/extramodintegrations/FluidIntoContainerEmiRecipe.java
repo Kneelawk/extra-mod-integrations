@@ -77,7 +77,7 @@ public class FluidIntoContainerEmiRecipe implements EmiRecipe {
         }
 
         widgets.addSlot(fluid, offset, 0);
-        widgets.addTexture(ExMITextures.RIGHT_ARROW, offset + 18 + 4, 4);
+        widgets.addTexture(ExMITextures.RIGHT_ARROW, offset + 18 + 4, 1);
         widgets.addSlot(container, offset + 18 + 24, 0).recipeContext(this);
     }
 }
