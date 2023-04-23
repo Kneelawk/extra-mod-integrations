@@ -1,0 +1,7 @@
+{
+  "parent": "emi:item/half_item",
+  "textures": {
+    "first": "tconstruct:item/sand_cast/large_plate",
+    "second": "tconstruct:item/red_sand_cast/large_plate"
+  }
+}

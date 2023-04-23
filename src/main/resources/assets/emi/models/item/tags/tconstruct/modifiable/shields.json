@@ -1,0 +1,7 @@
+{
+  "parent": "emi:item/half_item",
+  "textures": {
+    "first": "tconstruct:item/tool/armor/travelers/shield",
+    "second": "tconstruct:item/tool/armor/plate/shield"
+  }
+}

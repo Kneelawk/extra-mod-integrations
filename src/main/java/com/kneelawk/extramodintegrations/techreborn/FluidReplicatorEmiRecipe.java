@@ -1,5 +1,6 @@
 package com.kneelawk.extramodintegrations.techreborn;
 
+import com.kneelawk.extramodintegrations.util.DynamicFluidSlotWidget;
 import com.kneelawk.extramodintegrations.util.UIUtils;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiStack;
@@ -42,7 +43,9 @@ public class FluidReplicatorEmiRecipe extends TREmiRecipe<FluidReplicatorRecipe>
     public void addWidgets(WidgetHolder widgets) {
         widgets.addSlot(getInput(0), 16, (56 - 18) / 2);
 
-        widgets.add(new TRFluidSlotWidget(recipe.getFluidInstance(), 16 + 18 + 24, 0, 16 * 1000 * 81))
+        widgets.addTexture(TRTextures.TANK_BASE, 16 + 18 + 24, 0);
+        widgets.add(new DynamicFluidSlotWidget(recipe.getFluidInstance(), 16 + 18 + 24+4, 4, 14, 48, 16 * 1000 * 81))
+            .overlay(TRTextures.TANK_GRADUATION)
             .recipeContext(this);
 
         TRUIUtils.energyBar(widgets, recipe, 400, 0, 3);

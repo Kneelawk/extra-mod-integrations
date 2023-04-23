@@ -38,6 +38,41 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    maven {
+        // Hephaestus, Mantle, Porting Lib
+        name "devOS"
+        url "https://mvn.devos.one/snapshots"
+    }
+    maven {
+        // Forge Config API Port
+        name "Fuzs Mod Resources"
+        url "https://raw.githubusercontent.com/Fuzss/modresources/main/maven"
+    }
+    maven {
+        // Star
+        name "Wisp Forest"
+        url "https://maven.wispforest.io"
+    }
+    maven {
+        // Cardinal Components API
+        name "Ladysnake"
+        url "https://ladysnake.jfrog.io/artifactory/mods"
+    }
+    maven {
+        // Architectury, REI
+        name "Architectury"
+        url "https://maven.architectury.dev"
+    }
+    maven {
+        // JEI
+        name "BlameJared"
+        url "https://maven.blamejared.com"
+    }
+    maven {
+        // Fabric ASM
+        name "JitPack"
+        url "https://jitpack.io"
+    }
 }
 
 dependencies {
@@ -80,6 +115,13 @@ dependencies {
         dependencies.ext.mod "curse.maven:techreborn-233564:${project.tech_reborn_id}"
         dependencies.ext.mod "curse.maven:reborncore-237903:${project.reborn_core_id}"
         dependencies.ext.mod "teamreborn:energy:${project.energy_version}"
+    }
+
+    if (hephaestus_enabled.toBoolean()) {
+        // i shouldn't need this
+        dependencies.ext.mod "io.github.tropheusj:serialization-hooks:0.4.27"
+        dependencies.ext.mod "slimeknights.mantle:Mantle:${project.mantle_version}"
+        dependencies.ext.mod "slimeknights.tconstruct:Hephaestus:${project.hephaestus_version}"
     }
 
     //

@@ -1,0 +1,11 @@
+{
+  "exclusions": [
+    "tconstruct:wood_variants/planks",
+    "tconstruct:wood_variants/logs",
+    "tconstruct:structure_debug/foundry",
+    "tconstruct:structure_debug/general",
+    "tconstruct:structure_debug/smeltery",
+    "tconstruct:planklike",
+    "tconstruct:seeds"
+  ]
+}

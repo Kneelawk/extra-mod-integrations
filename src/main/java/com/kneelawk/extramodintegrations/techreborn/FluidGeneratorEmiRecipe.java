@@ -1,5 +1,6 @@
 package com.kneelawk.extramodintegrations.techreborn;
 
+import com.kneelawk.extramodintegrations.util.DynamicFluidSlotWidget;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
@@ -70,7 +71,9 @@ public class FluidGeneratorEmiRecipe implements EmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.add(new TRFluidSlotWidget(FluidVariant.of(fluid), 1000 * 81, 0, 0, (long) fluidCapacity * 1000 * 81));
+        widgets.addTexture(TRTextures.TANK_BASE, 0, 0);
+        widgets.add(new DynamicFluidSlotWidget(fluid, 1000 * 81, 4, 4, 14, 48, (long) fluidCapacity * 1000 * 81))
+                .overlay(TRTextures.TANK_GRADUATION);
 
         widgets.addTexture(TRTextures.ARROW_RIGHT_EMPTY, 22 + 4, (56 - 10) / 2);
         widgets.addAnimatedTexture(TRTextures.ARROW_RIGHT_FULL, 22 + 4, (56 - 10) / 2,  1000, true, false, false);

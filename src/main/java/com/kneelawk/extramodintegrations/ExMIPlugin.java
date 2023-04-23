@@ -26,5 +26,6 @@ public class ExMIPlugin implements EmiPlugin {
         registry.addCategory(FLUID_INTO_CONTAINER_CATEGORY);
 
         AbstractTRIntegration.register(registry);
+        AbstractHephaestusIntegration.register(registry);
     }
 }
