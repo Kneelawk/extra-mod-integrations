@@ -82,12 +82,16 @@ dependencies {
             exclude group: "net.fabricmc.fabric-api"
             exclude group: "com.jamieswhiteshirt"
             exclude group: "io.github.prospector"
+            exclude group: "me.shedaniel"
+            exclude group: "mezz.jei"
         }
         modLocalRuntime(dep) {
             exclude group: "net.fabricmc"
             exclude group: "net.fabricmc.fabric-api"
             exclude group: "com.jamieswhiteshirt"
             exclude group: "io.github.prospector"
+            exclude group: "me.shedaniel"
+            exclude group: "mezz.jei"
         }
     }
 
