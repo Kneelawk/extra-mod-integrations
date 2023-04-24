@@ -17,20 +17,20 @@ public class PulverizerEmiRecipe extends IREmiRecipe<PulverizerRecipe> {
 
     @Override
     public int getDisplayWidth() {
-        return 16 + 36 + 53;
+        return 14 + 18 + 36 + 18 * 2;
     }
 
     @Override
     public int getDisplayHeight() {
-        return 44;
+        return 32;
     }
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addSlot(getInput(0), 0, (44 - 18) / 2).recipeContext(this);
-        widgets.addSlot(getOutput(0), 16 + 36, (44 - 26) / 2).recipeContext(this);
-        widgets.addSlot(getOutput(1), 16 + 36 + 26, (44 - 26) / 2).recipeContext(this);
+        widgets.addSlot(getInput(0), 7, (32 - 18) / 2);
+        widgets.addSlot(getOutput(0), 7 + 18 + 36, (32 - 18) / 2).recipeContext(this);
+        widgets.addSlot(getOutput(1), 7 + 18 + 36 + 18, (32 - 18) / 2).recipeContext(this);
 
-        UIUtils.cookArrow(widgets, recipe.getTicks(), 16 + 6, (44 - 18) / 2);
+        UIUtils.cookArrow(widgets, recipe.getTicks(), 7 + 18 + 6, (32 - 16) / 2);
     }
 }

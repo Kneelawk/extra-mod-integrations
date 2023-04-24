@@ -22,20 +22,20 @@ public class SimpleTwoInputEmiRecipe extends IREmiRecipe<IRRecipe> {
 
     @Override
     public int getDisplayWidth() {
-        return 8 + 18 + 36 + 36;
+        return 6 + 18 * 2 + 36 + 26;
     }
 
     @Override
     public int getDisplayHeight() {
-        return 34;
+        return 32;
     }
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addSlot(getInput(0), 4, 4 + (26 - 18) / 2);
-        widgets.addSlot(getInput(1), 4 + 18, 4 + (26 - 18) / 2);
-        widgets.addSlot(getOutput(0), 4 + 18 + 46, 4).output(true).recipeContext(this);
+        widgets.addSlot(getInput(0), 3, (32 - 18) / 2);
+        widgets.addSlot(getInput(1), 3 + 18, (32 - 18) / 2);
+        widgets.addSlot(getOutput(0), 3 + 18 * 2 + 36, 3).output(true).recipeContext(this);
 
-        UIUtils.cookArrow(widgets, recipe.getTicks(), 4 + 18 + 20, 4 + (26 - 18) / 2);
+        UIUtils.cookArrow(widgets, recipe.getTicks(), 3 + 18 * 2 + 6, (32 - 18) / 2);
     }
 }

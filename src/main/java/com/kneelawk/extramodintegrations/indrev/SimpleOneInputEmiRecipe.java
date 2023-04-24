@@ -23,19 +23,19 @@ public class SimpleOneInputEmiRecipe extends IREmiRecipe<IRRecipe> {
 
     @Override
     public int getDisplayWidth() {
-        return 8 + 18 + 36 + 26;
+        return 6 + 18 + 36 + 26;
     }
 
     @Override
     public int getDisplayHeight() {
-        return 34;
+        return 32;
     }
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addSlot(getInput(0), 4, 4 + (26 - 18) / 2);
-        widgets.addSlot(getOutput(0), 4 + 18 + 36, 4).output(true).recipeContext(this);
+        widgets.addSlot(getInput(0), 3, (32 - 18) / 2);
+        widgets.addSlot(getOutput(0), 3 + 18 + 36, 3).output(true).recipeContext(this);
 
-        UIUtils.cookArrow(widgets, recipe.getTicks(), 4 + 18 + 6, 4 + (26 - 18) / 2);
+        UIUtils.cookArrow(widgets, recipe.getTicks(), 3 + 18 + 6, (32 - 18) / 2);
     }
 }

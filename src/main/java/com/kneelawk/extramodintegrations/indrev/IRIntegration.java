@@ -34,7 +34,7 @@ public class IRIntegration extends AbstractIRIntegration {
             EmiRecipeSorting.compareOutputThenInput());
 
     public static final EmiRecipeCategory ELECTROLIC_SEPERATOR_CATEGORY =
-        new EmiRecipeCategory(irId("electrolic_seperator"), ELECTROLYSIS_STACKS[0], ExMITextures.CONDENSING,
+        new EmiRecipeCategory(irId("electrolic_seperator"), ELECTROLYSIS_STACKS[0], ExMITextures.ELECTROLYZING,
             EmiRecipeSorting.compareOutputThenInput());
 
     public static final EmiRecipeCategory SOLID_INFUSER_CATEGORY =
