@@ -23,7 +23,10 @@
 
   "emi.category.indrev.compressor": "Compressing",
   "emi.category.indrev.condenser": "Condensing",
-  "emi.category.indrev.pulverize": "Pulverizer",
+  "emi.category.indrev.pulverizer": "Pulverizing",
+  "emi.category.indrev.solid_infuser": "Infusing",
+  "emi.category.indrev.electrolic_seperator": "Electrolysing",
+  "emi.category.indrev.sawmill": "Milling",
 
   "emi.category.techreborn.alloy_smelter": "Alloy Smelting",
   "emi.category.techreborn.assembling_machine": "Assembling",
