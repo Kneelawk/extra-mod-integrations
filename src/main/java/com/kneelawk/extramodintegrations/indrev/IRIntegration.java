@@ -8,6 +8,7 @@ import dev.emi.emi.api.recipe.EmiRecipeSorting;
 import dev.emi.emi.api.stack.EmiStack;
 import me.steven.indrev.recipes.machines.CompressorRecipe;
 import me.steven.indrev.recipes.machines.CondenserRecipe;
+import me.steven.indrev.recipes.machines.PulverizerRecipe;
 import me.steven.indrev.registry.MachineRegistry;
 
 import net.minecraft.util.Identifier;
@@ -23,11 +24,17 @@ public class IRIntegration extends AbstractIRIntegration {
         getAllTiers(MachineRegistry.Companion.getCOMPRESSOR_FACTORY_REGISTRY());
     public static final EmiStack[] CONDENSER_STACKS = getAllTiers(MachineRegistry.Companion.getCONDENSER_REGISTRY());
 
+    public static final EmiStack[] PULVERIZER_STACKS = getAllTiers(MachineRegistry.Companion.getPULVERIZER_REGISTRY());
+
     public static final EmiRecipeCategory COMPRESSOR_CATEGORY =
         new EmiRecipeCategory(irId("compressor"), COMPRESSOR_STACKS[0], ExMITextures.COMPRESSING,
             EmiRecipeSorting.compareOutputThenInput());
     public static final EmiRecipeCategory CONDENSER_CATEGORY =
         new EmiRecipeCategory(irId("condenser"), CONDENSER_STACKS[0], ExMITextures.CONDENSING,
+            EmiRecipeSorting.compareOutputThenInput());
+
+    public static final EmiRecipeCategory PULVERIZER_CATEGORY =
+        new EmiRecipeCategory(irId("pulverizer"), PULVERIZER_STACKS[0], ExMITextures.GRINDING,
             EmiRecipeSorting.compareOutputThenInput());
 
     @Override
@@ -48,6 +55,12 @@ public class IRIntegration extends AbstractIRIntegration {
         for (EmiStack stack : CONDENSER_STACKS) registry.addWorkstation(CONDENSER_CATEGORY, stack);
         for (CondenserRecipe recipe : registry.getRecipeManager().listAllOfType(CondenserRecipe.Companion.getTYPE())) {
             registry.addRecipe(new CondenserEmiRecipe(recipe));
+        }
+
+        registry.addCategory(PULVERIZER_CATEGORY);
+        for (EmiStack stack : PULVERIZER_STACKS) registry.addWorkstation(PULVERIZER_CATEGORY, stack);
+        for (PulverizerRecipe recipe : registry.getRecipeManager().listAllOfType(PulverizerRecipe.Companion.getTYPE())) {
+            registry.addRecipe(new PulverizerEmiRecipe(recipe));
         }
     }
 
