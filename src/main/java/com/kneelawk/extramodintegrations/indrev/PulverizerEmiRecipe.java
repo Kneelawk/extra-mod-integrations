@@ -12,7 +12,7 @@ public class PulverizerEmiRecipe extends IREmiRecipe<PulverizerRecipe> {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return IRIntegration.PULVERIZER_CATEGORY;
+        return IRIntegration.PULVERIZE_CATEGORY;
     }
 
     @Override

@@ -12,7 +12,7 @@ public class ElectrolysisEmiRecipe extends IRFluidEmiRecipe<ElectrolysisRecipe>{
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return IRIntegration.ELECTROLIC_SEPERATOR_CATEGORY;
+        return IRIntegration.ELECTROLYSIS_CATEGORY;
     }
 
     @Override

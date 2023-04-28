@@ -21,11 +21,11 @@
   "emi.category.extra-mod-integrations.fluid_from_container": "Fluid from Container",
   "emi.category.extra-mod-integrations.fluid_into_container": "Fluid into Container",
 
-  "emi.category.indrev.compressor": "Compressing",
+  "emi.category.indrev.compress": "Compressing",
   "emi.category.indrev.condenser": "Condensing",
-  "emi.category.indrev.pulverizer": "Pulverizing",
-  "emi.category.indrev.solid_infuser": "Infusing",
-  "emi.category.indrev.electrolic_seperator": "Electrolysing",
+  "emi.category.indrev.electrolysis": "Electrolysing",
+  "emi.category.indrev.infuse": "Infusing",
+  "emi.category.indrev.pulverize": "Pulverizing",
   "emi.category.indrev.sawmill": "Milling",
 
   "emi.category.techreborn.alloy_smelter": "Alloy Smelting",
