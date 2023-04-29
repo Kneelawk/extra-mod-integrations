@@ -5,6 +5,7 @@ import java.util.Arrays;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.recipe.EmiRecipeSorting;
+import dev.emi.emi.api.recipe.VanillaEmiRecipeCategories;
 import dev.emi.emi.api.stack.EmiStack;
 import me.steven.indrev.recipes.machines.CompressorRecipe;
 import me.steven.indrev.recipes.machines.CondenserRecipe;
@@ -32,11 +33,19 @@ public class IRIntegration extends AbstractIRIntegration {
     public static final EmiStack[] CONDENSER_STACKS = getAllTiers(MachineRegistry.Companion.getCONDENSER_REGISTRY());
     public static final EmiStack[] ELECTROLYSIS_STACKS =
         getAllTiers(MachineRegistry.Companion.getELECTROLYTIC_SEPARATOR_REGISTRY());
+    public static final EmiStack[] FURNACE_STACKS =
+        getAllTiers(MachineRegistry.Companion.getELECTRIC_FURNACE_REGISTRY());
+    public static final EmiStack[] FURNACE_FACTORY_STACKS =
+        getAllTiers(MachineRegistry.Companion.getELECTRIC_FURNACE_FACTORY_REGISTRY());
     public static final EmiStack[] SOLID_INFUSER_STACKS =
         getAllTiers(MachineRegistry.Companion.getSOLID_INFUSER_REGISTRY());
+    public static final EmiStack[] SOLID_INFUSER_FACTORY_STACKS =
+        getAllTiers(MachineRegistry.Companion.getSOLID_INFUSER_FACTORY_REGISTRY());
     public static final EmiStack[] MODULAR_WORKBENCH_STACKS =
         getAllTiers(MachineRegistry.Companion.getMODULAR_WORKBENCH_REGISTRY());
     public static final EmiStack[] PULVERIZER_STACKS = getAllTiers(MachineRegistry.Companion.getPULVERIZER_REGISTRY());
+    public static final EmiStack[] PULVERIZER_FACTORY_STACKS =
+        getAllTiers(MachineRegistry.Companion.getPULVERIZER_FACTORY_REGISTRY());
     public static final EmiStack[] RECYCLER_STACKS = getAllTiers(MachineRegistry.Companion.getRECYCLER_REGISTRY());
     public static final EmiStack[] SAWMILL_STACKS = getAllTiers(MachineRegistry.Companion.getSAWMILL_REGISTRY());
     public static final EmiStack[] SMELTER_STACKS = getAllTiers(MachineRegistry.Companion.getSMELTER_REGISTRY());
@@ -107,6 +116,7 @@ public class IRIntegration extends AbstractIRIntegration {
         // Solid Infuser
         registry.addCategory(INFUSE_CATEGORY);
         for (EmiStack stack : SOLID_INFUSER_STACKS) registry.addWorkstation(INFUSE_CATEGORY, stack);
+        for (EmiStack stack : SOLID_INFUSER_FACTORY_STACKS) registry.addWorkstation(INFUSE_CATEGORY, stack);
         for (InfuserRecipe recipe : manager.listAllOfType(InfuserRecipe.Companion.getTYPE())) {
             registry.addRecipe(new SimpleTwoInputEmiRecipe(recipe, INFUSE_CATEGORY));
         }
@@ -121,6 +131,7 @@ public class IRIntegration extends AbstractIRIntegration {
         // Pulverizer
         registry.addCategory(PULVERIZE_CATEGORY);
         for (EmiStack stack : PULVERIZER_STACKS) registry.addWorkstation(PULVERIZE_CATEGORY, stack);
+        for (EmiStack stack : PULVERIZER_FACTORY_STACKS) registry.addWorkstation(PULVERIZE_CATEGORY, stack);
         for (PulverizerRecipe recipe : manager.listAllOfType(PulverizerRecipe.Companion.getTYPE())) {
             registry.addRecipe(new PulverizerEmiRecipe(recipe));
         }
@@ -145,6 +156,11 @@ public class IRIntegration extends AbstractIRIntegration {
         for (SmelterRecipe recipe : manager.listAllOfType(SmelterRecipe.Companion.getTYPE())) {
             registry.addRecipe(new SmelterEmiRecipe(recipe));
         }
+
+        // Furnaces
+        for (EmiStack stack : FURNACE_STACKS) registry.addWorkstation(VanillaEmiRecipeCategories.SMELTING, stack);
+        for (EmiStack stack : FURNACE_FACTORY_STACKS)
+            registry.addWorkstation(VanillaEmiRecipeCategories.SMELTING, stack);
     }
 
     private static EmiStack[] getAllTiers(MachineRegistry registry) {
