@@ -14,6 +14,7 @@ import me.steven.indrev.recipes.machines.ModuleRecipe;
 import me.steven.indrev.recipes.machines.PulverizerRecipe;
 import me.steven.indrev.recipes.machines.RecyclerRecipe;
 import me.steven.indrev.recipes.machines.SawmillRecipe;
+import me.steven.indrev.recipes.machines.SmelterRecipe;
 import me.steven.indrev.registry.MachineRegistry;
 
 import net.minecraft.recipe.RecipeManager;
@@ -33,11 +34,12 @@ public class IRIntegration extends AbstractIRIntegration {
         getAllTiers(MachineRegistry.Companion.getELECTROLYTIC_SEPARATOR_REGISTRY());
     public static final EmiStack[] SOLID_INFUSER_STACKS =
         getAllTiers(MachineRegistry.Companion.getSOLID_INFUSER_REGISTRY());
+    public static final EmiStack[] MODULAR_WORKBENCH_STACKS =
+        getAllTiers(MachineRegistry.Companion.getMODULAR_WORKBENCH_REGISTRY());
     public static final EmiStack[] PULVERIZER_STACKS = getAllTiers(MachineRegistry.Companion.getPULVERIZER_REGISTRY());
     public static final EmiStack[] RECYCLER_STACKS = getAllTiers(MachineRegistry.Companion.getRECYCLER_REGISTRY());
     public static final EmiStack[] SAWMILL_STACKS = getAllTiers(MachineRegistry.Companion.getSAWMILL_REGISTRY());
-    public static final EmiStack[] MODULAR_WORKBENCH_STACKS =
-        getAllTiers(MachineRegistry.Companion.getMODULAR_WORKBENCH_REGISTRY());
+    public static final EmiStack[] SMELTER_STACKS = getAllTiers(MachineRegistry.Companion.getSMELTER_REGISTRY());
 
     public static final EmiRecipeCategory COMPRESS_CATEGORY =
         new EmiRecipeCategory(irId("compress"), COMPRESSOR_STACKS[0], ExMITextures.COMPRESSING,
@@ -69,6 +71,10 @@ public class IRIntegration extends AbstractIRIntegration {
 
     public static final EmiRecipeCategory SAWMILL_CATEGORY =
         new EmiRecipeCategory(irId("sawmill"), SAWMILL_STACKS[0], ExMITextures.SAWMILLING,
+            EmiRecipeSorting.compareOutputThenInput());
+
+    public static final EmiRecipeCategory SMELTER_CATEGORY =
+        new EmiRecipeCategory(irId("smelter"), SMELTER_STACKS[0], ExMITextures.METAL_SMELTING,
             EmiRecipeSorting.compareOutputThenInput());
 
     @Override
@@ -131,6 +137,13 @@ public class IRIntegration extends AbstractIRIntegration {
         for (EmiStack stack : SAWMILL_STACKS) registry.addWorkstation(SAWMILL_CATEGORY, stack);
         for (SawmillRecipe recipe : manager.listAllOfType(SawmillRecipe.Companion.getTYPE())) {
             registry.addRecipe(new SawmillEmiRecipe(recipe));
+        }
+
+        // Smelter
+        registry.addCategory(SMELTER_CATEGORY);
+        for (EmiStack stack : SMELTER_STACKS) registry.addWorkstation(SMELTER_CATEGORY, stack);
+        for (SmelterRecipe recipe : manager.listAllOfType(SmelterRecipe.Companion.getTYPE())) {
+            registry.addRecipe(new SmelterEmiRecipe(recipe));
         }
     }
 
