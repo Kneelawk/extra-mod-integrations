@@ -31,6 +31,6 @@ public class ElectrolysisEmiRecipe extends IRFluidEmiRecipe<ElectrolysisRecipe>{
         widgets.add(new IRFluidSlotWidget(getFluidOutput(0), 16 + 27, 1, 8 * 100 * 81));
         widgets.add(new IRFluidSlotWidget(getFluidOutput(1), 16 + 45, 1, 8 * 100 * 81));
 
-        UIUtils.cookArrow(widgets, recipe.getTicks(), 16 + 2, (44 - 18) / 2);
+        UIUtils.cookArrow(widgets, recipe.getTicks(), 16 + 2, (44 - 16) / 2);
     }
 }

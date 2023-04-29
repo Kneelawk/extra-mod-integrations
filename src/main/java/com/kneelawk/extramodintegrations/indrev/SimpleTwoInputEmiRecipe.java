@@ -36,6 +36,6 @@ public class SimpleTwoInputEmiRecipe extends IREmiRecipe<IRRecipe> {
         widgets.addSlot(getInput(1), 3 + 18, (32 - 18) / 2);
         widgets.addSlot(getOutput(0), 3 + 18 * 2 + 36, 3).output(true).recipeContext(this);
 
-        UIUtils.cookArrow(widgets, recipe.getTicks(), 3 + 18 * 2 + 6, (32 - 18) / 2);
+        UIUtils.cookArrow(widgets, recipe.getTicks(), 3 + 18 * 2 + 6, (32 - 16) / 2);
     }
 }
