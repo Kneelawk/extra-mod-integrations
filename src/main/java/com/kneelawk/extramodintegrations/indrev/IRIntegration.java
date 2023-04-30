@@ -14,11 +14,13 @@ import me.steven.indrev.recipes.machines.CondenserRecipe;
 import me.steven.indrev.recipes.machines.ElectrolysisRecipe;
 import me.steven.indrev.recipes.machines.FluidInfuserRecipe;
 import me.steven.indrev.recipes.machines.InfuserRecipe;
+import me.steven.indrev.recipes.machines.LaserRecipe;
 import me.steven.indrev.recipes.machines.ModuleRecipe;
 import me.steven.indrev.recipes.machines.PulverizerRecipe;
 import me.steven.indrev.recipes.machines.RecyclerRecipe;
 import me.steven.indrev.recipes.machines.SawmillRecipe;
 import me.steven.indrev.recipes.machines.SmelterRecipe;
+import me.steven.indrev.registry.IRBlockRegistry;
 import me.steven.indrev.registry.MachineRegistry;
 
 import net.minecraft.recipe.RecipeManager;
@@ -47,6 +49,9 @@ public class IRIntegration extends AbstractIRIntegration {
         getAllTiers(MachineRegistry.Companion.getSOLID_INFUSER_REGISTRY());
     public static final EmiStack[] SOLID_INFUSER_FACTORY_STACKS =
         getAllTiers(MachineRegistry.Companion.getSOLID_INFUSER_FACTORY_REGISTRY());
+    public static final EmiStack[] LASER_EMITTER_STACKS =
+        getAllTiers(MachineRegistry.Companion.getLASER_EMITTER_REGISTRY());
+    public static final EmiStack CAPSULE_STACK = EmiStack.of(IRBlockRegistry.INSTANCE.getCAPSULE_BLOCK());
     public static final EmiStack[] MODULAR_WORKBENCH_STACKS =
         getAllTiers(MachineRegistry.Companion.getMODULAR_WORKBENCH_REGISTRY());
     public static final EmiStack[] PULVERIZER_STACKS = getAllTiers(MachineRegistry.Companion.getPULVERIZER_REGISTRY());
@@ -74,6 +79,10 @@ public class IRIntegration extends AbstractIRIntegration {
 
     public static final EmiRecipeCategory INFUSE_CATEGORY =
         new EmiRecipeCategory(irId("infuse"), SOLID_INFUSER_STACKS[0], ExMITextures.CHEMICAL_REACTING,
+            EmiRecipeSorting.compareOutputThenInput());
+
+    public static final EmiRecipeCategory LASER_CATEGORY =
+        new EmiRecipeCategory(irId("laser"), LASER_EMITTER_STACKS[0], ExMITextures.LASERING,
             EmiRecipeSorting.compareOutputThenInput());
 
     public static final EmiRecipeCategory MODULES_CATEGORY =
@@ -144,6 +153,14 @@ public class IRIntegration extends AbstractIRIntegration {
         }
         registry.addRecipeHandler(ScreenhandlersKt.getSOLID_INFUSER_HANDLER(),
             new SimpleRecipeHandler<>(INFUSE_CATEGORY, List.of(41, 42), 0));
+
+        // Laser
+        registry.addCategory(LASER_CATEGORY);
+        for (EmiStack stack : LASER_EMITTER_STACKS) registry.addWorkstation(LASER_CATEGORY, stack);
+        registry.addWorkstation(LASER_CATEGORY, CAPSULE_STACK);
+        for (LaserRecipe recipe : manager.listAllOfType(LaserRecipe.Companion.getTYPE())) {
+            registry.addRecipe(new LaserEmiRecipe(recipe));
+        }
 
         // Modular Workbench
         registry.addCategory(MODULES_CATEGORY);

@@ -37,6 +37,7 @@ public class ExMITextures {
     public static final EmiTexture RECYCLING = new EmiTexture(SIMPLIFIED_ICONS, 128, 16, 16, 16);
     public static final EmiTexture METAL_SMELTING = new EmiTexture(SIMPLIFIED_ICONS, 144, 16, 16, 16);
     public static final EmiTexture MIXING = new EmiTexture(SIMPLIFIED_ICONS, 160, 16, 16, 16);
+    public static final EmiTexture LASERING = new EmiTexture(SIMPLIFIED_ICONS, 176, 16, 16, 16);
 
     public static final NinePatchTexture SLOT_BG = new NinePatchTexture(WIDGETS, 0, 0, 3, 3, 1, 1, 1, 1, false);
     public static final EmiTexture PLUS_LARGE_SYMBOL = new EmiTexture(WIDGETS, 240, 240, 16, 16);
