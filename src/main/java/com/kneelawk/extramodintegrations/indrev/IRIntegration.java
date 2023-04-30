@@ -10,6 +10,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import me.steven.indrev.recipes.machines.CompressorRecipe;
 import me.steven.indrev.recipes.machines.CondenserRecipe;
 import me.steven.indrev.recipes.machines.ElectrolysisRecipe;
+import me.steven.indrev.recipes.machines.FluidInfuserRecipe;
 import me.steven.indrev.recipes.machines.InfuserRecipe;
 import me.steven.indrev.recipes.machines.ModuleRecipe;
 import me.steven.indrev.recipes.machines.PulverizerRecipe;
@@ -37,6 +38,8 @@ public class IRIntegration extends AbstractIRIntegration {
         getAllTiers(MachineRegistry.Companion.getELECTRIC_FURNACE_REGISTRY());
     public static final EmiStack[] FURNACE_FACTORY_STACKS =
         getAllTiers(MachineRegistry.Companion.getELECTRIC_FURNACE_FACTORY_REGISTRY());
+    public static final EmiStack[] FLUID_INFUSER_STACKS =
+        getAllTiers(MachineRegistry.Companion.getFLUID_INFUSER_REGISTRY());
     public static final EmiStack[] SOLID_INFUSER_STACKS =
         getAllTiers(MachineRegistry.Companion.getSOLID_INFUSER_REGISTRY());
     public static final EmiStack[] SOLID_INFUSER_FACTORY_STACKS =
@@ -60,6 +63,10 @@ public class IRIntegration extends AbstractIRIntegration {
 
     public static final EmiRecipeCategory ELECTROLYSIS_CATEGORY =
         new EmiRecipeCategory(irId("electrolysis"), ELECTROLYSIS_STACKS[0], ExMITextures.ELECTROLYZING,
+            EmiRecipeSorting.compareOutputThenInput());
+
+    public static final EmiRecipeCategory FLUID_INFUSE_CATEGORY =
+        new EmiRecipeCategory(irId("fluid_infuse"), FLUID_INFUSER_STACKS[0], ExMITextures.MIXING,
             EmiRecipeSorting.compareOutputThenInput());
 
     public static final EmiRecipeCategory INFUSE_CATEGORY =
@@ -111,6 +118,13 @@ public class IRIntegration extends AbstractIRIntegration {
         for (EmiStack stack : ELECTROLYSIS_STACKS) registry.addWorkstation(ELECTROLYSIS_CATEGORY, stack);
         for (ElectrolysisRecipe recipe : manager.listAllOfType(ElectrolysisRecipe.Companion.getTYPE())) {
             registry.addRecipe(new ElectrolysisEmiRecipe(recipe));
+        }
+
+        // Fluid Infuser
+        registry.addCategory(FLUID_INFUSE_CATEGORY);
+        for (EmiStack stack : FLUID_INFUSER_STACKS) registry.addWorkstation(FLUID_INFUSE_CATEGORY, stack);
+        for (FluidInfuserRecipe recipe : manager.listAllOfType(FluidInfuserRecipe.Companion.getTYPE())) {
+            registry.addRecipe(new FluidInfuserEmiRecipe(recipe));
         }
 
         // Solid Infuser

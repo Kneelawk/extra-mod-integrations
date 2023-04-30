@@ -27,9 +27,9 @@ public class ElectrolysisEmiRecipe extends IRFluidEmiRecipe<ElectrolysisRecipe>{
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.add(new IRFluidSlotWidget(getFluidInput(0), 0, 1, 8 * 100 * 81));
-        widgets.add(new IRFluidSlotWidget(getFluidOutput(0), 16 + 27, 1, 8 * 100 * 81));
-        widgets.add(new IRFluidSlotWidget(getFluidOutput(1), 16 + 45, 1, 8 * 100 * 81));
+        widgets.add(new IRFluidSlotWidget(getInputFluid(0), 0, 1, 8 * 100 * 81));
+        widgets.add(new IRFluidSlotWidget(getOutputFluid(0), 16 + 27, 1, 8 * 100 * 81));
+        widgets.add(new IRFluidSlotWidget(getOutputFluid(1), 16 + 45, 1, 8 * 100 * 81));
 
         UIUtils.cookArrow(widgets, recipe.getTicks(), 16 + 2, (44 - 16) / 2);
     }

@@ -32,6 +32,6 @@ public class SmelterEmiRecipe extends IRFluidEmiRecipe<SmelterRecipe> {
     public void addWidgets(WidgetHolder widgets) {
         widgets.addSlot(getInput(0), 0, (44 - 18) / 2);
         UIUtils.cookArrow(widgets, recipe.getTicks(), 18 + 6, (44 - 16) / 2);
-        widgets.add(new IRFluidSlotWidget(getFluidOutput(0), 18 + 36, 1, 8 * 100 * 81));
+        widgets.add(new IRFluidSlotWidget(getOutputFluid(0), 18 + 36, 1, 8 * 100 * 81)).recipeContext(this);
     }
 }
