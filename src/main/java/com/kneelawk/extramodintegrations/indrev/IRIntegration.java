@@ -1,12 +1,14 @@
 package com.kneelawk.extramodintegrations.indrev;
 
 import java.util.Arrays;
+import java.util.List;
 
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.recipe.EmiRecipeSorting;
 import dev.emi.emi.api.recipe.VanillaEmiRecipeCategories;
 import dev.emi.emi.api.stack.EmiStack;
+import me.steven.indrev.gui.screenhandlers.ScreenhandlersKt;
 import me.steven.indrev.recipes.machines.CompressorRecipe;
 import me.steven.indrev.recipes.machines.CondenserRecipe;
 import me.steven.indrev.recipes.machines.ElectrolysisRecipe;
@@ -106,6 +108,8 @@ public class IRIntegration extends AbstractIRIntegration {
         for (CompressorRecipe recipe : manager.listAllOfType(CompressorRecipe.Companion.getTYPE())) {
             registry.addRecipe(new SimpleOneInputEmiRecipe(recipe, COMPRESS_CATEGORY));
         }
+        registry.addRecipeHandler(ScreenhandlersKt.getCOMPRESSOR_HANDLER(),
+            new SimpleRecipeHandler<>(COMPRESS_CATEGORY, List.of(41), 0));
 
         // Condenser
         registry.addCategory(CONDENSER_CATEGORY);
@@ -138,6 +142,8 @@ public class IRIntegration extends AbstractIRIntegration {
         for (InfuserRecipe recipe : manager.listAllOfType(InfuserRecipe.Companion.getTYPE())) {
             registry.addRecipe(new SimpleTwoInputEmiRecipe(recipe, INFUSE_CATEGORY));
         }
+        registry.addRecipeHandler(ScreenhandlersKt.getSOLID_INFUSER_HANDLER(),
+            new SimpleRecipeHandler<>(INFUSE_CATEGORY, List.of(41, 42), 0));
 
         // Modular Workbench
         registry.addCategory(MODULES_CATEGORY);
@@ -153,6 +159,8 @@ public class IRIntegration extends AbstractIRIntegration {
         for (PulverizerRecipe recipe : manager.listAllOfType(PulverizerRecipe.Companion.getTYPE())) {
             registry.addRecipe(new PulverizerEmiRecipe(recipe));
         }
+        registry.addRecipeHandler(ScreenhandlersKt.getPULVERIZER_HANDLER(),
+            new SimpleRecipeHandler<>(PULVERIZE_CATEGORY, List.of(41), 0));
 
         // Recycler
         registry.addCategory(RECYCLE_CATEGORY);
@@ -160,6 +168,8 @@ public class IRIntegration extends AbstractIRIntegration {
         for (RecyclerRecipe recipe : manager.listAllOfType(RecyclerRecipe.Companion.getTYPE())) {
             registry.addRecipe(new SimpleOneInputEmiRecipe(recipe, RECYCLE_CATEGORY));
         }
+        registry.addRecipeHandler(ScreenhandlersKt.getRECYCLER_HANDLER(),
+            new SimpleRecipeHandler<>(RECYCLE_CATEGORY, List.of(40), 0));
 
         // Sawmill
         registry.addCategory(SAWMILL_CATEGORY);
@@ -167,6 +177,8 @@ public class IRIntegration extends AbstractIRIntegration {
         for (SawmillRecipe recipe : manager.listAllOfType(SawmillRecipe.Companion.getTYPE())) {
             registry.addRecipe(new SawmillEmiRecipe(recipe));
         }
+        registry.addRecipeHandler(ScreenhandlersKt.getSAWMILL_HANDLER(),
+            new SimpleRecipeHandler<>(SAWMILL_CATEGORY, List.of(41), 0));
 
         // Smelter
         registry.addCategory(SMELTER_CATEGORY);
@@ -175,6 +187,8 @@ public class IRIntegration extends AbstractIRIntegration {
         for (SmelterRecipe recipe : manager.listAllOfType(SmelterRecipe.Companion.getTYPE())) {
             registry.addRecipe(new SmelterEmiRecipe(recipe, maxSmelterVolume));
         }
+        registry.addRecipeHandler(ScreenhandlersKt.getSMELTER_HANDLER(),
+            new SimpleRecipeHandler<>(SMELTER_CATEGORY, List.of(41), 0));
 
         // Furnaces
         for (EmiStack stack : FURNACE_STACKS) registry.addWorkstation(VanillaEmiRecipeCategories.SMELTING, stack);
