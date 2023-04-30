@@ -17,22 +17,22 @@ public class SawmillEmiRecipe extends IREmiRecipe<SawmillRecipe> {
 
     @Override
     public int getDisplayWidth() {
-        return 18 + 36 + 18 * 2;
+        return 4 + 18 + 36 + 18 * 2;
     }
 
     @Override
     public int getDisplayHeight() {
-        return 18 * 2;
+        return 40;
     }
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addSlot(getInput(0), 0, 18 / 2);
-        widgets.addSlot(getOutput(0), 18 + 36, 0).recipeContext(this);
-        widgets.addSlot(getOutput(1), 18 + 36 + 18, 0).recipeContext(this);
-        widgets.addSlot(getOutput(2), 18 + 36, 18).recipeContext(this);
-        widgets.addSlot(getOutput(3), 18 + 36 + 18, 18).recipeContext(this);
+        widgets.addSlot(getInput(0), 2, (40 - 18) / 2);
+        widgets.addSlot(getOutput(0), 2 + 18 + 36, 2).recipeContext(this);
+        widgets.addSlot(getOutput(1), 2 + 18 + 36 + 18, 2).recipeContext(this);
+        widgets.addSlot(getOutput(2), 2 + 18 + 36, 2 + 18).recipeContext(this);
+        widgets.addSlot(getOutput(3), 2 + 18 + 36 + 18, 2 + 18).recipeContext(this);
 
-        UIUtils.cookArrow(widgets, recipe.getTicks(), 18 + 6, (18 * 2 - 16) / 2);
+        UIUtils.cookArrow(widgets, recipe.getTicks(), 2 + 18 + 6, (40 - 16) / 2);
     }
 }
