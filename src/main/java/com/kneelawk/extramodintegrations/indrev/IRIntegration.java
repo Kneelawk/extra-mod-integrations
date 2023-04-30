@@ -25,6 +25,7 @@ import net.minecraft.util.Identifier;
 import com.kneelawk.extramodintegrations.AbstractIRIntegration;
 import com.kneelawk.extramodintegrations.ExMIMod;
 import com.kneelawk.extramodintegrations.ExMITextures;
+import com.kneelawk.extramodintegrations.util.LongHolder;
 
 @SuppressWarnings("unused")
 public class IRIntegration extends AbstractIRIntegration {
@@ -109,22 +110,25 @@ public class IRIntegration extends AbstractIRIntegration {
         // Condenser
         registry.addCategory(CONDENSER_CATEGORY);
         for (EmiStack stack : CONDENSER_STACKS) registry.addWorkstation(CONDENSER_CATEGORY, stack);
+        LongHolder maxCondenserVolume = new LongHolder(800 * 81);
         for (CondenserRecipe recipe : manager.listAllOfType(CondenserRecipe.Companion.getTYPE())) {
-            registry.addRecipe(new CondenserEmiRecipe(recipe));
+            registry.addRecipe(new CondenserEmiRecipe(recipe, maxCondenserVolume));
         }
 
         // Electrolysis
         registry.addCategory(ELECTROLYSIS_CATEGORY);
         for (EmiStack stack : ELECTROLYSIS_STACKS) registry.addWorkstation(ELECTROLYSIS_CATEGORY, stack);
+        LongHolder maxElectrolyzerVolume = new LongHolder(800 * 81);
         for (ElectrolysisRecipe recipe : manager.listAllOfType(ElectrolysisRecipe.Companion.getTYPE())) {
-            registry.addRecipe(new ElectrolysisEmiRecipe(recipe));
+            registry.addRecipe(new ElectrolysisEmiRecipe(recipe, maxElectrolyzerVolume));
         }
 
         // Fluid Infuser
         registry.addCategory(FLUID_INFUSE_CATEGORY);
         for (EmiStack stack : FLUID_INFUSER_STACKS) registry.addWorkstation(FLUID_INFUSE_CATEGORY, stack);
+        LongHolder maxFluidInfuserVolume = new LongHolder(800 * 81);
         for (FluidInfuserRecipe recipe : manager.listAllOfType(FluidInfuserRecipe.Companion.getTYPE())) {
-            registry.addRecipe(new FluidInfuserEmiRecipe(recipe));
+            registry.addRecipe(new FluidInfuserEmiRecipe(recipe, maxFluidInfuserVolume));
         }
 
         // Solid Infuser
@@ -167,8 +171,9 @@ public class IRIntegration extends AbstractIRIntegration {
         // Smelter
         registry.addCategory(SMELTER_CATEGORY);
         for (EmiStack stack : SMELTER_STACKS) registry.addWorkstation(SMELTER_CATEGORY, stack);
+        LongHolder maxSmelterVolume = new LongHolder(800 * 81);
         for (SmelterRecipe recipe : manager.listAllOfType(SmelterRecipe.Companion.getTYPE())) {
-            registry.addRecipe(new SmelterEmiRecipe(recipe));
+            registry.addRecipe(new SmelterEmiRecipe(recipe, maxSmelterVolume));
         }
 
         // Furnaces

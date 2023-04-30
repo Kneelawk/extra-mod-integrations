@@ -2,6 +2,7 @@ package com.kneelawk.extramodintegrations.indrev;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.LongConsumer;
 import java.util.stream.Stream;
 
 import org.jetbrains.annotations.NotNull;
@@ -18,6 +19,7 @@ import net.fabricmc.fabric.api.transfer.v1.storage.base.ResourceAmount;
 import net.minecraft.util.Identifier;
 
 import com.kneelawk.extramodintegrations.ExMIMod;
+import com.kneelawk.extramodintegrations.util.LongHolder;
 
 public abstract class IRFluidEmiRecipe<R extends IRFluidRecipe> implements EmiRecipe {
     protected final R recipe;
@@ -26,8 +28,9 @@ public abstract class IRFluidEmiRecipe<R extends IRFluidRecipe> implements EmiRe
     protected final List<EmiIngredient> inputItems;
     protected final List<EmiStack> outputs;
     protected final List<EmiStack> outputItems;
+    protected final LongHolder capacityHolder;
 
-    protected IRFluidEmiRecipe(R recipe) {
+    protected IRFluidEmiRecipe(R recipe, LongHolder capacityHolder) {
         this.recipe = recipe;
         id = recipe.getIdentifier();
         inputItems =
@@ -43,6 +46,9 @@ public abstract class IRFluidEmiRecipe<R extends IRFluidRecipe> implements EmiRe
             outputItems.stream(),
             Arrays.stream(recipe.getFluidOutput()).map(res -> EmiStack.of(res.resource(), res.amount()))
         ).toList();
+
+        this.capacityHolder = capacityHolder;
+        maxFluidVolumes(capacityHolder);
     }
 
     @Override
@@ -92,7 +98,7 @@ public abstract class IRFluidEmiRecipe<R extends IRFluidRecipe> implements EmiRe
     }
 
     protected EmiIngredient getInputItem(int index) {
-        if (index > inputItems.size()) {
+        if (index >= inputItems.size()) {
             return EmiStack.EMPTY;
         } else {
             return inputs.get(index);
@@ -109,7 +115,7 @@ public abstract class IRFluidEmiRecipe<R extends IRFluidRecipe> implements EmiRe
 
     protected @Nullable ResourceAmount<FluidVariant> getOutputFluid(int index) {
         ResourceAmount<FluidVariant>[] fluidOutputs = recipe.getFluidOutput();
-        if (index > fluidOutputs.length) {
+        if (index >= fluidOutputs.length) {
             return null;
         } else {
             return fluidOutputs[index];
@@ -122,5 +128,35 @@ public abstract class IRFluidEmiRecipe<R extends IRFluidRecipe> implements EmiRe
         } else {
             return outputItems.get(index);
         }
+    }
+
+    protected long getSlotCapacity() {
+        return capacityHolder.getValue();
+    }
+
+    private IRFluidEmiRecipe<R> maxFluidVolumes(LongHolder volumeHolder) {
+        ResourceAmount<FluidVariant>[] fluidInputs = recipe.getFluidInput();
+        ResourceAmount<FluidVariant>[] fluidOutputs = recipe.getFluidOutput();
+        long fluidVolume = volumeHolder.getValue();
+
+        for (int i = 0; i < fluidInputs.length; i++) {
+            ResourceAmount<FluidVariant> fluid = fluidInputs[i];
+            if (fluid.amount() > fluidVolume) {
+                fluidVolume = fluid.amount();
+            }
+        }
+
+        for (int i = 0; i < fluidOutputs.length; i++) {
+            ResourceAmount<FluidVariant> fluid = fluidOutputs[i];
+            if (fluid.amount() > fluidVolume) {
+                fluidVolume = fluid.amount();
+            }
+        }
+
+        if (fluidVolume > volumeHolder.getValue()) {
+            volumeHolder.setValue(fluidVolume);
+        }
+
+        return this;
     }
 }

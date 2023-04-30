@@ -1,13 +1,15 @@
 package com.kneelawk.extramodintegrations.indrev;
 
-import com.kneelawk.extramodintegrations.util.UIUtils;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.widget.WidgetHolder;
 import me.steven.indrev.recipes.machines.ElectrolysisRecipe;
 
-public class ElectrolysisEmiRecipe extends IRFluidEmiRecipe<ElectrolysisRecipe>{
-    protected ElectrolysisEmiRecipe(ElectrolysisRecipe recipe) {
-        super(recipe);
+import com.kneelawk.extramodintegrations.util.LongHolder;
+import com.kneelawk.extramodintegrations.util.UIUtils;
+
+public class ElectrolysisEmiRecipe extends IRFluidEmiRecipe<ElectrolysisRecipe> {
+    protected ElectrolysisEmiRecipe(ElectrolysisRecipe recipe, LongHolder capacityHolder) {
+        super(recipe, capacityHolder);
     }
 
     @Override
@@ -27,9 +29,9 @@ public class ElectrolysisEmiRecipe extends IRFluidEmiRecipe<ElectrolysisRecipe>{
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.add(new IRFluidSlotWidget(getInputFluid(0), 0, 1, 8 * 100 * 81));
-        widgets.add(new IRFluidSlotWidget(getOutputFluid(0), 16 + 27, 1, 8 * 100 * 81));
-        widgets.add(new IRFluidSlotWidget(getOutputFluid(1), 16 + 45, 1, 8 * 100 * 81));
+        widgets.add(new IRFluidSlotWidget(getInputFluid(0), 0, 1, getSlotCapacity()));
+        widgets.add(new IRFluidSlotWidget(getOutputFluid(0), 16 + 27, 1, getSlotCapacity()));
+        widgets.add(new IRFluidSlotWidget(getOutputFluid(1), 16 + 45, 1, getSlotCapacity()));
 
         UIUtils.cookArrow(widgets, recipe.getTicks(), 16 + 2, (44 - 16) / 2);
     }
