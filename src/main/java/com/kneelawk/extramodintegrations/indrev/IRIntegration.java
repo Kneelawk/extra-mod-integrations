@@ -168,6 +168,7 @@ public class IRIntegration extends AbstractIRIntegration {
         for (ModuleRecipe recipe : manager.listAllOfType(ModuleRecipe.Companion.getTYPE())) {
             registry.addRecipe(new ModuleEmiRecipe(recipe));
         }
+        registry.addRecipeHandler(ScreenhandlersKt.getMODULAR_WORKBENCH_HANDLER(), new ModuleRecipeHandler());
 
         // Pulverizer
         registry.addCategory(PULVERIZE_CATEGORY);
