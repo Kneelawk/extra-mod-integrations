@@ -2,7 +2,6 @@ package com.kneelawk.extramodintegrations.util;
 
 import java.util.List;
 
-import dev.emi.emi.EmiPort;
 import dev.emi.emi.api.widget.WidgetHolder;
 
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
@@ -10,6 +9,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.GameRenderer;
@@ -53,6 +53,15 @@ public class UIUtils {
         return gui(suffixes[power], chopped);
     }
 
+    public static void drawSlotHightlight(MatrixStack matrices, int x, int y, int w, int h) {
+        matrices.push();
+        matrices.translate(0, 0, 100);
+        RenderSystem.colorMask(true, true, true, false);
+        DrawableHelper.fill(matrices, x, y, x + w, y + h, -2130706433);
+        RenderSystem.colorMask(true, true, true, true);
+        matrices.pop();
+    }
+
     public static void renderFluid(MatrixStack matrices, FluidVariant fluid, int x, int areaY,
                                    float areaHeight, float fluidHeight, float fluidWidth) {
         Sprite[] sprites = FluidVariantRendering.getSprites(fluid);
@@ -69,7 +78,8 @@ public class UIUtils {
         float r = (float) (color >> 16 & 0xFF) / 256.0F;
         float g = (float) (color >> 8 & 0xFF) / 256.0F;
         float b = (float) (color & 0xFF) / 256.0F;
-        BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
+        Tessellator tess = Tessellator.getInstance();
+        BufferBuilder bufferBuilder = tess.getBuffer();
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR_TEXTURE);
 
         int fluidStripCount = (int) (fluidHeight / FLUID_PATCH_HEIGHT);
@@ -83,7 +93,7 @@ public class UIUtils {
             (float) areaY + areaHeight - FLUID_PATCH_HEIGHT * fluidStripCount - stripRemainder, fluidWidth,
             stripRemainder, r, g, b);
 
-        EmiPort.draw(bufferBuilder);
+        tess.draw();
     }
 
     private static void buildFluidHorizontalStrip(BufferBuilder bufferBuilder, Matrix4f model, Sprite sprite, float x0,

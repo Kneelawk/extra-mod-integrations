@@ -93,7 +93,7 @@ dependencies {
     modLocalRuntime "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     // EMI
-    modImplementation("dev.emi:emi:${project.emi_version}") {
+    modApi("dev.emi:emi:${project.emi_version}:api") {
         transitive = false
     }
 
@@ -120,6 +120,11 @@ dependencies {
     //
     // Stuff we just want to have at runtime
     //
+
+    // EMI (we do want this to be commuted to anything that depends on us)
+    modRuntimeOnly("dev.emi:emi:${project.emi_version}") {
+        transitive = false
+    }
 
     // Mod Menu
     modLocalRuntime("com.terraformersmc:modmenu:${project.mod_menu_version}") {
