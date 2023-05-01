@@ -37,6 +37,7 @@
     "emi": "*"
   },
   "suggests": {
+    "indrev": "*",
     "techreborn": "*"
   }
 }
