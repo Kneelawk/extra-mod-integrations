@@ -50,7 +50,7 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     // EMI
-    modImplementation("dev.emi:emi:${project.emi_version}") {
+    modApi("dev.emi:emi:${project.emi_version}:api") {
         transitive = false
     }
 
@@ -61,6 +61,11 @@ dependencies {
     modRuntimeOnly "curse.maven:reborncore-237903:${project.reborn_core_id}"
     modCompileOnly "teamreborn:energy:${project.energy_version}"
     modRuntimeOnly "teamreborn:energy:${project.energy_version}"
+
+    // EMI (we do want this to be commuted to anything that depends on us)
+    modRuntimeOnly("dev.emi:emi:${project.emi_version}") {
+        transitive = false
+    }
 
     // Mod Menu
     modRuntimeOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
