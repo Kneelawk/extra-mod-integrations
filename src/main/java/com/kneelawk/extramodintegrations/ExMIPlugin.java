@@ -5,6 +5,7 @@ import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.recipe.EmiRecipeSorting;
 import dev.emi.emi.api.stack.EmiStack;
+
 import net.minecraft.item.Items;
 
 import static com.kneelawk.extramodintegrations.ExMIMod.id;
@@ -26,5 +27,6 @@ public class ExMIPlugin implements EmiPlugin {
         registry.addCategory(FLUID_INTO_CONTAINER_CATEGORY);
 
         AbstractTRIntegration.register(registry);
+        AbstractIRIntegration.register(registry);
     }
 }

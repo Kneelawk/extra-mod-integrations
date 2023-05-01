@@ -38,6 +38,32 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+
+    maven {
+        name "CottonMC"
+        url "https://server.bbkr.space/artifactory/libs-release"
+    }
+
+    maven {
+        url = "https://jitpack.io"
+        content {
+            includeGroup "com.github.Technici4n"
+            includeGroup "com.github.Draylar"
+            includeGroup "com.github.GabrielOlvH"
+            includeGroup "com.github.Draylar.omega-config"
+            includeGroup "com.github.emilyploszaj"
+        }
+    }
+
+    maven {
+        name = "Cafeteria Development"
+        url = 'https://maven.cafeteria.dev/releases'
+        content {
+            includeGroup 'dev.cafeteria'
+            includeGroup 'me.luligabi'
+            includeGroup 'net.adriantodt.fabricmc'
+        }
+    }
 }
 
 dependencies {
@@ -82,6 +108,15 @@ dependencies {
         dependencies.ext.mod "teamreborn:energy:${project.energy_version}"
     }
 
+    // Industrial Revolution
+    if (indrev_enabled.toBoolean()) {
+        dependencies.ext.mod "curse.maven:industrial-revolution-391708:${project.indrev_id}"
+        dependencies.ext.mod "net.fabricmc:fabric-language-kotlin:${project.kotlin_version}"
+        dependencies.ext.mod "io.github.cottonmc:LibGui:${project.libgui_version}"
+        dependencies.ext.mod "dev.cafeteria:fake-player-api:${project.fake_player_version}"
+        dependencies.ext.mod "com.github.GabrielOlvH:magna:${project.magna_version}"
+    }
+
     //
     // Stuff we just want to have at runtime
     //
@@ -98,6 +133,9 @@ sourceSets {
         java {
             if (!tech_reborn_enabled.toBoolean()) {
                 exclude('com/kneelawk/extramodintegrations/techreborn')
+            }
+            if (!indrev_enabled.toBoolean()) {
+                exclude('com/kneelawk/extramodintegrations/indrev')
             }
         }
     }
@@ -159,10 +197,10 @@ if (curseApiKey != null) {
             changelogType = 'markdown'
             changelog = rootProject.file("changelogs/changelog-v${modVersion}.md")
             releaseType = project.cfReleaseType
-            project.cfMinecraftVersions.split("\\s*,\\s*").each {addGameVersion(it)}
+            project.cfMinecraftVersions.split("\\s*,\\s*").each { addGameVersion(it) }
             mainArtifact(tasks.remapJar)
             relations {
-                project.cfDependencies.split("\\s*,\\s*").each {requiredDependency(it)}
+                project.cfDependencies.split("\\s*,\\s*").each { requiredDependency(it) }
             }
         }
         options {
