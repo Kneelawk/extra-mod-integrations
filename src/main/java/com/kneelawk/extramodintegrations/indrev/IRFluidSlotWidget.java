@@ -2,10 +2,8 @@ package com.kneelawk.extramodintegrations.indrev;
 
 import org.jetbrains.annotations.Nullable;
 
-import dev.emi.emi.EmiRenderHelper;
 import dev.emi.emi.api.render.EmiRender;
 import dev.emi.emi.api.widget.Bounds;
-import dev.emi.emi.config.EmiConfig;
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.ResourceAmount;
@@ -63,8 +61,9 @@ public class IRFluidSlotWidget extends CustomFluidSlotWidget {
         }
 
         Bounds bounds = getBounds();
-        if (EmiConfig.showHoverOverlay && bounds.contains(mouseX, mouseY)) {
-            EmiRenderHelper.drawSlotHightlight(matrices, bounds.x() + 1, bounds.y() + 1, bounds.width() - 2,
+        // TODO: detect user config slot-hover-overlays
+        if (bounds.contains(mouseX, mouseY)) {
+            UIUtils.drawSlotHightlight(matrices, bounds.x() + 1, bounds.y() + 1, bounds.width() - 2,
                 bounds.height() - 2);
         }
     }
