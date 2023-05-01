@@ -1,9 +1,7 @@
 package com.kneelawk.extramodintegrations.techreborn;
 
-import dev.emi.emi.EmiRenderHelper;
 import dev.emi.emi.api.render.EmiRender;
 import dev.emi.emi.api.widget.Bounds;
-import dev.emi.emi.config.EmiConfig;
 import reborncore.common.fluid.container.FluidInstance;
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
@@ -55,8 +53,9 @@ public class TRFluidSlotWidget extends CustomFluidSlotWidget {
         }
 
         Bounds bounds = getBounds();
-        if (EmiConfig.showHoverOverlay && bounds.contains(mouseX, mouseY)) {
-            EmiRenderHelper.drawSlotHightlight(matrices, bounds.x() + 4, bounds.y() + 4, bounds.width() - 8,
+        // TODO: detect user config slot-hover-overlays
+        if (bounds.contains(mouseX, mouseY)) {
+            UIUtils.drawSlotHightlight(matrices, bounds.x() + 4, bounds.y() + 4, bounds.width() - 8,
                 bounds.height() - 8);
         }
     }
