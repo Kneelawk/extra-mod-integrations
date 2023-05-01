@@ -4,14 +4,14 @@ EMI addon adding support for as many mods as possible.
 
 ## Supported Mods
 
-| Mod                      | Support | Notes                     |
-|--------------------------|:-------:|---------------------------|
-| Tech Reborn              |    ✅   | Added in `v0.1.0`         |
-| Advanced Reborn          |    🔲   |                           |
-| Modern Industrialization |    ❌   | MI supports EMI natively. |
-| Industrial Revolution    |    🚧   |                           |
-| Extra Generators         |    ⁇   |                           |
-| Hephaestus               |    🚧   |                           |
+| Mod                      | Support | Notes                            |
+|--------------------------|:-------:|----------------------------------|
+| Tech Reborn              |    ✅   | Added in `v0.1.0`                |
+| Advanced Reborn          |    🔲   |                                  |
+| Modern Industrialization |    ❌   | MI supports EMI natively.        |
+| Industrial Revolution    |    ✅   |                                  |
+| Extra Generators         |    ⁇   |                                  |
+| Hephaestus               |    ❌   | Hephaestus work moved to 1.19.4. |
 
 ✅: Support Completed<br>
 🚧: Support In Progress<br>
