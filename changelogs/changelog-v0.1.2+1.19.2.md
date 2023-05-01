@@ -4,4 +4,5 @@ Extra Mod Integrations version 0.1.2 for Minecraft 1.19.2
 
 Changes:
 
-* Fixes fluid -> container recipe arrow position.
+* Fixed fluid -> container recipe arrow position.
+* Added support for Industrial Revolution.
