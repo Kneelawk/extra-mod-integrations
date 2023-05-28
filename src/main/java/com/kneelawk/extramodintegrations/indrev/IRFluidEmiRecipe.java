@@ -2,7 +2,6 @@ package com.kneelawk.extramodintegrations.indrev;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.LongConsumer;
 import java.util.stream.Stream;
 
 import org.jetbrains.annotations.NotNull;
@@ -38,13 +37,15 @@ public abstract class IRFluidEmiRecipe<R extends IRFluidRecipe> implements EmiRe
                 .toList();
         inputs = Stream.concat(
             inputItems.stream(),
-            Arrays.stream(recipe.getFluidInput()).map(res -> EmiStack.of(res.resource(), res.amount()))
+            Arrays.stream(recipe.getFluidInput())
+                .map(res -> EmiStack.of(res.resource().getFluid(), res.resource().getNbt(), res.amount()))
         ).toList();
         outputItems = Arrays.stream(recipe.getOutputs())
             .map(entry -> EmiStack.of(entry.getStack()).setChance((float) entry.getChance())).toList();
         outputs = Stream.concat(
             outputItems.stream(),
-            Arrays.stream(recipe.getFluidOutput()).map(res -> EmiStack.of(res.resource(), res.amount()))
+            Arrays.stream(recipe.getFluidOutput())
+                .map(res -> EmiStack.of(res.resource().getFluid(), res.resource().getNbt(), res.amount()))
         ).toList();
 
         this.capacityHolder = capacityHolder;

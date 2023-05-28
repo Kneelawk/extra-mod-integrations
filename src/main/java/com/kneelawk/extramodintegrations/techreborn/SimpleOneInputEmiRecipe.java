@@ -35,7 +35,7 @@ public class SimpleOneInputEmiRecipe extends TREmiRecipe<RebornRecipe> {
     @Override
     public void addWidgets(WidgetHolder widgets) {
         widgets.addSlot(getInput(0), 16, (50 - 18) / 2);
-        widgets.addSlot(getOutput(0), 16 + 18 + 24, (50 - 26) / 2).output(true).recipeContext(this);
+        widgets.addSlot(getOutput(0), 16 + 18 + 24, (50 - 26) / 2).large(true).recipeContext(this);
 
         TRUIUtils.energyBar(widgets, recipe, machineEnergy, 0, 0);
         TRUIUtils.arrowRight(widgets, recipe, 16 + 18 + 4, (50 - 10) / 2);
