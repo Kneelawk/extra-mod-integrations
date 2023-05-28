@@ -67,7 +67,7 @@ public class RollingMachineEmiRecipe implements EmiRecipe {
             }
         }
 
-        widgets.addSlot(output, 16 + 18 * 3 + 24, (18 * 3 - 26) / 2).output(true).recipeContext(this);
+        widgets.addSlot(output, 16 + 18 * 3 + 24, (18 * 3 - 26) / 2).large(true).recipeContext(this);
 
         TRUIUtils.energyBar(widgets, recipe, 10, 0, 2);
         TRUIUtils.arrowRight(widgets, recipe, 16 + 18 * 3 + 4, (18 * 3 - 10) / 2);

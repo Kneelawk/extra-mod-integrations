@@ -19,7 +19,7 @@ public class FluidReplicatorEmiRecipe extends TREmiRecipe<FluidReplicatorRecipe>
         this.capacityHolder = capacityHolder;
         FluidInstance instance = recipe.getFluidInstance();
         long amount = instance.getAmount().getRawValue();
-        fluidOutput = List.of(EmiStack.of(instance.getVariant(), amount));
+        fluidOutput = List.of(EmiStack.of(instance.getFluid(), instance.getTag(), amount));
 
         if (amount > capacityHolder.getValue()) {
             capacityHolder.setValue(amount);

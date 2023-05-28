@@ -32,7 +32,7 @@ public class CondenserEmiRecipe extends IRFluidEmiRecipe<CondenserRecipe> {
     @Override
     public void addWidgets(WidgetHolder widgets) {
         widgets.add(new IRFluidSlotWidget(getInputFluid(0), 0, 1, getSlotCapacity()));
-        widgets.addSlot(getOutput(0), 16 + 36, (44 - 26) / 2).output(true).recipeContext(this);
+        widgets.addSlot(getOutput(0), 16 + 36, (44 - 26) / 2).large(true).recipeContext(this);
 
         UIUtils.cookArrow(widgets, recipe.getTicks(), 16 + 6, (44 - 16) / 2);
     }

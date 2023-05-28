@@ -13,7 +13,7 @@ public class CustomFluidSlotWidget extends SlotWidget {
     protected final @Nullable FluidVariant fluid;
 
     public CustomFluidSlotWidget(@Nullable FluidVariant fluid, long amount, int x, int y, long capacity) {
-        super(fluid == null ? EmiStack.EMPTY : EmiStack.of(fluid, amount), x, y);
+        super(fluid == null ? EmiStack.EMPTY : EmiStack.of(fluid.getFluid(), fluid.getNbt(), amount), x, y);
         fluidFullness = Math.min((float) ((double) amount / (double) capacity), 1.0f);
         this.fluid = fluid;
     }

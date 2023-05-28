@@ -39,7 +39,7 @@ public class ModuleEmiRecipe extends IREmiRecipe<ModuleRecipe> {
             widgets.addSlot(getInput(i), x, y);
         }
 
-        widgets.addSlot(getOutput(0), (18 * 5 - 26) / 2, (18 * 5 - 26) / 2).output(true).recipeContext(this);
+        widgets.addSlot(getOutput(0), (18 * 5 - 26) / 2, (18 * 5 - 26) / 2).large(true).recipeContext(this);
 
         UIUtils.cookTime(widgets, recipe.getTicks(), 0, 0);
     }

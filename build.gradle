@@ -93,7 +93,7 @@ dependencies {
     modLocalRuntime "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     // EMI
-    modApi("dev.emi:emi:${project.emi_version}:api") {
+    modApi("dev.emi:emi-fabric:${project.emi_version}:api") {
         transitive = false
     }
 
@@ -122,7 +122,7 @@ dependencies {
     //
 
     // EMI (we do want this to be commuted to anything that depends on us)
-    modRuntimeOnly("dev.emi:emi:${project.emi_version}") {
+    modRuntimeOnly("dev.emi:emi-fabric:${project.emi_version}") {
         transitive = false
     }
 
