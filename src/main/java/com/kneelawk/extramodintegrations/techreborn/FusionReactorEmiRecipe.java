@@ -34,7 +34,7 @@ public class FusionReactorEmiRecipe extends TREmiRecipe<FusionReactorRecipe> {
     @Override
     public void addWidgets(WidgetHolder widgets) {
         widgets.addSlot(getInput(0), 16, (50 - 18) / 2);
-        widgets.addSlot(getOutput(0), 16 + 18 + 24, (50 - 26) / 2).output(true).recipeContext(this);
+        widgets.addSlot(getOutput(0), 16 + 18 + 24, (50 - 26) / 2).large(true).recipeContext(this);
         widgets.addSlot(getInput(1), 16 + 18 + 24 + 26 + 24, (50 - 18) / 2);
 
         int power = recipe.getPower();

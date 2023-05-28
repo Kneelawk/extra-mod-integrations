@@ -7,6 +7,7 @@ import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.recipe.EmiRecipeSorting;
 import dev.emi.emi.api.recipe.VanillaEmiRecipeCategories;
+import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.util.Identifier;
@@ -330,7 +331,7 @@ public class TRIntegration extends AbstractTRIntegration {
         registry.addWorkstation(VanillaEmiRecipeCategories.SMELTING, ELECTRIC_FURNACE_STACK);
 
         // Cells should be compared with NBT data
-        registry.setDefaultComparison(CELL, comp -> comp.copy().nbt(true).build());
+        registry.setDefaultComparison(CELL, Comparison.compareNbt());
 
         // Fluid into and from Cells
         Identifier cellId = CELL.getId();

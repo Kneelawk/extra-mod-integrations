@@ -22,7 +22,7 @@ public class IndustrialGrinderEmiRecipe extends TREmiRecipe<IndustrialGrinderRec
         FluidInstance instance = recipe.getFluidInstance();
         long amount = instance.getAmount().getRawValue();
         inputsWithFluids =
-            Stream.concat(inputs.stream(), Stream.of(EmiStack.of(instance.getVariant(), amount))).toList();
+            Stream.concat(inputs.stream(), Stream.of(EmiStack.of(instance.getFluid(), instance.getTag(), amount))).toList();
 
         if (amount > capacityHolder.getValue()) {
             capacityHolder.setValue(amount);

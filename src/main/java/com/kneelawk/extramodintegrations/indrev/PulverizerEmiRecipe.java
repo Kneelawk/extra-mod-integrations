@@ -28,7 +28,7 @@ public class PulverizerEmiRecipe extends IREmiRecipe<PulverizerRecipe> {
     @Override
     public void addWidgets(WidgetHolder widgets) {
         widgets.addSlot(getInput(0), 0, (26 - 18) / 2);
-        widgets.addSlot(getOutput(0), 18 + 36, 0).output(true).recipeContext(this);
+        widgets.addSlot(getOutput(0), 18 + 36, 0).large(true).recipeContext(this);
         widgets.addSlot(getOutput(1), 18 + 36 + 4, 26 + 4).recipeContext(this);
 
         UIUtils.cookArrow(widgets, recipe.getTicks(), 18 + 6, (26 - 16) / 2);
