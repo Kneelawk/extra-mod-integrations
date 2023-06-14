@@ -49,7 +49,7 @@ public class UIUtils {
     }
 
     public static Text metricNumber(int number) {
-        int power = MathHelper.clamp((int) Math.log10(number), 0, 9);
+        int power = MathHelper.clamp((int) Math.log10(number), 0, 9) / 3 * 3;
         double chopped = (double) number / Math.pow(10, power);
         return gui(suffixes[power], chopped);
     }
