@@ -10,7 +10,7 @@ import net.fabricmc.fabric.api.transfer.v1.storage.base.ResourceAmount;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 
 import com.kneelawk.extramodintegrations.util.CustomFluidSlotWidget;
 import com.kneelawk.extramodintegrations.util.UIUtils;
@@ -37,33 +37,33 @@ public class IRFluidSlotWidget extends CustomFluidSlotWidget {
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         if (drawBack) {
-            IRTextures.TANK_BOTTOM.render(matrices, x, y, delta);
+            IRTextures.TANK_BOTTOM.render(context, x, y, delta);
         }
 
         if (fluid != null) {
-            UIUtils.renderFluid(matrices, fluid, x + 1, y + 1, FLUID_AREA_HEIGHT, fluidFullness * FLUID_AREA_HEIGHT,
-                FLUID_AREA_WIDTH);
+            UIUtils.renderFluid(context.getMatrices(), fluid, x + 1, y + 1, FLUID_AREA_HEIGHT,
+                fluidFullness * FLUID_AREA_HEIGHT, FLUID_AREA_WIDTH);
         }
 
         if (drawBack) {
             RenderSystem.enableBlend();
-            matrices.push();
-            matrices.translate(0.0, 0.0, 50.0);
-            IRTextures.TANK_TOP.render(matrices, x, y, delta);
-            matrices.pop();
+            context.getMatrices().push();
+            context.getMatrices().translate(0.0, 0.0, 50.0);
+            IRTextures.TANK_TOP.render(context, x, y, delta);
+            context.getMatrices().pop();
             RenderSystem.disableBlend();
         }
 
         if (this.catalyst) {
-            EmiRender.renderCatalystIcon(this.getStack(), matrices, x, y);
+            EmiRender.renderCatalystIcon(this.getStack(), context, x, y);
         }
 
         Bounds bounds = getBounds();
         // TODO: detect user config slot-hover-overlays
         if (bounds.contains(mouseX, mouseY)) {
-            UIUtils.drawSlotHightlight(matrices, bounds.x() + 1, bounds.y() + 1, bounds.width() - 2,
+            UIUtils.drawSlotHightlight(context, bounds.x() + 1, bounds.y() + 1, bounds.width() - 2,
                 bounds.height() - 2);
         }
     }

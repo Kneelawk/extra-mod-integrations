@@ -2,6 +2,8 @@ package com.kneelawk.extramodintegrations.util;
 
 import dev.emi.emi.api.widget.Bounds;
 import dev.emi.emi.api.widget.Widget;
+
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class NinePatchWidget extends Widget {
@@ -22,7 +24,7 @@ public class NinePatchWidget extends Widget {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int i, int i1, float v) {
-        texture.render(matrixStack, x, y, w, h);
+    public void render(DrawContext matrixStack, int i, int i1, float v) {
+        texture.render(matrixStack.getMatrices(), x, y, w, h);
     }
 }

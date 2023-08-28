@@ -38,6 +38,14 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    maven {
+        // Industrial Revolution
+        name "Modrinth"
+        url "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
 
     maven {
         name "CottonMC"
@@ -62,6 +70,14 @@ repositories {
             includeGroup 'dev.cafeteria'
             includeGroup 'me.luligabi'
             includeGroup 'net.adriantodt.fabricmc'
+        }
+    }
+
+    maven {
+        name = "Draylar"
+        url = "https://maven.draylar.dev/releases"
+        content {
+            includeGroup "dev.draylar"
         }
     }
 }
@@ -110,11 +126,11 @@ dependencies {
 
     // Industrial Revolution
     if (indrev_enabled.toBoolean()) {
-        dependencies.ext.mod "curse.maven:industrial-revolution-391708:${project.indrev_id}"
+        dependencies.ext.mod "maven.modrinth:industrial-revolution:${project.indrev_version}"
         dependencies.ext.mod "net.fabricmc:fabric-language-kotlin:${project.kotlin_version}"
         dependencies.ext.mod "io.github.cottonmc:LibGui:${project.libgui_version}"
         dependencies.ext.mod "dev.cafeteria:fake-player-api:${project.fake_player_version}"
-        dependencies.ext.mod "com.github.GabrielOlvH:magna:${project.magna_version}"
+        dependencies.ext.mod "dev.draylar:magna:${project.magna_version}"
     }
 
     //

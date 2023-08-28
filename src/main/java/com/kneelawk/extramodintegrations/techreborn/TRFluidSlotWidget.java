@@ -6,7 +6,7 @@ import reborncore.common.fluid.container.FluidInstance;
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 
 import com.kneelawk.extramodintegrations.util.CustomFluidSlotWidget;
 import com.kneelawk.extramodintegrations.util.UIUtils;
@@ -31,31 +31,31 @@ public class TRFluidSlotWidget extends CustomFluidSlotWidget {
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         if (drawBack) {
-            TRTextures.TANK_BASE.render(matrices, x, y, delta);
+            TRTextures.TANK_BASE.render(context, x, y, delta);
         }
 
         if (fluid != null) {
-            UIUtils.renderFluid(matrices, fluid, x + 4, y + 4, FLUID_AREA_HEIGHT, fluidFullness * FLUID_AREA_HEIGHT,
-                FLUID_AREA_WIDTH);
+            UIUtils.renderFluid(context.getMatrices(), fluid, x + 4, y + 4, FLUID_AREA_HEIGHT,
+                fluidFullness * FLUID_AREA_HEIGHT, FLUID_AREA_WIDTH);
         }
 
         if (drawBack) {
-            matrices.push();
-            matrices.translate(0.0, 0.0, 50.0);
-            TRTextures.TANK_GRADUATION.render(matrices, x + 3, y + 3, delta);
-            matrices.pop();
+            context.getMatrices().push();
+            context.getMatrices().translate(0.0, 0.0, 50.0);
+            TRTextures.TANK_GRADUATION.render(context, x + 3, y + 3, delta);
+            context.getMatrices().pop();
         }
 
         if (this.catalyst) {
-            EmiRender.renderCatalystIcon(this.getStack(), matrices, x + 2, y + 4);
+            EmiRender.renderCatalystIcon(this.getStack(), context, x + 2, y + 4);
         }
 
         Bounds bounds = getBounds();
         // TODO: detect user config slot-hover-overlays
         if (bounds.contains(mouseX, mouseY)) {
-            UIUtils.drawSlotHightlight(matrices, bounds.x() + 4, bounds.y() + 4, bounds.width() - 8,
+            UIUtils.drawSlotHightlight(context, bounds.x() + 4, bounds.y() + 4, bounds.width() - 8,
                 bounds.height() - 8);
         }
     }

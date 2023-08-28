@@ -11,7 +11,7 @@ import org.joml.Matrix4f;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.GameRenderer;
@@ -54,13 +54,13 @@ public class UIUtils {
         return gui(suffixes[power], chopped);
     }
 
-    public static void drawSlotHightlight(MatrixStack matrices, int x, int y, int w, int h) {
-        matrices.push();
-        matrices.translate(0, 0, 100);
+    public static void drawSlotHightlight(DrawContext context, int x, int y, int w, int h) {
+        context.getMatrices().push();
+        context.getMatrices().translate(0, 0, 200);
         RenderSystem.colorMask(true, true, true, false);
-        DrawableHelper.fill(matrices, x, y, x + w, y + h, -2130706433);
+        context.fill(x, y, x + w, y + h, -2130706433);
         RenderSystem.colorMask(true, true, true, true);
-        matrices.pop();
+        context.getMatrices().pop();
     }
 
     public static void renderFluid(MatrixStack matrices, FluidVariant fluid, int x, int areaY,
