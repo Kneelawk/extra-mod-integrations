@@ -133,6 +133,11 @@ dependencies {
         dependencies.ext.mod "dev.draylar:magna:${project.magna_version}"
     }
 
+    // Farmer's Delight
+    if (farmers_delight_enabled.toBoolean()) {
+        dependencies.ext.mod "maven.modrinth:farmers-delight-fabric:${project.farmers_delight_version}"
+    }
+
     //
     // Stuff we just want to have at runtime
     //
