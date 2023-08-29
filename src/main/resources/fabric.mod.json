@@ -38,6 +38,7 @@
   },
   "suggests": {
     "indrev": "*",
-    "techreborn": "*"
+    "techreborn": "*",
+    "conjuring": "*"
   }
 }
