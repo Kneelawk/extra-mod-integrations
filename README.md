@@ -10,7 +10,6 @@ This mod is an addon for the powerful, new recipe viewer [EMI]. This addon adds 
 |--------------------------|:-------:|---------------------------|
 | Tech Reborn              |    ✅   | Added in `v0.1.0`         |
 | Advanced Reborn          |    🔲   |                           |
-| Modern Industrialization |    ❌   | MI supports EMI natively. |
 | Industrial Revolution    |    ✅   | Added in `v0.1.2`         |
 | Extra Generators         |    ⁇   |                           |
 | Hephaestus               |    🚧   |                           |
