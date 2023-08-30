@@ -80,6 +80,15 @@ repositories {
             includeGroup "dev.draylar"
         }
     }
+
+    maven {
+        name = "Wisp Forest"
+        url = "https://maven.wispforest.io/"
+        content {
+            includeGroup "io.wispforest"
+            includeGroup "io.wispforest.lavender-md"
+        }
+    }
 }
 
 dependencies {
@@ -136,6 +145,13 @@ dependencies {
     // Farmer's Delight
     if (farmers_delight_enabled.toBoolean()) {
         dependencies.ext.mod "maven.modrinth:farmers-delight-fabric:${project.farmers_delight_version}"
+    }
+
+    // Conjuring
+    if (conjuring_enabled.toBoolean()) {
+        dependencies.ext.mod "maven.modrinth:conjuring:${project.conjuring_version}"
+        dependencies.ext.mod "io.wispforest:owo-lib:${project.owo_version}"
+        dependencies.ext.mod "io.wispforest:lavender:${project.lavender_version}"
     }
 
     //
