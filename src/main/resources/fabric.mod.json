@@ -39,6 +39,7 @@
   "suggests": {
     "indrev": "*",
     "techreborn": "*",
+    "farmersdelight": "*",
     "conjuring": "*"
   }
 }
