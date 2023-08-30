@@ -179,6 +179,12 @@ sourceSets {
             if (!indrev_enabled.toBoolean()) {
                 exclude('com/kneelawk/extramodintegrations/indrev')
             }
+            if (!farmers_delight_enabled.toBoolean()) {
+                exclude('com/kneelawk/extramodintegrations/farmersdelight')
+            }
+            if (!conjuring_enabled.toBoolean()) {
+                exclude('com/kneelawk/extramodintegrations/conjuring')
+            }
         }
     }
 }
