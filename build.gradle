@@ -207,6 +207,9 @@ sourceSets {
             if (!conjuring_enabled.toBoolean()) {
                 exclude('com/kneelawk/extramodintegrations/conjuring')
             }
+            if (!ae2_enabled.toBoolean()) {
+                exclude('com/kneelawk/extramodintegrations/appeng')
+            }
         }
     }
 }
