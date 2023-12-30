@@ -22,7 +22,6 @@ public class InscriberEmiRecipe implements EmiRecipe {
     private final EmiIngredient top;
     private final EmiIngredient bottom;
     private final List<EmiIngredient> inputs;
-    private final List<EmiIngredient> catalysts;
     private final EmiStack output;
 
     public InscriberEmiRecipe(InscriberRecipe recipe) {
@@ -33,18 +32,19 @@ public class InscriberEmiRecipe implements EmiRecipe {
         bottom = EmiIngredient.of(recipe.getBottomOptional());
         output = EmiStack.of(recipe.getResultItem());
 
-
         inputs = Lists.newArrayList();
-        catalysts = Lists.newArrayList();
         inputs.add(middle);
-        List<EmiIngredient> extraInputs;
-        if (recipe.getProcessType() == InscriberProcessType.PRESS) {
-            extraInputs = inputs;
-        } else {
-            extraInputs = catalysts;
+        inputs.add(top);
+        inputs.add(bottom);
+
+        if (recipe.getProcessType() == InscriberProcessType.INSCRIBE) {
+            top.getEmiStacks().forEach(stack -> {
+                if (!stack.isEmpty()) stack.setRemainder(stack);
+            });
+            bottom.getEmiStacks().forEach(stack -> {
+                if (!stack.isEmpty()) stack.setRemainder(stack);
+            });
         }
-        extraInputs.add(top);
-        extraInputs.add(bottom);
     }
 
     @Override
@@ -55,11 +55,6 @@ public class InscriberEmiRecipe implements EmiRecipe {
     @Override
     public @Nullable Identifier getId() {
         return id;
-    }
-
-    @Override
-    public List<EmiIngredient> getCatalysts() {
-        return catalysts;
     }
 
     @Override
