@@ -135,7 +135,7 @@ public class TRIntegration extends AbstractTRIntegration {
 
     @Override
     protected void registerImpl(EmiRegistry registry) {
-        ExMIMod.LOGGER.info("[Extra Mod Integrations] Loading TechReborn Integration...");
+        ExMIMod.logLoading("Tech Reborn");
 
         // Alloy Smelting
         registry.addCategory(ALLOY_SMELTER_CATEGORY);

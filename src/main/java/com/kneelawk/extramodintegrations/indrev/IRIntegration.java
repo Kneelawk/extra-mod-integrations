@@ -107,7 +107,7 @@ public class IRIntegration extends AbstractIRIntegration {
 
     @Override
     protected void registerImpl(EmiRegistry registry) {
-        ExMIMod.LOGGER.info("[Extra Mod Integrations] Loading Industrial Revolution Integration...");
+        ExMIMod.logLoading("Industrial Revolution");
         RecipeManager manager = registry.getRecipeManager();
 
         // Compressor

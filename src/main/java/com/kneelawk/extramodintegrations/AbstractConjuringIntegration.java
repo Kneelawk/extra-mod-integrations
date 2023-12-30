@@ -26,6 +26,8 @@ public abstract class AbstractConjuringIntegration {
     public static void register(EmiRegistry registry) {
         if (INSTANCE != null) {
             INSTANCE.registerImpl(registry);
+        } else {
+            ExMIMod.logSkipping("Conjuring");
         }
     }
 }

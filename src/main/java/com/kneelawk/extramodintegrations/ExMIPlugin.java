@@ -5,6 +5,7 @@ import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.recipe.EmiRecipeSorting;
 import dev.emi.emi.api.stack.EmiStack;
+
 import net.minecraft.item.Items;
 
 import static com.kneelawk.extramodintegrations.ExMIMod.id;
@@ -29,5 +30,6 @@ public class ExMIPlugin implements EmiPlugin {
         AbstractIRIntegration.register(registry);
         AbstractFDIntegration.register(registry);
         AbstractConjuringIntegration.register(registry);
+        AbstractAE2Integration.register(registry);
     }
 }

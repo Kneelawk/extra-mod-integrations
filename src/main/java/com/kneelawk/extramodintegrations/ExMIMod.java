@@ -1,10 +1,12 @@
 package com.kneelawk.extramodintegrations;
 
-import net.fabricmc.api.ClientModInitializer;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.fabricmc.api.ClientModInitializer;
+
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 public class ExMIMod implements ClientModInitializer {
     public static final String MOD_ID = "extra-mod-integrations";
@@ -13,6 +15,14 @@ public class ExMIMod implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         LOGGER.info("EMI Addon: Extra Mod Integrations!");
+    }
+
+    public static void logLoading(String displayName) {
+        LOGGER.info("[Extra Mod Integrations] Loading {} Integration...", displayName);
+    }
+
+    public static void logSkipping(String displayName) {
+        LOGGER.info("[Extra Mod Integrations] Skipping integration for {} (mod not found)", displayName);
     }
 
     public static Identifier id(String path) {

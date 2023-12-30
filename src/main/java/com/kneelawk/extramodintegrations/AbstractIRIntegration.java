@@ -27,6 +27,8 @@ public abstract class AbstractIRIntegration {
     public static void register(EmiRegistry registry) {
         if (INSTANCE != null) {
             INSTANCE.registerImpl(registry);
+        } else {
+            ExMIMod.logSkipping("Industrial Revolution");
         }
     }
 }

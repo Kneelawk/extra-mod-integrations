@@ -20,6 +20,14 @@ if (System.getenv("RELEASE_TAG") != null) {
     println("Detected Local Version: $modVersion")
 }
 
+loom {
+    runs {
+        client {
+            programArgs("--width", "1280", "--height", "720")
+        }
+    }
+}
+
 archivesBaseName = project.archives_base_name
 version = modVersion
 group = project.maven_group
@@ -89,6 +97,15 @@ repositories {
             includeGroup "io.wispforest.lavender-md"
         }
     }
+
+    maven {
+        // AE2
+        name "Modmaven"
+        url "https://modmaven.dev/"
+        content {
+            includeGroup 'appeng'
+        }
+    }
 }
 
 dependencies {
@@ -152,6 +169,11 @@ dependencies {
         dependencies.ext.mod "maven.modrinth:conjuring:${project.conjuring_version}"
         dependencies.ext.mod "io.wispforest:owo-lib:${project.owo_version}"
         dependencies.ext.mod "io.wispforest:lavender:${project.lavender_version}"
+    }
+
+    // AE2
+    if (ae2_enabled.toBoolean()) {
+        dependencies.ext.mod "appeng:appliedenergistics2-fabric:${project.ae2_version}"
     }
 
     //

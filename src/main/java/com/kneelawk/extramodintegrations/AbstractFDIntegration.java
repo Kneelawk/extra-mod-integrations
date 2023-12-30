@@ -24,6 +24,8 @@ public abstract class AbstractFDIntegration {
     public static void register(EmiRegistry registry) {
         if (INSTANCE != null) {
             INSTANCE.registerImpl(registry);
+        } else {
+            ExMIMod.logSkipping("Farmer's Delight");
         }
     }
 }

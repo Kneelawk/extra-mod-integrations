@@ -50,7 +50,7 @@ public class ConjuringIntegration extends AbstractConjuringIntegration {
 
     @Override
     protected void registerImpl(EmiRegistry registry) {
-        ExMIMod.LOGGER.info("[Extra Mod Integrations] Loading Conjuring Integration...");
+        ExMIMod.logLoading("Conjuring");
 
         // categories
         registry.addCategory(GEM_TINKERING);

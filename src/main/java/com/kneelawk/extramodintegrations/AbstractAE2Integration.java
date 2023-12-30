@@ -8,15 +8,13 @@ import net.fabricmc.loader.api.FabricLoader;
 
 import com.kneelawk.extramodintegrations.util.ReflectionUtils;
 
-public abstract class AbstractTRIntegration {
-    @Nullable
-    public static final AbstractTRIntegration INSTANCE;
+public abstract class AbstractAE2Integration {
+    public static final @Nullable AbstractAE2Integration INSTANCE;
 
     static {
-        if (FabricLoader.getInstance().isModLoaded("techreborn")) {
-            INSTANCE =
-                ReflectionUtils.newIntegrationInstance("com.kneelawk.extramodintegrations.techreborn.TRIntegration",
-                    "Tech Reborn");
+        if (FabricLoader.getInstance().isModLoaded("ae2")) {
+            INSTANCE = ReflectionUtils.newIntegrationInstance("com.kneelawk.extramodintegrations.appeng.AE2Integration",
+                "Applied Energistics 2");
         } else {
             INSTANCE = null;
         }
@@ -28,7 +26,7 @@ public abstract class AbstractTRIntegration {
         if (INSTANCE != null) {
             INSTANCE.registerImpl(registry);
         } else {
-            ExMIMod.logSkipping("Tech Reborn");
+            ExMIMod.logSkipping("Applied Energistics 2");
         }
     }
 }

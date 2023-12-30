@@ -15,12 +15,15 @@ This mod is an addon for the powerful, new recipe viewer [EMI]. This addon adds 
 | Hephaestus               |    🚧   |                           |
 | Farmers' Delight         |    ✅   | Added in `0.4.1`          |
 | Conjuring                |    ✅   | Added in `0.4.1`          |
+| Applied Energistics 2    |    🚧   | Added in `0.4.2`. Does not support terminals. See [AE2 EMI Crafting]. |
 
 ✅: Support Completed<br>
 🚧: Support In Progress<br>
 🔲: Support Planned<br>
 ⁇: Maybe Support Eventually<br>
 ❌: Not Supported<br>
+
+[AE2 EMI Crafting]: https://modrinth.com/mod/ae2-emi-crafting
 
 ## Screenshots
 

@@ -48,7 +48,7 @@ public class FDIntegration extends AbstractFDIntegration {
 
     @Override
     protected void registerImpl(EmiRegistry registry) {
-        ExMIMod.LOGGER.info("[Extra Mod Integrations] Loading Farmer's Delight Integration...");
+        ExMIMod.logLoading("Farmer's Delight");
 
         // categories
         registry.addCategory(COOKING_CATEGORY);
