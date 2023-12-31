@@ -4,6 +4,7 @@ import appeng.core.definitions.AEBlocks;
 import appeng.menu.implementations.InscriberMenu;
 import appeng.recipes.handlers.ChargerRecipe;
 import appeng.recipes.handlers.InscriberRecipe;
+import appeng.recipes.transform.TransformRecipe;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.recipe.EmiRecipeSorting;
@@ -50,6 +51,11 @@ public class AE2Integration extends AbstractAE2Integration {
             registry.addRecipe(new InscriberEmiRecipe(recipe));
         }
         registry.addRecipeHandler(InscriberMenu.TYPE, new InscriberRecipeHandler());
+
+        // Transform (world interaction)
+        for (TransformRecipe recipe : manager.listAllOfType(TransformRecipe.TYPE)) {
+            registry.addRecipe(new TransformEmiRecipe(recipe));
+        }
     }
 
     public static Identifier ae2Id(String path) {

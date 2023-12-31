@@ -11,6 +11,8 @@
   "gui.extra-mod-integrations.metric.format.8": "%.0f M",
   "gui.extra-mod-integrations.metric.format.9": "%.2f G",
   "gui.extra-mod-integrations.ae2.charger": "10 turns or 1600 AE",
+  "gui.extra-mod-integrations.ae2.submerge_in": "Submerge In",
+  "gui.extra-mod-integrations.ae2.explosion": "Explosion",
   "gui.extra-mod-integrations.indrev.energy": "%s LF",
   "gui.extra-mod-integrations.techreborn.heat": "%d Heat",
   "gui.extra-mod-integrations.techreborn.min_size": "Min Size: %d",
