@@ -68,6 +68,9 @@ repositories {
             includeGroup "com.github.GabrielOlvH"
             includeGroup "com.github.Draylar.omega-config"
             includeGroup "com.github.emilyploszaj"
+            includeGroup "com.github.llamalad7.mixinextras"
+            includeGroup "com.github.Chocohead"
+            includeGroup "com.github.bawnorton.mixinsquared"
         }
     }
 
@@ -95,6 +98,7 @@ repositories {
         content {
             includeGroup "io.wispforest"
             includeGroup "io.wispforest.lavender-md"
+            includeGroup "me.alphamode"
         }
     }
 
@@ -106,6 +110,36 @@ repositories {
             includeGroup 'appeng'
         }
     }
+
+    maven {
+        // Hephaestus
+        name "devOS"
+        url "https://mvn.devos.one/snapshots"
+        content {
+            includeGroup "slimeknights.tconstruct"
+            includeGroup "slimeknights.mantle"
+            includeGroup "io.github.tropheusj"
+            includeGroup "io.github.fabricators_of_create.Porting-Lib"
+        }
+    }
+
+    maven {
+        // Cardinal Components API, required by Hephaestus
+        name "Ladysnake"
+        url "https://maven.ladysnake.org/releases"
+        content {
+            includeGroup "dev.onyxstudios.cardinal-components-api"
+        }
+    }
+
+    maven {
+        // Architectury API, required by Hephaestus
+        name "Architectury"
+        url "https://maven.architectury.dev"
+        content {
+            includeGroup "dev.architectury"
+        }
+    }
 }
 
 dependencies {
@@ -115,12 +149,16 @@ dependencies {
             exclude group: "net.fabricmc.fabric-api"
             exclude group: "com.jamieswhiteshirt"
             exclude group: "io.github.prospector"
+            exclude group: "me.shedaniel"
+            exclude group: "mezz.jei"
         }
         modLocalRuntime(dep) {
             exclude group: "net.fabricmc"
             exclude group: "net.fabricmc.fabric-api"
             exclude group: "com.jamieswhiteshirt"
             exclude group: "io.github.prospector"
+            exclude group: "me.shedaniel"
+            exclude group: "mezz.jei"
         }
     }
 
@@ -174,6 +212,11 @@ dependencies {
     // AE2
     if (ae2_enabled.toBoolean()) {
         dependencies.ext.mod "appeng:appliedenergistics2-fabric:${project.ae2_version}"
+    }
+
+    // Hephaestus
+    if (tic_enabled.toBoolean()) {
+        dependencies.ext.mod "slimeknights.tconstruct:Hephaestus:${project.tic_version}"
     }
 
     //
