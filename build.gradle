@@ -217,6 +217,8 @@ dependencies {
     // Hephaestus
     if (tic_enabled.toBoolean()) {
         dependencies.ext.mod "slimeknights.tconstruct:Hephaestus:${project.tic_version}"
+        dependencies.ext.mod "slimeknights.mantle:Mantle:${project.mantle_version}"
+        dependencies.ext.mod "io.github.fabricators_of_create.Porting-Lib:Porting-Lib:${project.porting_lib_version}"
     }
 
     //
