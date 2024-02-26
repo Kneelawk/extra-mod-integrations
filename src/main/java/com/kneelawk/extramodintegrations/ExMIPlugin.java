@@ -31,5 +31,6 @@ public class ExMIPlugin implements EmiPlugin {
         AbstractFDIntegration.register(registry);
         AbstractConjuringIntegration.register(registry);
         AbstractAE2Integration.register(registry);
+        AbstractTiCIntegration.register(registry);
     }
 }

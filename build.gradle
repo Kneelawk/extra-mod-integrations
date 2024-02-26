@@ -258,6 +258,9 @@ sourceSets {
             if (!ae2_enabled.toBoolean()) {
                 exclude('com/kneelawk/extramodintegrations/appeng')
             }
+            if (!tic_enabled.toBoolean()) {
+                exclude('com/kneelawk/extramodintegrations/tconstruct')
+            }
         }
     }
 }
