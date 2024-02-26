@@ -44,7 +44,7 @@ public class TiCCategories {
             EmiStack.of(TinkerSmeltery.foundryController)
     );
     // tinker station
-    public static final EmiRecipeCategory MODIFIER = new EmiRecipeCategory(
+    public static final EmiRecipeCategory MODIFIERS = new EmiRecipeCategory(
             TConstruct.getResource("modifier"),
             EmiStack.of(CreativeSlotItem.withSlot(new ItemStack(TinkerModifiers.creativeSlotItem), SlotType.UPGRADE))
     );
