@@ -2,6 +2,7 @@ package com.kneelawk.extramodintegrations.tconstruct;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Streams;
 import com.kneelawk.extramodintegrations.AbstractTiCIntegration;
 import com.kneelawk.extramodintegrations.tconstruct.recipe.AlloyEmiRecipe;
 import com.kneelawk.extramodintegrations.tconstruct.recipe.MoldingEmiRecipe;
@@ -58,6 +59,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TiCIntegration extends AbstractTiCIntegration {
     @Override
@@ -166,8 +168,8 @@ public class TiCIntegration extends AbstractTiCIntegration {
         // entity melting
         List<EntityMeltingRecipe> entityMeltingRecipes = manager.listAllOfType(TinkerRecipeTypes.ENTITY_MELTING.get());
         // generate a "default" recipe for all other entity types
-        entityMeltingRecipes.add(new DefaultEntityMeltingRecipe(entityMeltingRecipes));
-        entityMeltingRecipes.forEach(entityMeltingRecipe -> registry.addRecipe(new EntityMeltingEmiRecipe(entityMeltingRecipe)));
+        Streams.concat(entityMeltingRecipes.stream(), Stream.of(new DefaultEntityMeltingRecipe(entityMeltingRecipes)))
+                .forEach(entityMeltingRecipe -> registry.addRecipe(new EntityMeltingEmiRecipe(entityMeltingRecipe)));
 
         // alloying
         manager.listAllOfType(TinkerRecipeTypes.ALLOYING.get())

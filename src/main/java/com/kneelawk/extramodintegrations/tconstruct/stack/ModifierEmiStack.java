@@ -18,7 +18,7 @@ public class ModifierEmiStack extends EmiStack {
 
     @Override
     public EmiStack copy() {
-        return null;
+        return new ModifierEmiStack(entry);
     }
 
     @Override
@@ -38,21 +38,21 @@ public class ModifierEmiStack extends EmiStack {
 
     @Override
     public Object getKey() {
-        return null;
+        return entry.getModifier();
     }
 
     @Override
     public Identifier getId() {
-        return null;
+        return entry.getId();
     }
 
     @Override
     public List<Text> getTooltipText() {
-        return null;
+        return List.of();
     }
 
     @Override
     public Text getName() {
-        return null;
+        return entry.getModifier().getDisplayName(entry.getLevel());
     }
 }
