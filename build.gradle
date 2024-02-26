@@ -140,6 +140,15 @@ repositories {
             includeGroup "dev.architectury"
         }
     }
+
+    maven {
+        // Reach Entity Attributes, required by Hephaestus
+        name "JamiesWhiteShirt"
+        url "https://maven.jamieswhiteshirt.com/libs-release"
+        content {
+            includeGroup "com.jamieswhiteshirt"
+        }
+    }
 }
 
 dependencies {
@@ -147,7 +156,6 @@ dependencies {
         modCompileOnly(dep) {
             exclude group: "net.fabricmc"
             exclude group: "net.fabricmc.fabric-api"
-            exclude group: "com.jamieswhiteshirt"
             exclude group: "io.github.prospector"
             exclude group: "me.shedaniel"
             exclude group: "mezz.jei"
@@ -155,7 +163,6 @@ dependencies {
         modLocalRuntime(dep) {
             exclude group: "net.fabricmc"
             exclude group: "net.fabricmc.fabric-api"
-            exclude group: "com.jamieswhiteshirt"
             exclude group: "io.github.prospector"
             exclude group: "me.shedaniel"
             exclude group: "mezz.jei"
