@@ -4,7 +4,6 @@ import dev.emi.emi.api.widget.Bounds;
 import dev.emi.emi.api.widget.Widget;
 
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.math.MatrixStack;
 
 public class NinePatchWidget extends Widget {
     private final NinePatchTexture texture;

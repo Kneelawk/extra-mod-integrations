@@ -2,9 +2,7 @@ package com.kneelawk.extramodintegrations.tconstruct.recipe.entity;
 
 import com.kneelawk.extramodintegrations.tconstruct.TiCCategories;
 import dev.emi.emi.api.recipe.BasicEmiRecipe;
-import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.util.Identifier;
 import slimeknights.tconstruct.library.recipe.modifiers.severing.SeveringRecipe;
 
 public class SeveringEmiRecipe extends BasicEmiRecipe {
