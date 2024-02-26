@@ -1,7 +1,17 @@
 package com.kneelawk.extramodintegrations.tconstruct;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.kneelawk.extramodintegrations.AbstractTiCIntegration;
+import com.kneelawk.extramodintegrations.tconstruct.recipe.AlloyEmiRecipe;
+import com.kneelawk.extramodintegrations.tconstruct.recipe.MoldingEmiRecipe;
+import com.kneelawk.extramodintegrations.tconstruct.recipe.casting.CastingEmiRecipe;
+import com.kneelawk.extramodintegrations.tconstruct.recipe.entity.SeveringEmiRecipe;
+import com.kneelawk.extramodintegrations.tconstruct.recipe.melting.EntityMeltingEmiRecipe;
+import com.kneelawk.extramodintegrations.tconstruct.recipe.melting.MeltingEmiRecipe;
+import com.kneelawk.extramodintegrations.tconstruct.recipe.modifiers.ModifierEmiRecipe;
+import com.kneelawk.extramodintegrations.tconstruct.recipe.modifiers.ModifierWorktableEmiRecipe;
+import com.kneelawk.extramodintegrations.tconstruct.recipe.partbuilder.PartBuilderEmiRecipe;
 import com.kneelawk.extramodintegrations.tconstruct.stack.ModifierEmiStack;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
@@ -28,9 +38,16 @@ import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
+import slimeknights.tconstruct.library.recipe.entitymelting.EntityMeltingRecipe;
+import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
+import slimeknights.tconstruct.library.recipe.material.MaterialRecipe;
+import slimeknights.tconstruct.library.recipe.melting.IMeltingRecipe;
 import slimeknights.tconstruct.library.recipe.modifiers.adding.IDisplayModifierRecipe;
 import slimeknights.tconstruct.library.recipe.molding.MoldingRecipe;
 import slimeknights.tconstruct.library.tools.item.IModifiableDisplay;
+import slimeknights.tconstruct.plugin.jei.entity.DefaultEntityMeltingRecipe;
+import slimeknights.tconstruct.plugin.jei.melting.MeltingFuelHandler;
+import slimeknights.tconstruct.plugin.jei.partbuilder.MaterialItemList;
 import slimeknights.tconstruct.shared.TinkerMaterials;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.smeltery.data.SmelteryCompat;
@@ -130,7 +147,56 @@ public class TiCIntegration extends AbstractTiCIntegration {
     }
 
     private static void registerRecipes(EmiRegistry registry) {
-        // todo
+        RecipeManager manager = registry.getRecipeManager();
+        // casting
+        manager.listAllOfType(TinkerRecipeTypes.CASTING_BASIN.get())
+                .stream()
+                .map(r -> new CastingEmiRecipe(TiCCategories.CASTING_BASIN, r))
+                .forEach(registry::addRecipe);
+        manager.listAllOfType(TinkerRecipeTypes.CASTING_TABLE.get())
+                .stream()
+                .map(r -> new CastingEmiRecipe(TiCCategories.CASTING_TABLE, r))
+                .forEach(registry::addRecipe);
+        // melting
+        List<IMeltingRecipe> meltingRecipes = manager.listAllOfType(TinkerRecipeTypes.MELTING.get());
+        meltingRecipes.forEach(meltingRecipe -> registry.addRecipe(new MeltingEmiRecipe(meltingRecipe, TiCCategories.MELTING)));
+        meltingRecipes.forEach(meltingRecipe -> registry.addRecipe(new MeltingEmiRecipe(meltingRecipe, TiCCategories.FOUNDRY)));
+        MeltingFuelHandler.setMeltngFuels(RecipeHelper.getRecipes(manager, TinkerRecipeTypes.FUEL.get(), MeltingFuel.class));
+
+        // entity melting
+        List<EntityMeltingRecipe> entityMeltingRecipes = manager.listAllOfType(TinkerRecipeTypes.ENTITY_MELTING.get());
+        // generate a "default" recipe for all other entity types
+        entityMeltingRecipes.add(new DefaultEntityMeltingRecipe(entityMeltingRecipes));
+        entityMeltingRecipes.forEach(entityMeltingRecipe -> registry.addRecipe(new EntityMeltingEmiRecipe(entityMeltingRecipe)));
+
+        // alloying
+        manager.listAllOfType(TinkerRecipeTypes.ALLOYING.get())
+                .forEach(alloyRecipe -> registry.addRecipe(new AlloyEmiRecipe(alloyRecipe)));
+
+        // molding
+        List<MoldingRecipe> moldingRecipes = ImmutableList.<MoldingRecipe>builder()
+                .addAll(manager.listAllOfType(TinkerRecipeTypes.MOLDING_TABLE.get()))
+                .addAll(manager.listAllOfType(TinkerRecipeTypes.MOLDING_BASIN.get()))
+                .build();
+        moldingRecipes.forEach(moldingRecipe -> registry.addRecipe(new MoldingEmiRecipe(moldingRecipe)));
+
+        // modifiers
+        manager.listAllOfType(TinkerRecipeTypes.TINKER_STATION.get())
+                .forEach(modifierRecipe -> registry.addRecipe(new ModifierEmiRecipe(modifierRecipe)));
+
+        // beheading
+        manager.listAllOfType(TinkerRecipeTypes.SEVERING.get())
+                .forEach(severingRecipe -> registry.addRecipe(new SeveringEmiRecipe(severingRecipe)));
+
+        // part builder
+        List<MaterialRecipe> materialRecipes = manager.listAllOfType(TinkerRecipeTypes.MATERIAL.get());
+        MaterialItemList.setRecipes(materialRecipes);
+        manager.listAllOfType(TinkerRecipeTypes.PART_BUILDER.get())
+                .forEach(partRecipe -> registry.addRecipe(new PartBuilderEmiRecipe(partRecipe)));
+
+        // modifier worktable
+        manager.listAllOfType(TinkerRecipeTypes.MODIFIER_WORKTABLE.get())
+                .forEach(iModifierWorktableRecipe -> registry.addRecipe(new ModifierWorktableEmiRecipe(iModifierWorktableRecipe)));
     }
 
     private static void removeFluid(EmiRegistry manager, Fluid fluid, Item bucket) {
