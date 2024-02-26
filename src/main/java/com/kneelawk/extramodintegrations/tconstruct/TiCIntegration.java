@@ -9,6 +9,7 @@ import com.kneelawk.extramodintegrations.tconstruct.recipe.MoldingEmiRecipe;
 import com.kneelawk.extramodintegrations.tconstruct.recipe.casting.CastingEmiRecipe;
 import com.kneelawk.extramodintegrations.tconstruct.recipe.entity.SeveringEmiRecipe;
 import com.kneelawk.extramodintegrations.tconstruct.recipe.melting.EntityMeltingEmiRecipe;
+import com.kneelawk.extramodintegrations.tconstruct.recipe.melting.FoundryEmiRecipe;
 import com.kneelawk.extramodintegrations.tconstruct.recipe.melting.MeltingEmiRecipe;
 import com.kneelawk.extramodintegrations.tconstruct.recipe.modifiers.ModifierEmiRecipe;
 import com.kneelawk.extramodintegrations.tconstruct.recipe.modifiers.ModifierWorktableEmiRecipe;
@@ -42,7 +43,7 @@ import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.entitymelting.EntityMeltingRecipe;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
 import slimeknights.tconstruct.library.recipe.material.MaterialRecipe;
-import slimeknights.tconstruct.library.recipe.melting.IMeltingRecipe;
+import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
 import slimeknights.tconstruct.library.recipe.modifiers.adding.IDisplayModifierRecipe;
 import slimeknights.tconstruct.library.recipe.molding.MoldingRecipe;
 import slimeknights.tconstruct.library.tools.item.IModifiableDisplay;
@@ -160,9 +161,9 @@ public class TiCIntegration extends AbstractTiCIntegration {
                 .map(r -> new CastingEmiRecipe(TiCCategories.CASTING_TABLE, r))
                 .forEach(registry::addRecipe);
         // melting
-        List<IMeltingRecipe> meltingRecipes = manager.listAllOfType(TinkerRecipeTypes.MELTING.get());
-        meltingRecipes.forEach(meltingRecipe -> registry.addRecipe(new MeltingEmiRecipe(meltingRecipe, TiCCategories.MELTING)));
-        meltingRecipes.forEach(meltingRecipe -> registry.addRecipe(new MeltingEmiRecipe(meltingRecipe, TiCCategories.FOUNDRY)));
+        List<MeltingRecipe> meltingRecipes = RecipeHelper.getJEIRecipes(manager.listAllOfType(TinkerRecipeTypes.MELTING.get()).stream(), MeltingRecipe.class);
+        meltingRecipes.forEach(meltingRecipe -> registry.addRecipe(new MeltingEmiRecipe(meltingRecipe)));
+        meltingRecipes.forEach(meltingRecipe -> registry.addRecipe(new FoundryEmiRecipe(meltingRecipe)));
         MeltingFuelHandler.setMeltngFuels(RecipeHelper.getRecipes(manager, TinkerRecipeTypes.FUEL.get(), MeltingFuel.class));
 
         // entity melting
