@@ -189,7 +189,7 @@ public class TiCIntegration extends AbstractTiCIntegration {
         moldingRecipes.forEach(moldingRecipe -> registry.addRecipe(new MoldingEmiRecipe(moldingRecipe)));
 
         // modifiers
-        manager.listAllOfType(TinkerRecipeTypes.TINKER_STATION.get())
+        RecipeHelper.getJEIRecipes(manager.listAllOfType(TinkerRecipeTypes.TINKER_STATION.get()).stream(), IDisplayModifierRecipe.class)
                 .forEach(modifierRecipe -> registry.addRecipe(new ModifierEmiRecipe(modifierRecipe)));
 
         // beheading
