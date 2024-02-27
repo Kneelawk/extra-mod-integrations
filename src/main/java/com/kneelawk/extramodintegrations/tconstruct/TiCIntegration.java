@@ -144,10 +144,6 @@ public class TiCIntegration extends AbstractTiCIntegration {
         if (!FabricLoader.getInstance().isModLoaded("ceramics")) {
             removeFluid(registry, TinkerFluids.moltenPorcelain.get(), TinkerFluids.moltenPorcelain.asItem());
         }
-        optionalCast(registry, TinkerSmeltery.plateCast);
-        optionalCast(registry, TinkerSmeltery.gearCast);
-        optionalCast(registry, TinkerSmeltery.coinCast);
-        optionalCast(registry, TinkerSmeltery.wireCast);
         optionalItem(registry, TinkerMaterials.necroniumBone, "uranium_ingots");
     }
 
