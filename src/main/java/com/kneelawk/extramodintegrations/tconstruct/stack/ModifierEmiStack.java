@@ -1,10 +1,15 @@
 package com.kneelawk.extramodintegrations.tconstruct.stack;
 
 import dev.emi.emi.api.stack.EmiStack;
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
+import net.fabricmc.loader.api.metadata.ModMetadata;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import slimeknights.tconstruct.library.client.modifiers.ModifierIconManager;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
@@ -53,6 +58,22 @@ public class ModifierEmiStack extends EmiStack {
     public List<TooltipComponent> getTooltip() {
         List<TooltipComponent> list = new ArrayList<>();
         list.add(TooltipComponent.of(getName().asOrderedText()));
+        list.addAll(entry.getModifier().getDescriptionList(entry.getLevel())
+                .stream()
+                .map(Text::asOrderedText)
+                .map(TooltipComponent::of)
+                .toList());
+
+        if (MinecraftClient.getInstance().options.advancedItemTooltips) {
+            list.add(TooltipComponent.of(Text.literal(getId().toString()).formatted(Formatting.DARK_GRAY).asOrderedText()));
+        }
+        String namespace = getId().getNamespace();
+        String mod = FabricLoader.getInstance()
+                .getModContainer(namespace)
+                .map(ModContainer::getMetadata)
+                .map(ModMetadata::getName)
+                .orElse(namespace);
+        list.add(TooltipComponent.of(Text.literal(mod).formatted(Formatting.BLUE, Formatting.ITALIC).asOrderedText()));
         list.addAll(super.getTooltip());
         return list;
     }
