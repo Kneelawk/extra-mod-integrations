@@ -20,6 +20,7 @@ import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.recipe.VanillaEmiRecipeCategories;
 import dev.emi.emi.api.stack.Comparison;
+import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.fluid.Fluid;
@@ -35,7 +36,6 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
-import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.common.registration.CastItemObject;
@@ -50,7 +50,6 @@ import slimeknights.tconstruct.library.recipe.material.MaterialRecipe;
 import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
 import slimeknights.tconstruct.library.recipe.modifiers.adding.IDisplayModifierRecipe;
 import slimeknights.tconstruct.library.recipe.molding.MoldingRecipe;
-import slimeknights.tconstruct.library.tools.item.IModifiableDisplay;
 import slimeknights.tconstruct.library.tools.nbt.MaterialIdNBT;
 import slimeknights.tconstruct.library.tools.part.IMaterialItem;
 import slimeknights.tconstruct.plugin.jei.entity.DefaultEntityMeltingRecipe;
@@ -118,9 +117,7 @@ public class TiCIntegration extends AbstractTiCIntegration {
         registry.addWorkstation(TiCCategories.FOUNDRY, EmiStack.of(TinkerSmeltery.foundryController));
 
         // modifiers
-        for (RegistryEntry<Item> item : Objects.requireNonNull(Registries.ITEM.iterateEntries(TinkerTags.Items.MELEE))) {
-            registry.addWorkstation(TiCCategories.SEVERING, EmiStack.of(IModifiableDisplay.getDisplayStack(item.value())));
-        }
+        registry.addWorkstation(TiCCategories.SEVERING, EmiIngredient.of(TinkerTags.Items.MELEE));
     }
 
     private static void registerEntries(EmiRegistry registry) {
