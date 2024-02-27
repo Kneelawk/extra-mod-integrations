@@ -6,7 +6,8 @@ import com.google.common.collect.Streams;
 import com.kneelawk.extramodintegrations.AbstractTiCIntegration;
 import com.kneelawk.extramodintegrations.tconstruct.recipe.AlloyEmiRecipe;
 import com.kneelawk.extramodintegrations.tconstruct.recipe.MoldingEmiRecipe;
-import com.kneelawk.extramodintegrations.tconstruct.recipe.casting.CastingEmiRecipe;
+import com.kneelawk.extramodintegrations.tconstruct.recipe.casting.CastingBasinEmiRecipe;
+import com.kneelawk.extramodintegrations.tconstruct.recipe.casting.CastingTableEmiRecipe;
 import com.kneelawk.extramodintegrations.tconstruct.recipe.entity.SeveringEmiRecipe;
 import com.kneelawk.extramodintegrations.tconstruct.recipe.melting.EntityMeltingEmiRecipe;
 import com.kneelawk.extramodintegrations.tconstruct.recipe.melting.FoundryEmiRecipe;
@@ -40,6 +41,7 @@ import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
+import slimeknights.tconstruct.library.recipe.casting.IDisplayableCastingRecipe;
 import slimeknights.tconstruct.library.recipe.entitymelting.EntityMeltingRecipe;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
 import slimeknights.tconstruct.library.recipe.material.MaterialRecipe;
@@ -152,13 +154,13 @@ public class TiCIntegration extends AbstractTiCIntegration {
     private static void registerRecipes(EmiRegistry registry) {
         RecipeManager manager = registry.getRecipeManager();
         // casting
-        manager.listAllOfType(TinkerRecipeTypes.CASTING_BASIN.get())
+        RecipeHelper.getJEIRecipes(manager.listAllOfType(TinkerRecipeTypes.CASTING_BASIN.get()).stream(), IDisplayableCastingRecipe.class)
                 .stream()
-                .map(r -> new CastingEmiRecipe(TiCCategories.CASTING_BASIN, r))
+                .map(CastingBasinEmiRecipe::new)
                 .forEach(registry::addRecipe);
-        manager.listAllOfType(TinkerRecipeTypes.CASTING_TABLE.get())
+        RecipeHelper.getJEIRecipes(manager.listAllOfType(TinkerRecipeTypes.CASTING_TABLE.get()).stream(), IDisplayableCastingRecipe.class)
                 .stream()
-                .map(r -> new CastingEmiRecipe(TiCCategories.CASTING_TABLE, r))
+                .map(CastingTableEmiRecipe::new)
                 .forEach(registry::addRecipe);
         // melting
         List<MeltingRecipe> meltingRecipes = RecipeHelper.getJEIRecipes(manager.listAllOfType(TinkerRecipeTypes.MELTING.get()).stream(), MeltingRecipe.class);
