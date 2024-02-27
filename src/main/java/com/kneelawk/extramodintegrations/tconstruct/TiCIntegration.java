@@ -19,6 +19,7 @@ import com.kneelawk.extramodintegrations.tconstruct.stack.ModifierEmiStack;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.recipe.VanillaEmiRecipeCategories;
+import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiStack;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.fluid.Fluid;
@@ -34,6 +35,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.common.registration.CastItemObject;
@@ -49,6 +51,8 @@ import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
 import slimeknights.tconstruct.library.recipe.modifiers.adding.IDisplayModifierRecipe;
 import slimeknights.tconstruct.library.recipe.molding.MoldingRecipe;
 import slimeknights.tconstruct.library.tools.item.IModifiableDisplay;
+import slimeknights.tconstruct.library.tools.nbt.MaterialIdNBT;
+import slimeknights.tconstruct.library.tools.part.IMaterialItem;
 import slimeknights.tconstruct.plugin.jei.entity.DefaultEntityMeltingRecipe;
 import slimeknights.tconstruct.plugin.jei.melting.MeltingFuelHandler;
 import slimeknights.tconstruct.plugin.jei.partbuilder.MaterialItemList;
@@ -56,6 +60,8 @@ import slimeknights.tconstruct.shared.TinkerMaterials;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.smeltery.data.SmelteryCompat;
 import slimeknights.tconstruct.tables.TinkerTables;
+import slimeknights.tconstruct.tools.TinkerTools;
+import slimeknights.tconstruct.tools.item.ArmorSlotType;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -68,6 +74,7 @@ public class TiCIntegration extends AbstractTiCIntegration {
     @Override
     protected void registerImpl(EmiRegistry registry) {
         registerCategories(registry);
+        registerComparisons(registry);
         registerEntries(registry);
         registerRecipes(registry);
     }
@@ -198,6 +205,15 @@ public class TiCIntegration extends AbstractTiCIntegration {
         // modifier worktable
         manager.listAllOfType(TinkerRecipeTypes.MODIFIER_WORKTABLE.get())
                 .forEach(iModifierWorktableRecipe -> registry.addRecipe(new ModifierWorktableEmiRecipe(iModifierWorktableRecipe)));
+    }
+
+    private static void registerComparisons(EmiRegistry registry) {
+        final Comparison compareToolMaterials = Comparison.compareData(s -> MaterialIdNBT.from(s.getItemStack()));
+        final Comparison comparePartMaterial = Comparison.compareData(s -> IMaterialItem.getMaterialFromStack(s.getItemStack()));
+
+        getTag(TinkerTags.Items.TOOL_PARTS)
+                .forEach(i -> registry.setDefaultComparison(i.value(), comparePartMaterial));
+        registry.setDefaultComparison(TinkerTools.slimesuit.get(ArmorSlotType.HELMET), compareToolMaterials);
     }
 
     private static void removeFluid(EmiRegistry manager, Fluid fluid, Item bucket) {
