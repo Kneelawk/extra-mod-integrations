@@ -50,6 +50,7 @@ import slimeknights.tconstruct.library.recipe.material.MaterialRecipe;
 import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
 import slimeknights.tconstruct.library.recipe.modifiers.adding.IDisplayModifierRecipe;
 import slimeknights.tconstruct.library.recipe.molding.MoldingRecipe;
+import slimeknights.tconstruct.library.recipe.partbuilder.IDisplayPartBuilderRecipe;
 import slimeknights.tconstruct.library.tools.nbt.MaterialIdNBT;
 import slimeknights.tconstruct.library.tools.part.IMaterialItem;
 import slimeknights.tconstruct.plugin.jei.entity.DefaultEntityMeltingRecipe;
@@ -196,7 +197,7 @@ public class TiCIntegration extends AbstractTiCIntegration {
         // part builder
         List<MaterialRecipe> materialRecipes = manager.listAllOfType(TinkerRecipeTypes.MATERIAL.get());
         MaterialItemList.setRecipes(materialRecipes);
-        manager.listAllOfType(TinkerRecipeTypes.PART_BUILDER.get())
+        RecipeHelper.getJEIRecipes(manager.listAllOfType(TinkerRecipeTypes.PART_BUILDER.get()).stream(), IDisplayPartBuilderRecipe.class)
                 .forEach(partRecipe -> registry.addRecipe(new PartBuilderEmiRecipe(partRecipe)));
 
         // modifier worktable
