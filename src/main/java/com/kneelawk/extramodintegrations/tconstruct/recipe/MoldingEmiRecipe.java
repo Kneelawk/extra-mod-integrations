@@ -59,4 +59,9 @@ public class MoldingEmiRecipe extends BasicEmiRecipe {
         widgets.addTexture(BACKGROUND_LOC, 3, 40, 16, 16, 117, type == TinkerRecipeTypes.MOLDING_BASIN.get() ? 16 : 0);
         widgets.addTexture(BACKGROUND_LOC, 8, 17, 6, 6, pattern.isEmpty() ? 76 : 70, 55);
     }
+
+    @Override
+    public boolean supportsRecipeTree() {
+        return false;
+    }
 }
