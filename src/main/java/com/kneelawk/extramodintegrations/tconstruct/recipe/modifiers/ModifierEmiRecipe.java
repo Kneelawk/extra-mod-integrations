@@ -26,7 +26,10 @@ import slimeknights.tconstruct.library.recipe.modifiers.adding.IDisplayModifierR
 import slimeknights.tconstruct.library.tools.SlotType;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 public class ModifierEmiRecipe extends BasicEmiRecipe {
@@ -97,6 +100,12 @@ public class ModifierEmiRecipe extends BasicEmiRecipe {
         });
     }
 
+    private void drawSlot(WidgetHolder widgets, List<EmiIngredient> stacks, int slot, int x, int y) {
+        if (stacks.get(slot).isEmpty()) {
+            widgets.addTexture(BACKGROUND_LOC, x + 1, y + 1, 16, 16, 128 + slot * 16, 0);
+        }
+    }
+
     @Override
     public void addWidgets(WidgetHolder widgets) {
         widgets.addTexture(BACKGROUND_LOC, 0, 0, 128, 77, 0, 0);
@@ -142,6 +151,12 @@ public class ModifierEmiRecipe extends BasicEmiRecipe {
         widgets.addSlot(outputs.get(0), 104, 10)
                 .drawBack(false)
                 .recipeContext(this);
+
+        drawSlot(widgets, inputs, 0, 2, 32);
+        drawSlot(widgets, inputs, 1, 24, 14);
+        drawSlot(widgets, inputs, 2, 46, 32);
+        drawSlot(widgets, inputs, 3, 42, 57);
+        drawSlot(widgets, inputs, 4, 6, 57);
 
         if (hasRequirements) {
             widgets.addTexture(BACKGROUND_LOC, 66, 58, 16, 16, 128, 17)
