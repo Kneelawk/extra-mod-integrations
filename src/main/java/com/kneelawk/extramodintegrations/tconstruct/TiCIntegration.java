@@ -22,6 +22,7 @@ import dev.emi.emi.api.recipe.VanillaEmiRecipeCategories;
 import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.widget.Bounds;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.Inventory;
@@ -35,6 +36,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
+import slimeknights.mantle.client.screen.MultiModuleScreen;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
@@ -77,6 +79,7 @@ public class TiCIntegration extends AbstractTiCIntegration {
         registerComparisons(registry);
         registerEntries(registry);
         registerRecipes(registry);
+        registerExclusionAreas(registry);
     }
 
     private static void registerCategories(EmiRegistry registry) {
@@ -212,6 +215,16 @@ public class TiCIntegration extends AbstractTiCIntegration {
         getTag(TinkerTags.Items.TOOL_PARTS)
                 .forEach(i -> registry.setDefaultComparison(i.value(), comparePartMaterial));
         registry.setDefaultComparison(TinkerTools.slimesuit.get(ArmorSlotType.HELMET), compareToolMaterials);
+    }
+
+    private static void registerExclusionAreas(EmiRegistry registry) {
+        registry.addGenericExclusionArea((screen, consumer) -> {
+            if (screen instanceof MultiModuleScreen<?> mm) {
+                mm.getModuleAreas().stream()
+                        .map(r -> new Bounds(r.getX(), r.getY(), r.getWidth(), r.getHeight()))
+                        .forEach(consumer::accept);
+            }
+        });
     }
 
     private static void removeFluid(EmiRegistry manager, Fluid fluid, Item bucket) {
