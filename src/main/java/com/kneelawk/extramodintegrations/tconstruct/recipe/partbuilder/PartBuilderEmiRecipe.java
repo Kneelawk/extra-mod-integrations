@@ -53,8 +53,9 @@ public class PartBuilderEmiRecipe extends BasicEmiRecipe {
         widgets.addSlot(pattern, 45, 15)
                 .drawBack(false);
 
-        widgets.addSlot(outputs.get(0), 95, 14)
+        widgets.addSlot(outputs.get(0), 91, 10)
                 .drawBack(false)
+                .large(true)
                 .recipeContext(this);
     }
 }
