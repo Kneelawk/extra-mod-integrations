@@ -70,8 +70,8 @@ public class ModifierEmiRecipe extends BasicEmiRecipe {
     @Override
     public List<EmiIngredient> getInputs() {
         return Stream.concat(
-                inputs.stream(),
-                Stream.of(toolWithoutModifier)
+                Stream.of(toolWithoutModifier),
+                inputs.stream()
         ).toList();
     }
 
