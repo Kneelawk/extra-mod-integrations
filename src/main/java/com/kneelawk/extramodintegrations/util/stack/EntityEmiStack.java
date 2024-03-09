@@ -49,7 +49,7 @@ public class EntityEmiStack extends EmiStack {
             Mouse mouse = MinecraftClient.getInstance().mouse;
             float mouseX = (float) mouse.getX() + x;
             float mouseY = (float) mouse.getY() + y;
-            InventoryScreen.drawEntity(draw, x + 8, y + 16, 8, mouseX, mouseY, entity);
+            InventoryScreen.drawEntity(draw, x + 8, y + 16, 8, 0, 0, entity);
         }
         if ((flags & RENDER_REMAINDER) != 0) {
             EmiRender.renderRemainderIcon(this, draw, x, y);
