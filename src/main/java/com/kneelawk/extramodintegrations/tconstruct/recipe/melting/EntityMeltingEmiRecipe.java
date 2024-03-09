@@ -3,6 +3,7 @@ package com.kneelawk.extramodintegrations.tconstruct.recipe.melting;
 import com.kneelawk.extramodintegrations.tconstruct.TiCCategories;
 import com.kneelawk.extramodintegrations.tconstruct.Util;
 import com.kneelawk.extramodintegrations.util.stack.EntityEmiStack;
+import com.kneelawk.extramodintegrations.util.widget.ScaledSlotWidget;
 import dev.emi.emi.api.recipe.BasicEmiRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
@@ -41,7 +42,7 @@ public class EntityMeltingEmiRecipe extends BasicEmiRecipe {
         widgets.addText(Text.literal(Float.toString(damage / 2f)), 84, 8, 0xff0000, false)
                 .horizontalAlign(TextWidget.Alignment.END);
 
-        widgets.addSlot(inputs.get(0), 18, 10)
+        widgets.add(new ScaledSlotWidget(inputs.get(0), 17, 9, 2))
                 .drawBack(false);
 
         widgets.addSlot(EmiIngredient.of(MeltingFuelHandler.getUsableFuels(1).stream().map(Util::convertFluid).toList()), 74, 42)

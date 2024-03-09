@@ -2,6 +2,7 @@ package com.kneelawk.extramodintegrations.tconstruct.recipe.entity;
 
 import com.kneelawk.extramodintegrations.tconstruct.TiCCategories;
 import com.kneelawk.extramodintegrations.util.stack.EntityEmiStack;
+import com.kneelawk.extramodintegrations.util.widget.ScaledSlotWidget;
 import dev.emi.emi.api.recipe.BasicEmiRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
@@ -29,8 +30,8 @@ public class SeveringEmiRecipe extends BasicEmiRecipe {
     public void addWidgets(WidgetHolder widgets) {
         widgets.addTexture(BACKGROUND_LOC, 0, 0, 100, 38, 0, 78);
 
-        widgets.addSlot(inputs.get(0), 2, 2)
-                        .drawBack(false);
+        widgets.add(new ScaledSlotWidget(inputs.get(0), 1, 1, 2))
+                .drawBack(false);
 
         widgets.addSlot(outputs.get(0), 71, 6)
                 .drawBack(false)
