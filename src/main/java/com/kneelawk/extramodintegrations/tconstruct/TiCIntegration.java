@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.kneelawk.extramodintegrations.AbstractTiCIntegration;
+import com.kneelawk.extramodintegrations.tconstruct.handler.CraftingStationHandler;
 import com.kneelawk.extramodintegrations.tconstruct.recipe.AlloyEmiRecipe;
 import com.kneelawk.extramodintegrations.tconstruct.recipe.MoldingEmiRecipe;
 import com.kneelawk.extramodintegrations.tconstruct.recipe.casting.CastingBasinEmiRecipe;
@@ -80,6 +81,7 @@ public class TiCIntegration extends AbstractTiCIntegration {
         registerEntries(registry);
         registerRecipes(registry);
         registerExclusionAreas(registry);
+        registerHandlers(registry);
     }
 
     private static void registerCategories(EmiRegistry registry) {
@@ -225,6 +227,10 @@ public class TiCIntegration extends AbstractTiCIntegration {
                         .forEach(consumer::accept);
             }
         });
+    }
+
+    private static void registerHandlers(EmiRegistry registry) {
+        registry.addRecipeHandler(TinkerTables.craftingStationContainer.get(), new CraftingStationHandler());
     }
 
     private static void removeFluid(EmiRegistry manager, Fluid fluid, Item bucket) {
