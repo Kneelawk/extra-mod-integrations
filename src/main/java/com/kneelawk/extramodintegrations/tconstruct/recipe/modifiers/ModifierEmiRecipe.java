@@ -58,7 +58,7 @@ public class ModifierEmiRecipe extends BasicEmiRecipe {
                 EmiIngredient.of(recipe.getDisplayItems(3).stream().map(EmiStack::of).toList()),
                 EmiIngredient.of(recipe.getDisplayItems(4).stream().map(EmiStack::of).toList())
         );
-        this.outputs = List.of(new ModifierEmiStack(recipe.getDisplayResult()));
+        this.outputs = List.of(ModifierEmiStack.of(recipe.getDisplayResult()));
         this.hasRequirements = recipe.hasRequirements();
         this.isIncremental = recipe.isIncremental();
         this.maxLevel = recipe.getMaxLevel();

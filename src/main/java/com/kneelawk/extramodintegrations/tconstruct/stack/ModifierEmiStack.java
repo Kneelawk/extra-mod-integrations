@@ -1,6 +1,7 @@
 package com.kneelawk.extramodintegrations.tconstruct.stack;
 
 import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.stack.serializer.EmiStackSerializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
@@ -13,6 +14,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import slimeknights.tconstruct.library.client.modifiers.ModifierIconManager;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
+import slimeknights.tconstruct.library.modifiers.ModifierId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +22,12 @@ import java.util.List;
 public class ModifierEmiStack extends EmiStack {
     private final ModifierEntry entry;
 
-    public ModifierEmiStack(ModifierEntry entry) {
+    private ModifierEmiStack(ModifierEntry entry) {
         this.entry = entry;
+    }
+
+    public static EmiStack of(ModifierEntry entry) {
+        return new ModifierEmiStack(entry);
     }
 
     @Override
@@ -41,7 +47,9 @@ public class ModifierEmiStack extends EmiStack {
 
     @Override
     public NbtCompound getNbt() {
-        return null;
+        NbtCompound tag = new NbtCompound();
+        tag.putInt("level", entry.getLevel());
+        return tag;
     }
 
     @Override
@@ -86,5 +94,17 @@ public class ModifierEmiStack extends EmiStack {
     @Override
     public Text getName() {
         return entry.getModifier().getDisplayName(entry.getLevel());
+    }
+
+    public static class Serializer implements EmiStackSerializer<ModifierEmiStack> {
+        @Override
+        public EmiStack create(Identifier id, NbtCompound nbt, long amount) {
+            return new ModifierEmiStack(new ModifierEntry(new ModifierId(id), nbt.getInt("level")));
+        }
+
+        @Override
+        public String getType() {
+            return "tconstruct_modifier";
+        }
     }
 }

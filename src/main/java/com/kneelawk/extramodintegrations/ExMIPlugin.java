@@ -1,5 +1,6 @@
 package com.kneelawk.extramodintegrations;
 
+import dev.emi.emi.api.EmiInitRegistry;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
@@ -32,5 +33,10 @@ public class ExMIPlugin implements EmiPlugin {
         AbstractConjuringIntegration.register(registry);
         AbstractAE2Integration.register(registry);
         AbstractTiCIntegration.register(registry);
+    }
+
+    @Override
+    public void initialize(EmiInitRegistry registry) {
+        AbstractTiCIntegration.initialize(registry);
     }
 }

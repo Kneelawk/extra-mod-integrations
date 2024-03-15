@@ -18,6 +18,7 @@ import com.kneelawk.extramodintegrations.tconstruct.recipe.modifiers.ModifierEmi
 import com.kneelawk.extramodintegrations.tconstruct.recipe.modifiers.ModifierWorktableEmiRecipe;
 import com.kneelawk.extramodintegrations.tconstruct.recipe.partbuilder.PartBuilderEmiRecipe;
 import com.kneelawk.extramodintegrations.tconstruct.stack.ModifierEmiStack;
+import dev.emi.emi.api.EmiInitRegistry;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.recipe.VanillaEmiRecipeCategories;
@@ -85,6 +86,11 @@ public class TiCIntegration extends AbstractTiCIntegration {
         registerHandlers(registry);
     }
 
+    @Override
+    protected void initializeImpl(EmiInitRegistry registry) {
+        registry.addIngredientSerializer(ModifierEmiStack.class, new ModifierEmiStack.Serializer());
+    }
+
     private static void registerCategories(EmiRegistry registry) {
         // casting
         registry.addCategory(TiCCategories.CASTING_BASIN);
@@ -140,7 +146,7 @@ public class TiCIntegration extends AbstractTiCIntegration {
                     .collect(Collectors.toList());
         }
 
-        modifiers.forEach(entry -> registry.addEmiStack(new ModifierEmiStack(entry)));
+        modifiers.forEach(entry -> registry.addEmiStack(ModifierEmiStack.of(entry)));
 
         // hide knightslime and slimesteel until implemented
         removeFluid(registry, TinkerFluids.moltenSoulsteel.get(), TinkerFluids.moltenSoulsteel.asItem());

@@ -38,7 +38,7 @@ public class ModifierWorktableEmiRecipe extends BasicEmiRecipe {
             displayItems.add(EmiIngredient.of(recipe.getDisplayItems(i).stream().map(EmiStack::of).toList()));
         }
         this.displayItems = displayItems;
-        this.modifier = EmiIngredient.of(recipe.getModifierOptions(null).stream().map(ModifierEmiStack::new).toList());
+        this.modifier = EmiIngredient.of(recipe.getModifierOptions(null).stream().map(ModifierEmiStack::of).toList());
         this.isModifierOutput = recipe.isModifierOutput();
 
         this.title = recipe.getTitle();

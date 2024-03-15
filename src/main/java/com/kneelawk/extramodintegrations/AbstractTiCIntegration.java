@@ -1,6 +1,7 @@
 package com.kneelawk.extramodintegrations;
 
 import com.kneelawk.extramodintegrations.util.ReflectionUtils;
+import dev.emi.emi.api.EmiInitRegistry;
 import dev.emi.emi.api.EmiRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import org.jetbrains.annotations.Nullable;
@@ -18,10 +19,19 @@ public abstract class AbstractTiCIntegration {
     }
 
     protected abstract void registerImpl(EmiRegistry registry);
+    protected abstract void initializeImpl(EmiInitRegistry registry);
 
     public static void register(EmiRegistry registry) {
         if (INSTANCE != null) {
             INSTANCE.registerImpl(registry);
+        } else {
+            ExMIMod.logSkipping("Hephaestus");
+        }
+    }
+
+    public static void initialize(EmiInitRegistry registry) {
+        if (INSTANCE != null) {
+            INSTANCE.initializeImpl(registry);
         } else {
             ExMIMod.logSkipping("Hephaestus");
         }
