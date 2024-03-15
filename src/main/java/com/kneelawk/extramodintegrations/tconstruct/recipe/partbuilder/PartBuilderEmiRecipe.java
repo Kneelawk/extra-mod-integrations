@@ -58,4 +58,9 @@ public class PartBuilderEmiRecipe extends BasicEmiRecipe {
                 .large(true)
                 .recipeContext(this);
     }
+
+    @Override
+    public boolean supportsRecipeTree() {
+        return false;
+    }
 }
