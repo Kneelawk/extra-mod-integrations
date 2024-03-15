@@ -1,5 +1,6 @@
 package com.kneelawk.extramodintegrations.tconstruct;
 
+import com.kneelawk.extramodintegrations.ExMITextures;
 import com.kneelawk.extramodintegrations.util.NamedEmiRecipeCategory;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.render.EmiTexture;
@@ -18,11 +19,13 @@ public class TiCCategories {
     public static final EmiRecipeCategory CASTING_BASIN = new NamedEmiRecipeCategory(
             TConstruct.getResource("casting_basin"),
             EmiStack.of(TinkerSmeltery.searedBasin),
+            new EmiTexture(ExMITextures.SIMPLIFIED_ICONS, 208, 16, 16, 16),
             TConstruct.makeTranslation("jei", "casting.basin")
     );
     public static final EmiRecipeCategory CASTING_TABLE = new NamedEmiRecipeCategory(
             TConstruct.getResource("casting_table"),
             EmiStack.of(TinkerSmeltery.searedTable),
+            new EmiTexture(ExMITextures.SIMPLIFIED_ICONS, 224, 16, 16, 16),
             TConstruct.makeTranslation("jei", "casting.table")
     );
     public static final EmiRecipeCategory MOLDING = new NamedEmiRecipeCategory(
@@ -34,11 +37,13 @@ public class TiCCategories {
     public static final EmiRecipeCategory MELTING = new NamedEmiRecipeCategory(
             TConstruct.getResource("melting"),
             EmiStack.of(TinkerSmeltery.searedMelter),
+            new EmiTexture(ExMITextures.SIMPLIFIED_ICONS, 240, 16, 16, 16),
             TConstruct.makeTranslation("jei", "melting.title")
     );
     public static final EmiRecipeCategory ALLOY = new NamedEmiRecipeCategory(
             TConstruct.getResource("alloy"),
             EmiStack.of(TinkerSmeltery.smelteryController),
+            new EmiTexture(ExMITextures.SIMPLIFIED_ICONS, 0, 32, 16, 16),
             TConstruct.makeTranslation("jei", "alloy.title")
     );
     public static final EmiRecipeCategory ENTITY_MELTING = new NamedEmiRecipeCategory(
@@ -49,12 +54,14 @@ public class TiCCategories {
     public static final EmiRecipeCategory FOUNDRY = new NamedEmiRecipeCategory(
             TConstruct.getResource("foundry"),
             EmiStack.of(TinkerSmeltery.foundryController),
+            new EmiTexture(ExMITextures.SIMPLIFIED_ICONS, 0, 32, 16, 16),
             TConstruct.makeTranslation("jei", "foundry.title")
     );
     // tinker station
     public static final EmiRecipeCategory MODIFIERS = new NamedEmiRecipeCategory(
             TConstruct.getResource("modifier"),
             EmiStack.of(CreativeSlotItem.withSlot(new ItemStack(TinkerModifiers.creativeSlotItem), SlotType.UPGRADE)),
+            new EmiTexture(ExMITextures.SIMPLIFIED_ICONS, 16, 32, 16, 16),
             TConstruct.makeTranslation("jei", "modifiers.title")
     );
     public static final EmiRecipeCategory SEVERING = new NamedEmiRecipeCategory(

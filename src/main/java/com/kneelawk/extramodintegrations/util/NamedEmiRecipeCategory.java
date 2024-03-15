@@ -13,6 +13,11 @@ public class NamedEmiRecipeCategory extends EmiRecipeCategory {
         this.name = name;
     }
 
+    public NamedEmiRecipeCategory(Identifier id, EmiRenderable icon, EmiRenderable simplified, Text name) {
+        super(id, icon, simplified);
+        this.name = name;
+    }
+
     @Override
     public Text getName() {
         return name;
