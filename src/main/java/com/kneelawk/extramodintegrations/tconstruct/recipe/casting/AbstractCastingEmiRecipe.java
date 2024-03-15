@@ -8,6 +8,7 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.TankWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
+import net.minecraft.recipe.Recipe;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import slimeknights.tconstruct.TConstruct;
@@ -29,7 +30,7 @@ public abstract class AbstractCastingEmiRecipe extends BasicEmiRecipe {
     protected final EmiTexture block;
 
     public AbstractCastingEmiRecipe(EmiRecipeCategory category, IDisplayableCastingRecipe recipe, EmiTexture block) {
-        super(category, null, 117, 54);
+        super(category, recipe instanceof Recipe<?> r ? r.getId() : null, 117, 54);
 
         this.fluidInput = EmiIngredient.of(recipe.getFluids().stream().map(Util::convertFluid).toList());
         this.castItem = EmiIngredient.of(recipe.getCastItems().stream().map(EmiStack::of).toList());

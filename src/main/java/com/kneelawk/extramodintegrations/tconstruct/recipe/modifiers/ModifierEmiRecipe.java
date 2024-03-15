@@ -17,6 +17,7 @@ import net.minecraft.client.render.model.BakedModelManager;
 import net.minecraft.client.texture.MissingSprite;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.SpriteIdentifier;
+import net.minecraft.recipe.Recipe;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -48,7 +49,7 @@ public class ModifierEmiRecipe extends BasicEmiRecipe {
     private final Map<SlotType, Sprite> slotTypeSprites = new HashMap<>();
 
     public ModifierEmiRecipe(IDisplayModifierRecipe recipe) {
-        super(TiCCategories.MODIFIERS, null, 128, 77);
+        super(TiCCategories.MODIFIERS, recipe instanceof Recipe<?> r ? r.getId() : null, 128, 77);
 
         this.inputs = List.of(
                 EmiIngredient.of(recipe.getDisplayItems(0).stream().map(EmiStack::of).toList()),
