@@ -1,10 +1,12 @@
 package com.kneelawk.extramodintegrations.tconstruct.recipe.melting;
 
+import com.kneelawk.extramodintegrations.ExMIMod;
 import com.kneelawk.extramodintegrations.tconstruct.TiCCategories;
 import com.kneelawk.extramodintegrations.tconstruct.Util;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.widget.TankWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
+import net.minecraft.util.Identifier;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer;
 import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
@@ -19,7 +21,7 @@ public class FoundryEmiRecipe extends AbstractMeltingEmiRecipe {
     private final IMeltingContainer.OreRateType oreRateType;
 
     public FoundryEmiRecipe(MeltingRecipe recipe) {
-        super(TiCCategories.FOUNDRY, recipe.getId());
+        super(TiCCategories.FOUNDRY, new Identifier(ExMIMod.MOD_ID, "/tconstruct/foundry/" + recipe.getId().getNamespace() + "/" + recipe.getId().getPath()));
 
         this.time = recipe.getTime();
         this.temperature = recipe.getTemperature();
