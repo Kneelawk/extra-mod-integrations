@@ -177,8 +177,8 @@ public class TiCIntegration extends AbstractTiCIntegration {
                 .forEach(registry::addRecipe);
         // melting
         List<MeltingRecipe> meltingRecipes = RecipeHelper.getJEIRecipes(manager.listAllOfType(TinkerRecipeTypes.MELTING.get()).stream(), MeltingRecipe.class);
-        meltingRecipes.forEach(meltingRecipe -> registry.addRecipe(new MeltingEmiRecipe(meltingRecipe)));
-        meltingRecipes.forEach(meltingRecipe -> registry.addRecipe(new FoundryEmiRecipe(meltingRecipe)));
+        meltingRecipes.forEach(meltingRecipe -> registry.addRecipe(MeltingEmiRecipe.of(meltingRecipe)));
+        meltingRecipes.forEach(meltingRecipe -> registry.addRecipe(FoundryEmiRecipe.of(meltingRecipe)));
         MeltingFuelHandler.setMeltngFuels(RecipeHelper.getRecipes(manager, TinkerRecipeTypes.FUEL.get(), MeltingFuel.class));
 
         // entity melting
@@ -210,7 +210,7 @@ public class TiCIntegration extends AbstractTiCIntegration {
         List<MaterialRecipe> materialRecipes = manager.listAllOfType(TinkerRecipeTypes.MATERIAL.get());
         MaterialItemList.setRecipes(materialRecipes);
         RecipeHelper.getJEIRecipes(manager.listAllOfType(TinkerRecipeTypes.PART_BUILDER.get()).stream(), IDisplayPartBuilderRecipe.class)
-                .forEach(partRecipe -> registry.addRecipe(new PartBuilderEmiRecipe(partRecipe)));
+                .forEach(partRecipe -> registry.addRecipe(PartBuilderEmiRecipe.of(partRecipe)));
 
         // modifier worktable
         manager.listAllOfType(TinkerRecipeTypes.MODIFIER_WORKTABLE.get())

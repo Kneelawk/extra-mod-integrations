@@ -6,6 +6,9 @@ import com.kneelawk.extramodintegrations.tconstruct.Util;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.widget.TankWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
+
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer;
@@ -19,9 +22,21 @@ public class FoundryEmiRecipe extends AbstractMeltingEmiRecipe {
     private final int time;
     private final int temperature;
     private final IMeltingContainer.OreRateType oreRateType;
+    
+    public static FoundryEmiRecipe of(MeltingRecipe recipe) {
+        ItemStack[] inputStacks = recipe.getInput().getMatchingStacks();
+        Identifier id;
+        if (inputStacks.length > 0) {
+            Identifier inputId = Registries.ITEM.getId(recipe.getInput().getMatchingStacks()[0].getItem());
+            id = new Identifier(ExMIMod.MOD_ID, "/tconstruct/foundry/" + recipe.getId().getNamespace() + "/" + recipe.getId().getPath() + "/" + inputId.getNamespace() + "/" + inputId.getPath());
+        } else {
+            id = new Identifier(ExMIMod.MOD_ID, "/tconstruct/foundry/" + recipe.getId().getNamespace() + "/" + recipe.getId().getPath());
+        }
+        return new FoundryEmiRecipe(recipe, id);
+    }
 
-    public FoundryEmiRecipe(MeltingRecipe recipe) {
-        super(TiCCategories.FOUNDRY, new Identifier(ExMIMod.MOD_ID, "/tconstruct/foundry/" + recipe.getId().getNamespace() + "/" + recipe.getId().getPath()));
+    private FoundryEmiRecipe(MeltingRecipe recipe, Identifier id) {
+        super(TiCCategories.FOUNDRY, id);
 
         this.time = recipe.getTime();
         this.temperature = recipe.getTemperature();

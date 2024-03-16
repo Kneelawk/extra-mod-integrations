@@ -14,13 +14,29 @@ import slimeknights.tconstruct.smeltery.block.entity.module.FuelModule;
 
 import java.util.List;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.util.Identifier;
+
 public class MeltingEmiRecipe extends AbstractMeltingEmiRecipe {
     private final int time;
     private final int temperature;
     private final IMeltingContainer.OreRateType oreRateType;
+    
+    public static MeltingEmiRecipe of(MeltingRecipe recipe) {
+        ItemStack[] inputStacks = recipe.getInput().getMatchingStacks();
+        Identifier id;
+        if (inputStacks.length > 0) {
+            Identifier inputId = Registries.ITEM.getId(inputStacks[0].getItem());
+            id = recipe.getId().withSuffixedPath("/" + inputId.getNamespace() + "/" + inputId.getPath());
+        } else {
+            id = recipe.getId();
+        }
+        return new MeltingEmiRecipe(recipe, id);
+    }
 
-    public MeltingEmiRecipe(MeltingRecipe recipe) {
-        super(TiCCategories.MELTING, recipe.getId());
+    private MeltingEmiRecipe(MeltingRecipe recipe, Identifier id) {
+        super(TiCCategories.MELTING, id);
 
         this.inputs = recipe.getIngredients().stream().map(EmiIngredient::of).toList();
         this.outputs = List.of(Util.convertFluid(recipe.getOutput()));

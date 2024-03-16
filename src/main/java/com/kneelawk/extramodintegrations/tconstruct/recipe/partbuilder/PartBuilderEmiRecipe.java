@@ -6,6 +6,8 @@ import dev.emi.emi.api.recipe.BasicEmiRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
+
+import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import slimeknights.tconstruct.TConstruct;
@@ -25,9 +27,15 @@ public class PartBuilderEmiRecipe extends BasicEmiRecipe {
     private final EmiIngredient materialIngredient;
     private final int cost;
     private final EmiIngredient patternItems;
+    
+    public static PartBuilderEmiRecipe of(IDisplayPartBuilderRecipe recipe) {
+        Identifier outputId = Registries.ITEM.getId(recipe.getOutput(null).getItem());
+        Identifier id = recipe.getId().withSuffixedPath("/" + outputId.getNamespace() + "/" + outputId.getPath());
+        return new PartBuilderEmiRecipe(recipe, id);
+    }
 
-    public PartBuilderEmiRecipe(IDisplayPartBuilderRecipe recipe) {
-        super(TiCCategories.PART_BUILDER, recipe.getId(), 121, 46);
+    private PartBuilderEmiRecipe(IDisplayPartBuilderRecipe recipe, Identifier id) {
+        super(TiCCategories.PART_BUILDER, id, 121, 46);
 
         this.material = recipe.getMaterial();
         this.materialIngredient = EmiIngredient.of(MaterialItemList.getItems(material.getId()).stream().map(EmiStack::of).toList());
