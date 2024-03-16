@@ -68,6 +68,9 @@ repositories {
             includeGroup "com.github.GabrielOlvH"
             includeGroup "com.github.Draylar.omega-config"
             includeGroup "com.github.emilyploszaj"
+            includeGroup "com.github.llamalad7.mixinextras"
+            includeGroup "com.github.Chocohead"
+            includeGroup "com.github.bawnorton.mixinsquared"
         }
     }
 
@@ -95,6 +98,7 @@ repositories {
         content {
             includeGroup "io.wispforest"
             includeGroup "io.wispforest.lavender-md"
+            includeGroup "me.alphamode"
         }
     }
 
@@ -106,6 +110,45 @@ repositories {
             includeGroup 'appeng'
         }
     }
+
+    maven {
+        // Hephaestus
+        name "devOS"
+        url "https://mvn.devos.one/snapshots"
+        content {
+            includeGroup "slimeknights.tconstruct"
+            includeGroup "slimeknights.mantle"
+            includeGroup "io.github.tropheusj"
+            includeGroup "io.github.fabricators_of_create.Porting-Lib"
+        }
+    }
+
+    maven {
+        // Cardinal Components API, required by Hephaestus
+        name "Ladysnake"
+        url "https://maven.ladysnake.org/releases"
+        content {
+            includeGroup "dev.onyxstudios.cardinal-components-api"
+        }
+    }
+
+    maven {
+        // Architectury API, required by Hephaestus
+        name "Architectury"
+        url "https://maven.architectury.dev"
+        content {
+            includeGroup "dev.architectury"
+        }
+    }
+
+    maven {
+        // Reach Entity Attributes, required by Hephaestus
+        name "JamiesWhiteShirt"
+        url "https://maven.jamieswhiteshirt.com/libs-release"
+        content {
+            includeGroup "com.jamieswhiteshirt"
+        }
+    }
 }
 
 dependencies {
@@ -113,20 +156,25 @@ dependencies {
         modCompileOnly(dep) {
             exclude group: "net.fabricmc"
             exclude group: "net.fabricmc.fabric-api"
-            exclude group: "com.jamieswhiteshirt"
             exclude group: "io.github.prospector"
+            exclude group: "me.shedaniel"
+            exclude group: "mezz.jei"
         }
         modLocalRuntime(dep) {
             exclude group: "net.fabricmc"
             exclude group: "net.fabricmc.fabric-api"
-            exclude group: "com.jamieswhiteshirt"
             exclude group: "io.github.prospector"
+            exclude group: "me.shedaniel"
+            exclude group: "mezz.jei"
         }
     }
 
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    mappings loom.layered {
+        mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+        mappings file("mappings/port-lib-fix.tiny")
+    }
 
     // Don't commute Fabric or FAPI to anything that depends on us
     modCompileOnly "net.fabricmc:fabric-loader:${project.loader_version}"
@@ -176,6 +224,15 @@ dependencies {
         dependencies.ext.mod "appeng:appliedenergistics2-fabric:${project.ae2_version}"
     }
 
+    // Hephaestus
+    if (tic_enabled.toBoolean()) {
+        dependencies.ext.mod "slimeknights.tconstruct:Hephaestus:${project.tic_version}"
+        dependencies.ext.mod "slimeknights.mantle:Mantle:${project.mantle_version}"
+        project.port_lib_modules.split(",").each {
+            dependencies.ext.mod "io.github.fabricators_of_create.Porting-Lib:${it}:${project.porting_lib_version}"
+        }
+    }
+
     //
     // Stuff we just want to have at runtime
     //
@@ -209,6 +266,9 @@ sourceSets {
             }
             if (!ae2_enabled.toBoolean()) {
                 exclude('com/kneelawk/extramodintegrations/appeng')
+            }
+            if (!tic_enabled.toBoolean()) {
+                exclude('com/kneelawk/extramodintegrations/tconstruct')
             }
         }
     }
