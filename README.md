@@ -27,9 +27,11 @@ This mod is an addon for the powerful, new recipe viewer [EMI]. This addon adds 
 
 ## Screenshots
 
-![Quantum Armor Recipe Tree](https://cdn-raw.modrinth.com/data/bpRHnWUb/images/274b2566e63966a9cd6554b98352fab1874a00cd.png)
+![Quantum Armor Recipe Tree](https://raw.githubusercontent.com/Kneelawk/extra-mod-integrations/1.20.1/screenshots/qarmor-recipe-tree.png)
 
-![Fusion Reactor Recipes](https://cdn.modrinth.com/data/bpRHnWUb/images/4909b816de6dbd612a821e0a54e0460914cb6fb4.png)
+![Fusion Reactor Recipes](https://raw.githubusercontent.com/Kneelawk/extra-mod-integrations/1.20.1/screenshots/fusion-recipes.png)
+
+![Entity Melting Recipes](https://raw.githubusercontent.com/Kneelawk/extra-mod-integrations/1.20.1/screenshots/entity-melting.png)
 
 ## License
 
