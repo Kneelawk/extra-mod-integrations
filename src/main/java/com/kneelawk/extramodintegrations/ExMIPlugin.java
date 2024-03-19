@@ -24,15 +24,15 @@ public class ExMIPlugin implements EmiPlugin {
 
     @Override
     public void register(EmiRegistry registry) {
-        registry.addCategory(FLUID_FROM_CONTAINER_CATEGORY);
-        registry.addCategory(FLUID_INTO_CONTAINER_CATEGORY);
-
         AbstractTRIntegration.register(registry);
         AbstractIRIntegration.register(registry);
         AbstractFDIntegration.register(registry);
         AbstractConjuringIntegration.register(registry);
         AbstractAE2Integration.register(registry);
         AbstractTiCIntegration.register(registry);
+
+        registry.addCategory(FLUID_FROM_CONTAINER_CATEGORY);
+        registry.addCategory(FLUID_INTO_CONTAINER_CATEGORY);
     }
 
     @Override
