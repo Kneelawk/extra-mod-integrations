@@ -214,7 +214,7 @@ dependencies {
         dependencies.ext.mod "net.fabricmc:fabric-language-kotlin:${project.kotlin_version}"
         dependencies.ext.mod "io.github.cottonmc:LibGui:${project.libgui_version}"
         dependencies.ext.mod "dev.cafeteria:fake-player-api:${project.fake_player_version}"
-        dependencies.ext.mod "dev.draylar:magna:${project.magna_version}"
+//        dependencies.ext.mod "dev.draylar:magna:${project.magna_version}"
     }
 
     // Farmer's Delight

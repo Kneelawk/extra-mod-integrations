@@ -1,5 +1,6 @@
 package com.kneelawk.extramodintegrations.util.stack;
 
+import com.kneelawk.extramodintegrations.ExMIMod;
 import dev.emi.emi.api.render.EmiRender;
 import dev.emi.emi.api.stack.EmiStack;
 import net.fabricmc.loader.api.FabricLoader;
@@ -21,22 +22,32 @@ import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class EntityEmiStack extends EmiStack {
     private static final Map<EntityType<?>, Entity> CACHE = new HashMap<>();
+    private static final Set<EntityType<?>> BLOCKLIST = new HashSet<>();
 
-    private final Entity entity;
     private final EntityType<?> type;
 
     public EntityEmiStack(EntityType<?> entityType) {
         this.type = entityType;
         MinecraftClient client = MinecraftClient.getInstance();
-        this.entity = CACHE.computeIfAbsent(entityType, entityType1 -> {
-            if (entityType1 == EntityType.PLAYER) return client.player;
-            return entityType.create(client.world);
-        });
+        if (!BLOCKLIST.contains(entityType)) {
+            CACHE.computeIfAbsent(entityType, entityType1 -> {
+                if (entityType1 == EntityType.PLAYER) return client.player;
+                try {
+                    return entityType.create(client.world);
+                } catch (Throwable t) {
+                    BLOCKLIST.add(entityType1);
+                    ExMIMod.LOGGER.error("Failed to construct entity", t);
+                    return null;
+                }
+            });
+        }
     }
 
     @Override
@@ -47,6 +58,7 @@ public class EntityEmiStack extends EmiStack {
     @Override
     public void render(DrawContext draw, int x, int y, float delta, int flags) {
         if (((flags & RENDER_ICON) != 0)) {
+            Entity entity = CACHE.get(this.type);
             if (entity instanceof LivingEntity living) {
                 Mouse mouse = MinecraftClient.getInstance().mouse;
                 float mouseX = (float) mouse.getX() + x;
@@ -104,6 +116,10 @@ public class EntityEmiStack extends EmiStack {
 
     @Override
     public Text getName() {
-        return entity.getName();
+        Entity entity = CACHE.get(this.type);
+        if (entity != null) {
+            return entity.getName();
+        }
+        return this.type.getName();
     }
 }
