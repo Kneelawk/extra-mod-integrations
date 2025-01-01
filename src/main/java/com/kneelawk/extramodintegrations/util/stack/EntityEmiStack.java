@@ -43,8 +43,7 @@ public class EntityEmiStack extends EmiStack {
                     return entityType.create(client.world);
                 } catch (Throwable t) {
                     BLOCKLIST.add(entityType1);
-                    ExMIMod.LOGGER.error("Failed to construct entity");
-                    t.printStackTrace();
+                    ExMIMod.LOGGER.error("Failed to construct entity", t);
                     return null;
                 }
             });
