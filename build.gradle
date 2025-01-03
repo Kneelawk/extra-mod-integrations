@@ -390,7 +390,7 @@ publishing {
                 url = uri("https://maven.kneelawk.com/releases")
                 credentials(PasswordCredentials::class)
                 authentication {
-                    create<BasicAuthentication>("basic")
+                    basic(BasicAuthentication)
                 }
             }
         }
