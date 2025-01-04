@@ -7,16 +7,16 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.resources.ResourceLocation;
 
 public class SoulWeavingEmiRecipe implements EmiRecipe {
-    private static final Identifier GUI_TEXTURE = new Identifier("conjuring", "textures/gui/soul_weaver.png");
+    private static final ResourceLocation GUI_TEXTURE = new ResourceLocation("conjuring", "textures/gui/soul_weaver.png");
 
-    private final Identifier id;
+    private final ResourceLocation id;
     private final List<EmiIngredient> inputs;
     private final EmiStack output;
     private final EmiIngredient essence = EmiStack.of(ConjuringItems.CONJURATION_ESSENCE);
@@ -24,7 +24,7 @@ public class SoulWeavingEmiRecipe implements EmiRecipe {
     public SoulWeavingEmiRecipe(SoulWeaverRecipe recipe) {
         this.id = recipe.getId();
         this.inputs = recipe.getInputs().stream().map(EmiIngredient::of).toList();
-        this.output = EmiStack.of(recipe.getOutput(null));
+        this.output = EmiStack.of(recipe.getResultItem(null));
     }
 
     @Override
@@ -33,7 +33,7 @@ public class SoulWeavingEmiRecipe implements EmiRecipe {
     }
 
     @Override
-    public @Nullable Identifier getId() {
+    public @Nullable ResourceLocation getId() {
         return id;
     }
 

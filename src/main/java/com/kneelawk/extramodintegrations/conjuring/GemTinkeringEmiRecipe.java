@@ -7,20 +7,20 @@ import dev.emi.emi.api.render.EmiTexture;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import net.minecraft.resources.ResourceLocation;
 
 public class GemTinkeringEmiRecipe implements EmiRecipe {
-    private final Identifier id;
+    private final ResourceLocation id;
     private final List<EmiIngredient> inputs;
     private final EmiStack output;
 
     public GemTinkeringEmiRecipe(GemTinkererRecipe recipe) {
         this.id = recipe.getId();
         this.inputs = recipe.getInputs().stream().map(EmiIngredient::of).toList();
-        this.output = EmiStack.of(recipe.getOutput(null));
+        this.output = EmiStack.of(recipe.getResultItem(null));
     }
 
     @Override
@@ -29,7 +29,7 @@ public class GemTinkeringEmiRecipe implements EmiRecipe {
     }
 
     @Override
-    public @Nullable Identifier getId() {
+    public @Nullable ResourceLocation getId() {
         return id;
     }
 

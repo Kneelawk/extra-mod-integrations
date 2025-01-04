@@ -41,7 +41,7 @@ public class BlastFurnaceEmiRecipe extends TREmiRecipe<BlastFurnaceRecipe> {
         TRUIUtils.energyBar(widgets, recipe, 40, 0, 0);
         TRUIUtils.arrowRight(widgets, recipe, 16 + 18 + 4, (50 - 10) / 2);
         UIUtils.cookTime(widgets, recipe.getTime(), 16 + 18 + 2, 0);
-        widgets.addText(gui("techreborn.heat", recipe.getHeat()).asOrderedText(), 16 + 18 + 2, 50 - 9, 0xFF3F3F3F,
+        widgets.addText(gui("techreborn.heat", recipe.getHeat()).getVisualOrderText(), 16 + 18 + 2, 50 - 9, 0xFF3F3F3F,
             false);
     }
 }

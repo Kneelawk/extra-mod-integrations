@@ -1,10 +1,10 @@
 package com.kneelawk.extramodintegrations.util.widget;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.widget.Bounds;
 import dev.emi.emi.api.widget.SlotWidget;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.GuiGraphics;
 
 public class ScaledSlotWidget extends SlotWidget {
     private final float scaleFactor;
@@ -21,29 +21,29 @@ public class ScaledSlotWidget extends SlotWidget {
     }
 
     @Override
-    public void drawBackground(DrawContext draw, int mouseX, int mouseY, float delta) {
-        MatrixStack matrices = draw.getMatrices();
-        matrices.push();
+    public void drawBackground(GuiGraphics draw, int mouseX, int mouseY, float delta) {
+        PoseStack matrices = draw.pose();
+        matrices.pushPose();
         matrices.scale(scaleFactor, scaleFactor, 1);
         matrices.translate(-x / scaleFactor, -y / scaleFactor, 0);
         super.drawBackground(draw, mouseX, mouseY, delta);
-        matrices.pop();
+        matrices.popPose();
     }
 
     @Override
-    public void drawSlotHighlight(DrawContext draw, Bounds bounds) {
-        MatrixStack matrices = draw.getMatrices();
-        matrices.push();
+    public void drawSlotHighlight(GuiGraphics draw, Bounds bounds) {
+        PoseStack matrices = draw.pose();
+        matrices.pushPose();
         matrices.scale(scaleFactor, scaleFactor, 1);
         matrices.translate(-x / scaleFactor, -y / scaleFactor, 0);
         super.drawSlotHighlight(draw, super.getBounds());
-        matrices.pop();
+        matrices.popPose();
     }
 
     @Override
-    public void drawStack(DrawContext draw, int mouseX, int mouseY, float delta) {
-        MatrixStack matrices = draw.getMatrices();
-        matrices.push();
+    public void drawStack(GuiGraphics draw, int mouseX, int mouseY, float delta) {
+        PoseStack matrices = draw.pose();
+        matrices.pushPose();
         matrices.scale(scaleFactor, scaleFactor, 1);
         Bounds bounds = getBounds();
         int xOff = (int) ((bounds.width() - 16 * scaleFactor) / 2);
@@ -52,6 +52,6 @@ public class ScaledSlotWidget extends SlotWidget {
         int newY = bounds.y() + yOff;
         matrices.translate(-newX / scaleFactor, -newY / scaleFactor, 0);
         getStack().render(draw, newX, newY, delta);
-        matrices.pop();
+        matrices.popPose();
     }
 }

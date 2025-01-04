@@ -7,15 +7,14 @@ import dev.emi.emi.api.render.EmiTexture;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
-
 import java.util.List;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 public abstract class AbstractTesselatingEmiRecipe extends EmiCraftingRecipe {
     private final int weavingTime;
 
-    public AbstractTesselatingEmiRecipe(List<EmiIngredient> inputs, EmiStack output, int weavingTime, Identifier id, boolean shapeless) {
+    public AbstractTesselatingEmiRecipe(List<EmiIngredient> inputs, EmiStack output, int weavingTime, ResourceLocation id, boolean shapeless) {
         super(inputs, output, id, shapeless);
         this.weavingTime = weavingTime;
     }

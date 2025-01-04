@@ -7,11 +7,6 @@ import com.kneelawk.extramodintegrations.tconstruct.recipe.TiCTankWidget;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.widget.TankWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
-
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer;
 import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
@@ -20,26 +15,30 @@ import slimeknights.tconstruct.plugin.jei.melting.MeltingFuelHandler;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 public class FoundryEmiRecipe extends AbstractMeltingEmiRecipe {
     private final int time;
     private final int temperature;
     private final IMeltingContainer.OreRateType oreRateType;
-    private final List<Supplier<List<Text>>> outputsTiCTooltip;
+    private final List<Supplier<List<Component>>> outputsTiCTooltip;
     
     public static FoundryEmiRecipe of(MeltingRecipe recipe) {
-        ItemStack[] inputStacks = recipe.getInput().getMatchingStacks();
-        Identifier id;
+        ItemStack[] inputStacks = recipe.getInput().getItems();
+        ResourceLocation id;
         if (inputStacks.length > 0) {
-            Identifier inputId = Registries.ITEM.getId(recipe.getInput().getMatchingStacks()[0].getItem());
-            id = new Identifier(ExMIMod.MOD_ID, "/tconstruct/foundry/" + recipe.getId().getNamespace() + "/" + recipe.getId().getPath() + "/" + inputId.getNamespace() + "/" + inputId.getPath());
+            ResourceLocation inputId = BuiltInRegistries.ITEM.getKey(recipe.getInput().getItems()[0].getItem());
+            id = new ResourceLocation(ExMIMod.MOD_ID, "/tconstruct/foundry/" + recipe.getId().getNamespace() + "/" + recipe.getId().getPath() + "/" + inputId.getNamespace() + "/" + inputId.getPath());
         } else {
-            id = new Identifier(ExMIMod.MOD_ID, "/tconstruct/foundry/" + recipe.getId().getNamespace() + "/" + recipe.getId().getPath());
+            id = new ResourceLocation(ExMIMod.MOD_ID, "/tconstruct/foundry/" + recipe.getId().getNamespace() + "/" + recipe.getId().getPath());
         }
         return new FoundryEmiRecipe(recipe, id);
     }
 
-    private FoundryEmiRecipe(MeltingRecipe recipe, Identifier id) {
+    private FoundryEmiRecipe(MeltingRecipe recipe, ResourceLocation id) {
         super(TiCCategories.FOUNDRY, id);
 
         this.time = recipe.getTime();

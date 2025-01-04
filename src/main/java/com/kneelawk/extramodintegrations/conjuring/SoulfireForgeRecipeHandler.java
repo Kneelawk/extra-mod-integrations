@@ -3,10 +3,9 @@ package com.kneelawk.extramodintegrations.conjuring;
 import com.glisco.conjuring.util.SoulfireForgeScreenHandler;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.handler.StandardRecipeHandler;
-import net.minecraft.screen.slot.Slot;
-
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.world.inventory.Slot;
 
 public class SoulfireForgeRecipeHandler implements StandardRecipeHandler<SoulfireForgeScreenHandler> {
     @Override

@@ -6,17 +6,17 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 public class CookingPotEmiRecipe implements EmiRecipe {
-    private static final Identifier GUI_TEXTURE = new Identifier("farmersdelight", "textures/gui/cooking_pot.png");
+    private static final ResourceLocation GUI_TEXTURE = new ResourceLocation("farmersdelight", "textures/gui/cooking_pot.png");
 
-    private final Identifier id;
+    private final ResourceLocation id;
     private final List<EmiIngredient> inputs;
     private final EmiIngredient containerInput;
     private final EmiStack output;
@@ -25,7 +25,7 @@ public class CookingPotEmiRecipe implements EmiRecipe {
     public CookingPotEmiRecipe(CookingPotRecipe recipe) {
         this.id = recipe.getId();
         this.inputs = recipe.getIngredients().stream().map(EmiIngredient::of).toList();
-        this.output = EmiStack.of(recipe.getOutput(null));
+        this.output = EmiStack.of(recipe.getResultItem(null));
         this.containerInput = EmiStack.of(recipe.getContainer());
         this.cookTime = recipe.getCookTime();
     }
@@ -36,7 +36,7 @@ public class CookingPotEmiRecipe implements EmiRecipe {
     }
 
     @Override
-    public @Nullable Identifier getId() {
+    public @Nullable ResourceLocation getId() {
         return id;
     }
 
@@ -81,6 +81,6 @@ public class CookingPotEmiRecipe implements EmiRecipe {
 
         widgets.addTexture(GUI_TEXTURE, 18, 39, 17, 15, 176, 0);
         widgets.addFillingArrow(61, 10, cookTime * 50)
-                .tooltipText(List.of(Text.translatable("emi.cooking.time", cookTime / 20f)));
+                .tooltipText(List.of(Component.translatable("emi.cooking.time", cookTime / 20f)));
     }
 }

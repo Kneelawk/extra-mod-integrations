@@ -9,14 +9,12 @@ import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import me.steven.indrev.recipes.machines.IRRecipe;
-
-import net.minecraft.util.Identifier;
-
+import net.minecraft.resources.ResourceLocation;
 import com.kneelawk.extramodintegrations.ExMIMod;
 
 public abstract class IREmiRecipe<R extends IRRecipe> implements EmiRecipe {
     protected final R recipe;
-    protected final Identifier id;
+    protected final ResourceLocation id;
     protected final List<EmiIngredient> inputs;
     protected final List<EmiStack> outputs;
 
@@ -31,7 +29,7 @@ public abstract class IREmiRecipe<R extends IRRecipe> implements EmiRecipe {
     }
 
     @Override
-    public @NotNull Identifier getId() {
+    public @NotNull ResourceLocation getId() {
         return id;
     }
 

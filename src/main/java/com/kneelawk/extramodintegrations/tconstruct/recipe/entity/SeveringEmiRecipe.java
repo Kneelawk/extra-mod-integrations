@@ -7,14 +7,14 @@ import dev.emi.emi.api.recipe.BasicEmiRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.util.Identifier;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.modifiers.severing.SeveringRecipe;
 
 import java.util.List;
+import net.minecraft.resources.ResourceLocation;
 
 public class SeveringEmiRecipe extends BasicEmiRecipe {
-    public static final Identifier BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/tinker_station.png");
+    public static final ResourceLocation BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/tinker_station.png");
 
     public SeveringEmiRecipe(SeveringRecipe recipe) {
         super(TiCCategories.SEVERING, recipe.getId(), 100, 38);

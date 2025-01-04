@@ -6,12 +6,12 @@ import dev.emi.emi.api.recipe.BasicEmiRecipe;
 import dev.emi.emi.api.render.EmiTexture;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.item.ItemStack;
 import org.dimdev.dimdoors.world.decay.DecayPattern;
 import org.dimdev.dimdoors.world.decay.DecayProcessor;
 
 import java.util.List;
 import java.util.Objects;
+import net.minecraft.world.item.ItemStack;
 
 public class DecaysIntoEmiRecipe<T> extends BasicEmiRecipe {
 

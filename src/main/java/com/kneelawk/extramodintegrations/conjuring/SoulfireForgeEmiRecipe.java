@@ -6,16 +6,16 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 public class SoulfireForgeEmiRecipe implements EmiRecipe {
-    private static final Identifier GUI_TEXTURE = new Identifier("conjuring", "textures/gui/soulfire_forge.png");
+    private static final ResourceLocation GUI_TEXTURE = new ResourceLocation("conjuring", "textures/gui/soulfire_forge.png");
 
-    private final Identifier id;
+    private final ResourceLocation id;
     private final int smeltTime;
     private final List<EmiIngredient> inputs;
     private final EmiStack output;
@@ -24,7 +24,7 @@ public class SoulfireForgeEmiRecipe implements EmiRecipe {
         this.id = recipe.getId();
         this.smeltTime = recipe.getSmeltTime();
         this.inputs = recipe.getIngredients().stream().map(EmiIngredient::of).toList();
-        this.output = EmiStack.of(recipe.getOutput(null));
+        this.output = EmiStack.of(recipe.getResultItem(null));
     }
 
     @Override
@@ -33,7 +33,7 @@ public class SoulfireForgeEmiRecipe implements EmiRecipe {
     }
 
     @Override
-    public @Nullable Identifier getId() {
+    public @Nullable ResourceLocation getId() {
         return id;
     }
 
@@ -65,7 +65,7 @@ public class SoulfireForgeEmiRecipe implements EmiRecipe {
 
         widgets.addTexture(GUI_TEXTURE, 58, 13, 32, 32, 90, 25);
         widgets.addAnimatedTexture(GUI_TEXTURE, 57, 12, 32, 32, 176, 0, smeltTime * 50, false, true, false)
-                .tooltipText(List.of(Text.translatable("emi.cooking.time", smeltTime / 20f)));
+                .tooltipText(List.of(Component.translatable("emi.cooking.time", smeltTime / 20f)));
 
         widgets.addSlot(output, 92, 14)
                 .large(true)

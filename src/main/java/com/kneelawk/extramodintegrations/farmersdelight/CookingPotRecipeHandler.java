@@ -3,10 +3,9 @@ package com.kneelawk.extramodintegrations.farmersdelight;
 import com.nhoryzon.mc.farmersdelight.entity.block.screen.CookingPotScreenHandler;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.handler.StandardRecipeHandler;
-import net.minecraft.screen.slot.Slot;
-
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.world.inventory.Slot;
 
 public class CookingPotRecipeHandler implements StandardRecipeHandler<CookingPotScreenHandler> {
     @Override

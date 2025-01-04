@@ -1,7 +1,7 @@
 package com.kneelawk.extramodintegrations.appeng;
 
 import java.util.List;
-
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
 import appeng.recipes.handlers.ChargerRecipe;
@@ -11,14 +11,11 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.TextWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
-
-import net.minecraft.util.Identifier;
-
 import com.kneelawk.extramodintegrations.ExMIMod;
 import com.kneelawk.extramodintegrations.ExMITextures;
 
 public class ChargerEmiRecipe implements EmiRecipe {
-    private final Identifier id;
+    private final ResourceLocation id;
     private final EmiIngredient input;
     private final EmiStack output;
 
@@ -34,7 +31,7 @@ public class ChargerEmiRecipe implements EmiRecipe {
     }
 
     @Override
-    public @Nullable Identifier getId() {
+    public @Nullable ResourceLocation getId() {
         return id;
     }
 

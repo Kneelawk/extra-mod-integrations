@@ -7,16 +7,16 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.Bounds;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.stream.Stream;
+import net.minecraft.resources.ResourceLocation;
 
 public class CuttingEmiRecipe implements EmiRecipe {
-    private static final Identifier GUI_TEXTURE = new Identifier("farmersdelight", "textures/gui/rei/cutting_board.png");
+    private static final ResourceLocation GUI_TEXTURE = new ResourceLocation("farmersdelight", "textures/gui/rei/cutting_board.png");
 
-    private final Identifier id;
+    private final ResourceLocation id;
     private final EmiIngredient input;
     private final EmiIngredient tool;
     private final List<EmiStack> resultList;
@@ -37,7 +37,7 @@ public class CuttingEmiRecipe implements EmiRecipe {
     }
 
     @Override
-    public @Nullable Identifier getId() {
+    public @Nullable ResourceLocation getId() {
         return id;
     }
 

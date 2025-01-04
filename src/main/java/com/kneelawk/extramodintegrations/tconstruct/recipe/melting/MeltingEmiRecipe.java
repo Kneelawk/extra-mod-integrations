@@ -18,31 +18,30 @@ import slimeknights.tconstruct.common.config.Config;
 
 import java.util.List;
 import java.util.function.Supplier;
-
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 public class MeltingEmiRecipe extends AbstractMeltingEmiRecipe {
     private final int time;
     private final int temperature;
     private final IMeltingContainer.OreRateType oreRateType;
-    private final List<Supplier<List<Text>>> outputsTiCTooltip;
+    private final List<Supplier<List<Component>>> outputsTiCTooltip;
     
     public static MeltingEmiRecipe of(MeltingRecipe recipe) {
-        ItemStack[] inputStacks = recipe.getInput().getMatchingStacks();
-        Identifier id;
+        ItemStack[] inputStacks = recipe.getInput().getItems();
+        ResourceLocation id;
         if (inputStacks.length > 0) {
-            Identifier inputId = Registries.ITEM.getId(inputStacks[0].getItem());
-            id = recipe.getId().withSuffixedPath("/" + inputId.getNamespace() + "/" + inputId.getPath());
+            ResourceLocation inputId = BuiltInRegistries.ITEM.getKey(inputStacks[0].getItem());
+            id = recipe.getId().withSuffix("/" + inputId.getNamespace() + "/" + inputId.getPath());
         } else {
             id = recipe.getId();
         }
         return new MeltingEmiRecipe(recipe, id, Config.COMMON.smelteryOreRate);
     }
 
-    private MeltingEmiRecipe(MeltingRecipe recipe, Identifier id, IMeltingContainer.IOreRate oreRate) {
+    private MeltingEmiRecipe(MeltingRecipe recipe, ResourceLocation id, IMeltingContainer.IOreRate oreRate) {
         super(TiCCategories.MELTING, id);
 
         this.time = recipe.getTime();

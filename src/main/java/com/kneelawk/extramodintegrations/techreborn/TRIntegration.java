@@ -8,9 +8,9 @@ import dev.emi.emi.api.recipe.EmiRecipeSorting;
 import dev.emi.emi.api.recipe.VanillaEmiRecipeCategories;
 import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiStack;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.material.Fluid;
 import reborncore.common.crafting.RebornRecipe;
 import techreborn.api.generator.EFluidGenerator;
 import techreborn.api.generator.FluidGeneratorRecipe;
@@ -141,77 +141,77 @@ public class TRIntegration extends AbstractTRIntegration {
         registry.addCategory(ALLOY_SMELTER_CATEGORY);
         registry.addWorkstation(ALLOY_SMELTER_CATEGORY, ALLOY_SMELTER_STACK);
         registry.addWorkstation(ALLOY_SMELTER_CATEGORY, IRON_ALLOY_FURNACE_STACK);
-        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.ALLOY_SMELTER)) {
+        for (RebornRecipe recipe : registry.getRecipeManager().getAllRecipesFor(ModRecipes.ALLOY_SMELTER)) {
             registry.addRecipe(new SimpleTwoInputEmiRecipe(recipe, ALLOY_SMELTER_CATEGORY, 1));
         }
 
         // Assembling
         registry.addCategory(ASSEMBLING_MACHINE_CATEGORY);
         registry.addWorkstation(ASSEMBLING_MACHINE_CATEGORY, ASSEMBLY_MACHINE_STACK);
-        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.ASSEMBLING_MACHINE)) {
+        for (RebornRecipe recipe : registry.getRecipeManager().getAllRecipesFor(ModRecipes.ASSEMBLING_MACHINE)) {
             registry.addRecipe(new AssemblingMachineEmiRecipe(recipe));
         }
 
         // Blast Furnace
         registry.addCategory(BLAST_FURNACE_CATEGORY);
         registry.addWorkstation(BLAST_FURNACE_CATEGORY, BLAST_FURNACE_STACK);
-        for (BlastFurnaceRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.BLAST_FURNACE)) {
+        for (BlastFurnaceRecipe recipe : registry.getRecipeManager().getAllRecipesFor(ModRecipes.BLAST_FURNACE)) {
             registry.addRecipe(new BlastFurnaceEmiRecipe(recipe));
         }
 
         // Centrifuge
         registry.addCategory(CENTRIFUGE_CATEGORY);
         registry.addWorkstation(CENTRIFUGE_CATEGORY, INDUSTRIAL_CENTRIFUGE_STACK);
-        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.CENTRIFUGE)) {
+        for (RebornRecipe recipe : registry.getRecipeManager().getAllRecipesFor(ModRecipes.CENTRIFUGE)) {
             registry.addRecipe(new CentrifugeEmiRecipe(recipe));
         }
 
         // Chemical Reacting
         registry.addCategory(CHEMICAL_REACTOR_CATEGORY);
         registry.addWorkstation(CHEMICAL_REACTOR_CATEGORY, CHEMICAL_REACTOR_STACK);
-        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.CHEMICAL_REACTOR)) {
+        for (RebornRecipe recipe : registry.getRecipeManager().getAllRecipesFor(ModRecipes.CHEMICAL_REACTOR)) {
             registry.addRecipe(new SimpleTwoInputEmiRecipe(recipe, CHEMICAL_REACTOR_CATEGORY, 10));
         }
 
         // Compressing
         registry.addCategory(COMPRESSOR_CATEGORY);
         registry.addWorkstation(COMPRESSOR_CATEGORY, COMPRESSOR_STACK);
-        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.COMPRESSOR)) {
+        for (RebornRecipe recipe : registry.getRecipeManager().getAllRecipesFor(ModRecipes.COMPRESSOR)) {
             registry.addRecipe(new SimpleOneInputEmiRecipe(recipe, COMPRESSOR_CATEGORY, 1));
         }
 
         // Distillation Tower
         registry.addCategory(DISTILLATION_TOWER_CATEGORY);
         registry.addWorkstation(DISTILLATION_TOWER_CATEGORY, DISTILLATION_TOWER_STACK);
-        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.DISTILLATION_TOWER)) {
+        for (RebornRecipe recipe : registry.getRecipeManager().getAllRecipesFor(ModRecipes.DISTILLATION_TOWER)) {
             registry.addRecipe(new DistillationTowerEmiRecipe(recipe));
         }
 
         // Extracting
         registry.addCategory(EXTRACTOR_CATEGORY);
         registry.addWorkstation(EXTRACTOR_CATEGORY, EXTRACTOR_STACK);
-        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.EXTRACTOR)) {
+        for (RebornRecipe recipe : registry.getRecipeManager().getAllRecipesFor(ModRecipes.EXTRACTOR)) {
             registry.addRecipe(new SimpleOneInputEmiRecipe(recipe, EXTRACTOR_CATEGORY, 1));
         }
 
         // Grinding
         registry.addCategory(GRINDER_CATEGORY);
         registry.addWorkstation(GRINDER_CATEGORY, GRINDER_STACK);
-        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.GRINDER)) {
+        for (RebornRecipe recipe : registry.getRecipeManager().getAllRecipesFor(ModRecipes.GRINDER)) {
             registry.addRecipe(new SimpleOneInputEmiRecipe(recipe, GRINDER_CATEGORY, 1));
         }
 
         // Implosion Compressor
         registry.addCategory(IMPLOSION_COMPRESSOR_CATEGORY);
         registry.addWorkstation(IMPLOSION_COMPRESSOR_CATEGORY, IMPLOSION_COMPRESSOR_STACK);
-        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.IMPLOSION_COMPRESSOR)) {
+        for (RebornRecipe recipe : registry.getRecipeManager().getAllRecipesFor(ModRecipes.IMPLOSION_COMPRESSOR)) {
             registry.addRecipe(new ImplosionCompressorEmiRecipe(recipe));
         }
 
         // Industrial Electrolyzing
         registry.addCategory(INDUSTRIAL_ELECTROLYZER_CATEGORY);
         registry.addWorkstation(INDUSTRIAL_ELECTROLYZER_CATEGORY, INDUSTRIAL_ELECTROLYZER_STACK);
-        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.INDUSTRIAL_ELECTROLYZER)) {
+        for (RebornRecipe recipe : registry.getRecipeManager().getAllRecipesFor(ModRecipes.INDUSTRIAL_ELECTROLYZER)) {
             registry.addRecipe(new IndustrialElectrolyzerEmiRecipe(recipe));
         }
 
@@ -220,7 +220,7 @@ public class TRIntegration extends AbstractTRIntegration {
         registry.addWorkstation(INDUSTRIAL_GRINDER_CATEGORY, INDUSTRIAL_GRINDER_STACK);
         LongHolder grinderCapacityHolder = new LongHolder(1000 * 81);
         for (IndustrialGrinderRecipe recipe : registry.getRecipeManager()
-            .listAllOfType(ModRecipes.INDUSTRIAL_GRINDER)) {
+            .getAllRecipesFor(ModRecipes.INDUSTRIAL_GRINDER)) {
             registry.addRecipe(new IndustrialGrinderEmiRecipe(recipe, grinderCapacityHolder));
         }
 
@@ -229,21 +229,21 @@ public class TRIntegration extends AbstractTRIntegration {
         registry.addWorkstation(INDUSTRIAL_SAWMILL_CATEGORY, INDUSTRIAL_SAWMILL_STACK);
         LongHolder sawmillCapacityHolder = new LongHolder(1000 * 81);
         for (IndustrialSawmillRecipe recipe : registry.getRecipeManager()
-            .listAllOfType(ModRecipes.INDUSTRIAL_SAWMILL)) {
+            .getAllRecipesFor(ModRecipes.INDUSTRIAL_SAWMILL)) {
             registry.addRecipe(new IndustrialSawmillEmiRecipe(recipe, sawmillCapacityHolder));
         }
 
         // Scrapbox
         registry.addCategory(SCRAPBOX_CATEGORY);
         registry.addWorkstation(SCRAPBOX_CATEGORY, SCRAPBOXINATOR_STACK);
-        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.SCRAPBOX)) {
+        for (RebornRecipe recipe : registry.getRecipeManager().getAllRecipesFor(ModRecipes.SCRAPBOX)) {
             registry.addRecipe(new SimpleOneInputEmiRecipe(recipe, SCRAPBOX_CATEGORY, 1));
         }
 
         // Vacuum Freezing
         registry.addCategory(VACUUM_FREEZER_CATEGORY);
         registry.addWorkstation(VACUUM_FREEZER_CATEGORY, VACUUM_FREEZER_STACK);
-        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.VACUUM_FREEZER)) {
+        for (RebornRecipe recipe : registry.getRecipeManager().getAllRecipesFor(ModRecipes.VACUUM_FREEZER)) {
             registry.addRecipe(new SimpleOneInputEmiRecipe(recipe, VACUUM_FREEZER_CATEGORY, 64));
         }
 
@@ -251,35 +251,35 @@ public class TRIntegration extends AbstractTRIntegration {
         registry.addCategory(FLUID_REPLICATOR_CATEGORY);
         registry.addWorkstation(FLUID_REPLICATOR_CATEGORY, FLUID_REPLICATOR_STACK);
         LongHolder replicatorCapacityHolder = new LongHolder(1000 * 81);
-        for (FluidReplicatorRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.FLUID_REPLICATOR)) {
+        for (FluidReplicatorRecipe recipe : registry.getRecipeManager().getAllRecipesFor(ModRecipes.FLUID_REPLICATOR)) {
             registry.addRecipe(new FluidReplicatorEmiRecipe(recipe, replicatorCapacityHolder));
         }
 
         // Fusion Reactor
         registry.addCategory(FUSION_REACTOR_CATEGORY);
         registry.addWorkstation(FUSION_REACTOR_CATEGORY, FUSION_CONTROL_COMPUTER_STACK);
-        for (FusionReactorRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.FUSION_REACTOR)) {
+        for (FusionReactorRecipe recipe : registry.getRecipeManager().getAllRecipesFor(ModRecipes.FUSION_REACTOR)) {
             registry.addRecipe(new FusionReactorEmiRecipe(recipe));
         }
 
         // Rolling Machine
         registry.addCategory(ROLLING_MACHINE_CATEGORY);
         registry.addWorkstation(ROLLING_MACHINE_CATEGORY, ROLLING_MACHINE_STACK);
-        for (RollingMachineRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.ROLLING_MACHINE)) {
+        for (RollingMachineRecipe recipe : registry.getRecipeManager().getAllRecipesFor(ModRecipes.ROLLING_MACHINE)) {
             registry.addRecipe(new RollingMachineEmiRecipe(recipe));
         }
 
         // Solid Canning
         registry.addCategory(SOLID_CANNING_MACHINE_CATEGORY);
         registry.addWorkstation(SOLID_CANNING_MACHINE_CATEGORY, SOLID_CANNING_MACHINE_STACK);
-        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.SOLID_CANNING_MACHINE)) {
+        for (RebornRecipe recipe : registry.getRecipeManager().getAllRecipesFor(ModRecipes.SOLID_CANNING_MACHINE)) {
             registry.addRecipe(new SimpleTwoInputEmiRecipe(recipe, SOLID_CANNING_MACHINE_CATEGORY, 1));
         }
 
         // Wire Milling
         registry.addCategory(WIRE_MILL_CATEGORY);
         registry.addWorkstation(WIRE_MILL_CATEGORY, WIRE_MILL_STACK);
-        for (RebornRecipe recipe : registry.getRecipeManager().listAllOfType(ModRecipes.WIRE_MILL)) {
+        for (RebornRecipe recipe : registry.getRecipeManager().getAllRecipesFor(ModRecipes.WIRE_MILL)) {
             registry.addRecipe(new SimpleOneInputEmiRecipe(recipe, WIRE_MILL_CATEGORY, 1));
         }
 
@@ -333,35 +333,35 @@ public class TRIntegration extends AbstractTRIntegration {
         registry.setDefaultComparison(CELL, Comparison.compareNbt());
 
         // Fluid into and from Cells
-        Identifier cellId = CELL.getId();
-        for (Identifier fluidId : Registries.FLUID.getIds()) {
-            Fluid fluid = Registries.FLUID.get(fluidId);
+        ResourceLocation cellId = CELL.getId();
+        for (ResourceLocation fluidId : BuiltInRegistries.FLUID.keySet()) {
+            Fluid fluid = BuiltInRegistries.FLUID.get(fluidId);
 
-            if (!fluid.isStill(fluid.getDefaultState())) {
+            if (!fluid.isSource(fluid.defaultFluidState())) {
                 continue;
             }
 
             EmiStack fluidStack = EmiStack.of(fluid, 1000 * 81);
             EmiStack fluidCellStack = EmiStack.of(DynamicCellItem.getCellWithFluid(fluid));
 
-            Identifier fromId = new Identifier(ExMIPlugin.FLUID_FROM_CONTAINER_CATEGORY.id.getNamespace(),
+            ResourceLocation fromId = new ResourceLocation(ExMIPlugin.FLUID_FROM_CONTAINER_CATEGORY.id.getNamespace(),
                 ExMIPlugin.FLUID_FROM_CONTAINER_CATEGORY.id.getPath() + "/" + cellId.getNamespace() + "/" +
                     cellId.getNamespace() + "/" + fluidId.getNamespace() + "/" + fluidId.getPath());
             registry.addRecipe(new FluidFromContainerEmiRecipe(fromId, fluidStack, fluidCellStack, CELL));
-            Identifier intoId = new Identifier(ExMIPlugin.FLUID_INTO_CONTAINER_CATEGORY.id.getNamespace(),
+            ResourceLocation intoId = new ResourceLocation(ExMIPlugin.FLUID_INTO_CONTAINER_CATEGORY.id.getNamespace(),
                 ExMIPlugin.FLUID_INTO_CONTAINER_CATEGORY.id.getPath() + "/" + cellId.getNamespace() + "/" +
                     cellId.getNamespace() + "/" + fluidId.getNamespace() + "/" + fluidId.getPath());
             registry.addRecipe(new FluidIntoContainerEmiRecipe(intoId, fluidStack, fluidCellStack, CELL));
         }
     }
 
-    public static Identifier trId(String path) {
-        return new Identifier("techreborn", path);
+    public static ResourceLocation trId(String path) {
+        return new ResourceLocation("techreborn", path);
     }
 
-    private static Identifier generatorRecipeId(EmiRecipeCategory category, FluidGeneratorRecipe recipe) {
-        Identifier fluidId = Registries.FLUID.getId(recipe.fluid());
-        return new Identifier(category.id.getNamespace(),
+    private static ResourceLocation generatorRecipeId(EmiRecipeCategory category, FluidGeneratorRecipe recipe) {
+        ResourceLocation fluidId = BuiltInRegistries.FLUID.getKey(recipe.fluid());
+        return new ResourceLocation(category.id.getNamespace(),
             category.id.getPath() + "/" + fluidId.getNamespace() + "/" + fluidId.getPath());
     }
 }

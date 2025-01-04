@@ -182,8 +182,9 @@ dependencies {
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings loom.layered {
-        mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-        mappings file("mappings/port-lib-fix.tiny")
+        officialMojangMappings {
+            nameSyntheticMembers = true
+        }
     }
 
     // Don't commute Fabric or FAPI to anything that depends on us

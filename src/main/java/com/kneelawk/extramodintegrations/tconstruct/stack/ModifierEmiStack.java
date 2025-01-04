@@ -5,13 +5,13 @@ import dev.emi.emi.api.stack.serializer.EmiStackSerializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import slimeknights.tconstruct.library.client.modifiers.ModifierIconManager;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
@@ -36,7 +36,7 @@ public class ModifierEmiStack extends EmiStack {
     }
 
     @Override
-    public void render(DrawContext draw, int x, int y, float delta, int flags) {
+    public void render(GuiGraphics draw, int x, int y, float delta, int flags) {
         ModifierIconManager.renderIcon(draw, entry.getModifier(), x, y, 100, 16);
     }
 
@@ -46,8 +46,8 @@ public class ModifierEmiStack extends EmiStack {
     }
 
     @Override
-    public NbtCompound getNbt() {
-        NbtCompound tag = new NbtCompound();
+    public CompoundTag getNbt() {
+        CompoundTag tag = new CompoundTag();
         tag.putInt("level", entry.getLevel());
         return tag;
     }
@@ -58,22 +58,22 @@ public class ModifierEmiStack extends EmiStack {
     }
 
     @Override
-    public Identifier getId() {
+    public ResourceLocation getId() {
         return entry.getId();
     }
 
     @Override
-    public List<TooltipComponent> getTooltip() {
-        List<TooltipComponent> list = new ArrayList<>();
-        list.add(TooltipComponent.of(getName().asOrderedText()));
+    public List<ClientTooltipComponent> getTooltip() {
+        List<ClientTooltipComponent> list = new ArrayList<>();
+        list.add(ClientTooltipComponent.create(getName().getVisualOrderText()));
         list.addAll(entry.getModifier().getDescriptionList(entry.getLevel())
                 .stream()
-                .map(Text::asOrderedText)
-                .map(TooltipComponent::of)
+                .map(Component::getVisualOrderText)
+                .map(ClientTooltipComponent::create)
                 .toList());
 
-        if (MinecraftClient.getInstance().options.advancedItemTooltips) {
-            list.add(TooltipComponent.of(Text.literal(getId().toString()).formatted(Formatting.DARK_GRAY).asOrderedText()));
+        if (Minecraft.getInstance().options.advancedItemTooltips) {
+            list.add(ClientTooltipComponent.create(Component.literal(getId().toString()).withStyle(ChatFormatting.DARK_GRAY).getVisualOrderText()));
         }
         String namespace = getId().getNamespace();
         String mod = FabricLoader.getInstance()
@@ -81,24 +81,24 @@ public class ModifierEmiStack extends EmiStack {
                 .map(ModContainer::getMetadata)
                 .map(ModMetadata::getName)
                 .orElse(namespace);
-        list.add(TooltipComponent.of(Text.literal(mod).formatted(Formatting.BLUE, Formatting.ITALIC).asOrderedText()));
+        list.add(ClientTooltipComponent.create(Component.literal(mod).withStyle(ChatFormatting.BLUE, ChatFormatting.ITALIC).getVisualOrderText()));
         list.addAll(super.getTooltip());
         return list;
     }
 
     @Override
-    public List<Text> getTooltipText() {
+    public List<Component> getTooltipText() {
         return List.of();
     }
 
     @Override
-    public Text getName() {
+    public Component getName() {
         return entry.getModifier().getDisplayName(entry.getLevel());
     }
 
     public static class Serializer implements EmiStackSerializer<ModifierEmiStack> {
         @Override
-        public EmiStack create(Identifier id, NbtCompound nbt, long amount) {
+        public EmiStack create(ResourceLocation id, CompoundTag nbt, long amount) {
             return new ModifierEmiStack(new ModifierEntry(new ModifierId(id), nbt.getInt("level")));
         }
 

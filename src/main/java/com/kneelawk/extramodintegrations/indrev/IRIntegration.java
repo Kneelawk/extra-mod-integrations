@@ -22,10 +22,8 @@ import me.steven.indrev.recipes.machines.SawmillRecipe;
 import me.steven.indrev.recipes.machines.SmelterRecipe;
 import me.steven.indrev.registry.IRBlockRegistry;
 import me.steven.indrev.registry.MachineRegistry;
-
-import net.minecraft.recipe.RecipeManager;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeManager;
 import com.kneelawk.extramodintegrations.AbstractIRIntegration;
 import com.kneelawk.extramodintegrations.ExMIMod;
 import com.kneelawk.extramodintegrations.ExMITextures;
@@ -114,7 +112,7 @@ public class IRIntegration extends AbstractIRIntegration {
         registry.addCategory(COMPRESS_CATEGORY);
         for (EmiStack stack : COMPRESSOR_STACKS) registry.addWorkstation(COMPRESS_CATEGORY, stack);
         for (EmiStack stack : COMPRESSOR_FACTORY_STACKS) registry.addWorkstation(COMPRESS_CATEGORY, stack);
-        for (CompressorRecipe recipe : manager.listAllOfType(CompressorRecipe.Companion.getTYPE())) {
+        for (CompressorRecipe recipe : manager.getAllRecipesFor(CompressorRecipe.Companion.getTYPE())) {
             registry.addRecipe(new SimpleOneInputEmiRecipe(recipe, COMPRESS_CATEGORY));
         }
         registry.addRecipeHandler(ScreenhandlersKt.getCOMPRESSOR_HANDLER(),
@@ -124,7 +122,7 @@ public class IRIntegration extends AbstractIRIntegration {
         registry.addCategory(CONDENSER_CATEGORY);
         for (EmiStack stack : CONDENSER_STACKS) registry.addWorkstation(CONDENSER_CATEGORY, stack);
         LongHolder maxCondenserVolume = new LongHolder(800 * 81);
-        for (CondenserRecipe recipe : manager.listAllOfType(CondenserRecipe.Companion.getTYPE())) {
+        for (CondenserRecipe recipe : manager.getAllRecipesFor(CondenserRecipe.Companion.getTYPE())) {
             registry.addRecipe(new CondenserEmiRecipe(recipe, maxCondenserVolume));
         }
 
@@ -132,7 +130,7 @@ public class IRIntegration extends AbstractIRIntegration {
         registry.addCategory(ELECTROLYSIS_CATEGORY);
         for (EmiStack stack : ELECTROLYSIS_STACKS) registry.addWorkstation(ELECTROLYSIS_CATEGORY, stack);
         LongHolder maxElectrolyzerVolume = new LongHolder(800 * 81);
-        for (ElectrolysisRecipe recipe : manager.listAllOfType(ElectrolysisRecipe.Companion.getTYPE())) {
+        for (ElectrolysisRecipe recipe : manager.getAllRecipesFor(ElectrolysisRecipe.Companion.getTYPE())) {
             registry.addRecipe(new ElectrolysisEmiRecipe(recipe, maxElectrolyzerVolume));
         }
 
@@ -140,7 +138,7 @@ public class IRIntegration extends AbstractIRIntegration {
         registry.addCategory(FLUID_INFUSE_CATEGORY);
         for (EmiStack stack : FLUID_INFUSER_STACKS) registry.addWorkstation(FLUID_INFUSE_CATEGORY, stack);
         LongHolder maxFluidInfuserVolume = new LongHolder(800 * 81);
-        for (FluidInfuserRecipe recipe : manager.listAllOfType(FluidInfuserRecipe.Companion.getTYPE())) {
+        for (FluidInfuserRecipe recipe : manager.getAllRecipesFor(FluidInfuserRecipe.Companion.getTYPE())) {
             registry.addRecipe(new FluidInfuserEmiRecipe(recipe, maxFluidInfuserVolume));
         }
 
@@ -148,7 +146,7 @@ public class IRIntegration extends AbstractIRIntegration {
         registry.addCategory(INFUSE_CATEGORY);
         for (EmiStack stack : SOLID_INFUSER_STACKS) registry.addWorkstation(INFUSE_CATEGORY, stack);
         for (EmiStack stack : SOLID_INFUSER_FACTORY_STACKS) registry.addWorkstation(INFUSE_CATEGORY, stack);
-        for (InfuserRecipe recipe : manager.listAllOfType(InfuserRecipe.Companion.getTYPE())) {
+        for (InfuserRecipe recipe : manager.getAllRecipesFor(InfuserRecipe.Companion.getTYPE())) {
             registry.addRecipe(new SimpleTwoInputEmiRecipe(recipe, INFUSE_CATEGORY));
         }
         registry.addRecipeHandler(ScreenhandlersKt.getSOLID_INFUSER_HANDLER(),
@@ -158,14 +156,14 @@ public class IRIntegration extends AbstractIRIntegration {
         registry.addCategory(LASER_CATEGORY);
         for (EmiStack stack : LASER_EMITTER_STACKS) registry.addWorkstation(LASER_CATEGORY, stack);
         registry.addWorkstation(LASER_CATEGORY, CAPSULE_STACK);
-        for (LaserRecipe recipe : manager.listAllOfType(LaserRecipe.Companion.getTYPE())) {
+        for (LaserRecipe recipe : manager.getAllRecipesFor(LaserRecipe.Companion.getTYPE())) {
             registry.addRecipe(new LaserEmiRecipe(recipe));
         }
 
         // Modular Workbench
         registry.addCategory(MODULES_CATEGORY);
         for (EmiStack stack : MODULAR_WORKBENCH_STACKS) registry.addWorkstation(MODULES_CATEGORY, stack);
-        for (ModuleRecipe recipe : manager.listAllOfType(ModuleRecipe.Companion.getTYPE())) {
+        for (ModuleRecipe recipe : manager.getAllRecipesFor(ModuleRecipe.Companion.getTYPE())) {
             registry.addRecipe(new ModuleEmiRecipe(recipe));
         }
         registry.addRecipeHandler(ScreenhandlersKt.getMODULAR_WORKBENCH_HANDLER(), new ModuleRecipeHandler());
@@ -174,7 +172,7 @@ public class IRIntegration extends AbstractIRIntegration {
         registry.addCategory(PULVERIZE_CATEGORY);
         for (EmiStack stack : PULVERIZER_STACKS) registry.addWorkstation(PULVERIZE_CATEGORY, stack);
         for (EmiStack stack : PULVERIZER_FACTORY_STACKS) registry.addWorkstation(PULVERIZE_CATEGORY, stack);
-        for (PulverizerRecipe recipe : manager.listAllOfType(PulverizerRecipe.Companion.getTYPE())) {
+        for (PulverizerRecipe recipe : manager.getAllRecipesFor(PulverizerRecipe.Companion.getTYPE())) {
             registry.addRecipe(new PulverizerEmiRecipe(recipe));
         }
         registry.addRecipeHandler(ScreenhandlersKt.getPULVERIZER_HANDLER(),
@@ -183,7 +181,7 @@ public class IRIntegration extends AbstractIRIntegration {
         // Recycler
         registry.addCategory(RECYCLE_CATEGORY);
         for (EmiStack stack : RECYCLER_STACKS) registry.addWorkstation(RECYCLE_CATEGORY, stack);
-        for (RecyclerRecipe recipe : manager.listAllOfType(RecyclerRecipe.Companion.getTYPE())) {
+        for (RecyclerRecipe recipe : manager.getAllRecipesFor(RecyclerRecipe.Companion.getTYPE())) {
             registry.addRecipe(new SimpleOneInputEmiRecipe(recipe, RECYCLE_CATEGORY));
         }
         registry.addRecipeHandler(ScreenhandlersKt.getRECYCLER_HANDLER(),
@@ -192,7 +190,7 @@ public class IRIntegration extends AbstractIRIntegration {
         // Sawmill
         registry.addCategory(SAWMILL_CATEGORY);
         for (EmiStack stack : SAWMILL_STACKS) registry.addWorkstation(SAWMILL_CATEGORY, stack);
-        for (SawmillRecipe recipe : manager.listAllOfType(SawmillRecipe.Companion.getTYPE())) {
+        for (SawmillRecipe recipe : manager.getAllRecipesFor(SawmillRecipe.Companion.getTYPE())) {
             registry.addRecipe(new SawmillEmiRecipe(recipe));
         }
         registry.addRecipeHandler(ScreenhandlersKt.getSAWMILL_HANDLER(),
@@ -202,7 +200,7 @@ public class IRIntegration extends AbstractIRIntegration {
         registry.addCategory(SMELTER_CATEGORY);
         for (EmiStack stack : SMELTER_STACKS) registry.addWorkstation(SMELTER_CATEGORY, stack);
         LongHolder maxSmelterVolume = new LongHolder(800 * 81);
-        for (SmelterRecipe recipe : manager.listAllOfType(SmelterRecipe.Companion.getTYPE())) {
+        for (SmelterRecipe recipe : manager.getAllRecipesFor(SmelterRecipe.Companion.getTYPE())) {
             registry.addRecipe(new SmelterEmiRecipe(recipe, maxSmelterVolume));
         }
         registry.addRecipeHandler(ScreenhandlersKt.getSMELTER_HANDLER(),
@@ -218,7 +216,7 @@ public class IRIntegration extends AbstractIRIntegration {
         return Arrays.stream(registry.getTiers()).map(registry::block).map(EmiStack::of).toArray(EmiStack[]::new);
     }
 
-    public static Identifier irId(String path) {
-        return new Identifier("indrev", path);
+    public static ResourceLocation irId(String path) {
+        return new ResourceLocation("indrev", path);
     }
 }

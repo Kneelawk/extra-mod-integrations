@@ -7,11 +7,8 @@ import dev.emi.emi.api.widget.Bounds;
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.ResourceAmount;
-
+import net.minecraft.client.gui.GuiGraphics;
 import com.mojang.blaze3d.systems.RenderSystem;
-
-import net.minecraft.client.gui.DrawContext;
-
 import com.kneelawk.extramodintegrations.util.CustomFluidSlotWidget;
 import com.kneelawk.extramodintegrations.util.UIUtils;
 
@@ -37,22 +34,22 @@ public class IRFluidSlotWidget extends CustomFluidSlotWidget {
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
         if (drawBack) {
             IRTextures.TANK_BOTTOM.render(context, x, y, delta);
         }
 
         if (fluid != null) {
-            UIUtils.renderFluid(context.getMatrices(), fluid, x + 1, y + 1, FLUID_AREA_HEIGHT,
+            UIUtils.renderFluid(context.pose(), fluid, x + 1, y + 1, FLUID_AREA_HEIGHT,
                 fluidFullness * FLUID_AREA_HEIGHT, FLUID_AREA_WIDTH);
         }
 
         if (drawBack) {
             RenderSystem.enableBlend();
-            context.getMatrices().push();
-            context.getMatrices().translate(0.0, 0.0, 50.0);
+            context.pose().pushPose();
+            context.pose().translate(0.0, 0.0, 50.0);
             IRTextures.TANK_TOP.render(context, x, y, delta);
-            context.getMatrices().pop();
+            context.pose().popPose();
             RenderSystem.disableBlend();
         }
 

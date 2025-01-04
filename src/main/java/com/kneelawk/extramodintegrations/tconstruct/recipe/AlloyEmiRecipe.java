@@ -9,8 +9,8 @@ import dev.emi.emi.api.widget.TankWidget;
 import dev.emi.emi.api.widget.TextWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.alloying.AlloyRecipe;
 import slimeknights.tconstruct.plugin.jei.melting.MeltingFuelHandler;
@@ -19,11 +19,11 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class AlloyEmiRecipe extends BasicEmiRecipe {
-    private static final Identifier BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/alloy.png");
+    private static final ResourceLocation BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/alloy.png");
     private static final String KEY_TEMPERATURE = TConstruct.makeTranslationKey("jei", "temperature");
 
     private final int temperature;
-    private final List<Supplier<List<Text>>> outputsTiCTooltip;
+    private final List<Supplier<List<Component>>> outputsTiCTooltip;
 
     public AlloyEmiRecipe(AlloyRecipe recipe) {
         super(TiCCategories.ALLOY, recipe.getId(), 172, 62);
@@ -43,7 +43,7 @@ public class AlloyEmiRecipe extends BasicEmiRecipe {
     public void addWidgets(WidgetHolder widgets) {
         widgets.addTexture(BACKGROUND_LOC, 0, 0, 172, 62, 0, 0);
 
-        widgets.addText(Text.translatable(KEY_TEMPERATURE, temperature), 102, 5, 0x808080, false)
+        widgets.addText(Component.translatable(KEY_TEMPERATURE, temperature), 102, 5, 0x808080, false)
                 .horizontalAlign(TextWidget.Alignment.CENTER);
 
         long maxAmount = Streams.concat(inputs.stream(), outputs.stream())

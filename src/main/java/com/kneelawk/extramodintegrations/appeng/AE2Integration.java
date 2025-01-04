@@ -9,10 +9,8 @@ import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.recipe.EmiRecipeSorting;
 import dev.emi.emi.api.stack.EmiStack;
-
-import net.minecraft.recipe.RecipeManager;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeManager;
 import com.kneelawk.extramodintegrations.AbstractAE2Integration;
 import com.kneelawk.extramodintegrations.ExMIMod;
 import com.kneelawk.extramodintegrations.ExMITextures;
@@ -40,25 +38,25 @@ public class AE2Integration extends AbstractAE2Integration {
         registry.addCategory(CHARGER_CATEGORY);
         registry.addWorkstation(CHARGER_CATEGORY, CHARGER_STACK);
         registry.addWorkstation(CHARGER_CATEGORY, CRANK_STACK);
-        for (ChargerRecipe recipe : manager.listAllOfType(ChargerRecipe.TYPE)) {
+        for (ChargerRecipe recipe : manager.getAllRecipesFor(ChargerRecipe.TYPE)) {
             registry.addRecipe(new ChargerEmiRecipe(recipe));
         }
 
         // Inscriber
         registry.addCategory(INSCRIBER_CATEGORY);
         registry.addWorkstation(INSCRIBER_CATEGORY, INSCRIBER_STACK);
-        for (InscriberRecipe recipe : manager.listAllOfType(InscriberRecipe.TYPE)) {
+        for (InscriberRecipe recipe : manager.getAllRecipesFor(InscriberRecipe.TYPE)) {
             registry.addRecipe(new InscriberEmiRecipe(recipe));
         }
         registry.addRecipeHandler(InscriberMenu.TYPE, new InscriberRecipeHandler());
 
         // Transform (world interaction)
-        for (TransformRecipe recipe : manager.listAllOfType(TransformRecipe.TYPE)) {
+        for (TransformRecipe recipe : manager.getAllRecipesFor(TransformRecipe.TYPE)) {
             registry.addRecipe(new TransformEmiRecipe(recipe));
         }
     }
 
-    public static Identifier ae2Id(String path) {
-        return new Identifier("ae2", path);
+    public static ResourceLocation ae2Id(String path) {
+        return new ResourceLocation("ae2", path);
     }
 }

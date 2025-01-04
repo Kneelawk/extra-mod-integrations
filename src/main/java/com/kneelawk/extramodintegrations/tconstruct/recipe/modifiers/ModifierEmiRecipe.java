@@ -9,18 +9,6 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.DrawableWidget;
 import dev.emi.emi.api.widget.TextWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.BakedModelManager;
-import net.minecraft.client.texture.MissingSprite;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.screen.PlayerScreenHandler;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import slimeknights.mantle.client.model.NBTKeyModel;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.modifiers.adding.IDisplayModifierRecipe;
@@ -32,11 +20,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.ModelManager;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.item.crafting.Recipe;
 
 public class ModifierEmiRecipe extends BasicEmiRecipe {
-    protected static final Identifier BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/tinker_station.png");
-    private static final List<Text> TEXT_FREE = Collections.singletonList(TConstruct.makeTranslation("jei", "modifiers.free"));
-    private static final List<Text> TEXT_INCREMENTAL = Collections.singletonList(TConstruct.makeTranslation("jei", "modifiers.incremental"));
+    protected static final ResourceLocation BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/tinker_station.png");
+    private static final List<Component> TEXT_FREE = Collections.singletonList(TConstruct.makeTranslation("jei", "modifiers.free"));
+    private static final List<Component> TEXT_INCREMENTAL = Collections.singletonList(TConstruct.makeTranslation("jei", "modifiers.incremental"));
     private static final String KEY_SLOT = TConstruct.makeTranslationKey("jei", "modifiers.slot");
     private static final String KEY_SLOTS = TConstruct.makeTranslationKey("jei", "modifiers.slots");
     private static final String KEY_MAX = TConstruct.makeTranslationKey("jei", "modifiers.max");
@@ -46,7 +46,7 @@ public class ModifierEmiRecipe extends BasicEmiRecipe {
     private final SlotType.SlotCount slots;
     private final String requirementsError;
     private final EmiIngredient toolWithoutModifier, toolWithModifier;
-    private final Map<SlotType, Sprite> slotTypeSprites = new HashMap<>();
+    private final Map<SlotType, TextureAtlasSprite> slotTypeSprites = new HashMap<>();
 
     public ModifierEmiRecipe(IDisplayModifierRecipe recipe) {
         super(TiCCategories.MODIFIERS, recipe instanceof Recipe<?> r ? r.getId() : null, 128, 77);
@@ -79,25 +79,25 @@ public class ModifierEmiRecipe extends BasicEmiRecipe {
     private DrawableWidget drawSlotType(WidgetHolder widgets, int x, int y) {
         SlotType slotType = slots == null ? null : slots.getType();
 
-        MinecraftClient minecraft = MinecraftClient.getInstance();
-        Sprite sprite = slotTypeSprites.computeIfAbsent(slotType, s -> {
-            BakedModelManager modelManager = minecraft.getBakedModelManager();
+        Minecraft minecraft = Minecraft.getInstance();
+        TextureAtlasSprite sprite = slotTypeSprites.computeIfAbsent(slotType, s -> {
+            ModelManager modelManager = minecraft.getModelManager();
             // gets the model for the item, its a sepcial one that gives us texture info
-            BakedModel model = minecraft.getItemRenderer().getModels().getModel(TinkerModifiers.creativeSlotItem.get());
+            BakedModel model = minecraft.getItemRenderer().getItemModelShaper().getItemModel(TinkerModifiers.creativeSlotItem.get());
             if (model != null && model.getOverrides() instanceof NBTKeyModel.Overrides) {
-                SpriteIdentifier material = ((NBTKeyModel.Overrides) model.getOverrides()).getTexture(s == null ? "slotless" : s.getName());
-                return modelManager.getAtlas(material.getAtlasId()).getSprite(material.getTextureId());
+                Material material = ((NBTKeyModel.Overrides) model.getOverrides()).getTexture(s == null ? "slotless" : s.getName());
+                return modelManager.getAtlas(material.atlasLocation()).getSprite(material.texture());
             } else {
                 // failed to use the model, use missing texture
-                return modelManager.getAtlas(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).getSprite(MissingSprite.getMissingSpriteId());
+                return modelManager.getAtlas(InventoryMenu.BLOCK_ATLAS).getSprite(MissingTextureAtlasSprite.getLocation());
             }
         });
 
         return widgets.addDrawable(x, y, 16, 16, (graphics, mouseX, mouseY, delta) -> {
-            RenderSystem.setShader(GameRenderer::getPositionTexProgram);
-            RenderSystem.setShaderTexture(0, PlayerScreenHandler.BLOCK_ATLAS_TEXTURE);
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
 
-            graphics.drawSprite(0, 0, 0, 16, 16, sprite);
+            graphics.blit(0, 0, 0, 16, 16, sprite);
         });
     }
 
@@ -112,25 +112,25 @@ public class ModifierEmiRecipe extends BasicEmiRecipe {
         widgets.addTexture(BACKGROUND_LOC, 0, 0, 128, 77, 0, 0);
 
         if (maxLevel > 0) {
-            widgets.addText(Text.translatable(KEY_MAX).append(String.valueOf(maxLevel)), 66, 16, 0x808080, false);
+            widgets.addText(Component.translatable(KEY_MAX).append(String.valueOf(maxLevel)), 66, 16, 0x808080, false);
         }
 
-        List<TooltipComponent> slotTypeTooltip;
+        List<ClientTooltipComponent> slotTypeTooltip;
         if (slots != null) {
             int count = slots.getCount();
             if (count == 1) {
-                slotTypeTooltip = List.of(TooltipComponent.of(Text.translatable(KEY_SLOT, slots.getType().getDisplayName()).asOrderedText()));
+                slotTypeTooltip = List.of(ClientTooltipComponent.create(Component.translatable(KEY_SLOT, slots.getType().getDisplayName()).getVisualOrderText()));
             } else {
-                slotTypeTooltip = List.of(TooltipComponent.of(Text.translatable(KEY_SLOTS, slots.getType().getDisplayName()).asOrderedText()));
+                slotTypeTooltip = List.of(ClientTooltipComponent.create(Component.translatable(KEY_SLOTS, slots.getType().getDisplayName()).getVisualOrderText()));
             }
         } else {
-            slotTypeTooltip = TEXT_FREE.stream().map(Text::asOrderedText).map(TooltipComponent::of).toList();
+            slotTypeTooltip = TEXT_FREE.stream().map(Component::getVisualOrderText).map(ClientTooltipComponent::create).toList();
         }
 
         drawSlotType(widgets, 110, 58)
                 .tooltip(slotTypeTooltip);
         if (slots != null) {
-            widgets.addText(Text.literal(String.valueOf(slots.getCount())), 111, 63, 0x808080, false)
+            widgets.addText(Component.literal(String.valueOf(slots.getCount())), 111, 63, 0x808080, false)
                     .horizontalAlign(TextWidget.Alignment.END);
         }
 
@@ -161,7 +161,7 @@ public class ModifierEmiRecipe extends BasicEmiRecipe {
 
         if (hasRequirements) {
             widgets.addTexture(BACKGROUND_LOC, 66, 58, 16, 16, 128, 17)
-                    .tooltipText(List.of(Text.translatable(requirementsError)));
+                    .tooltipText(List.of(Component.translatable(requirementsError)));
         }
         if (isIncremental) {
             widgets.addTexture(BACKGROUND_LOC, 83, 59, 16, 16, 128, 33)

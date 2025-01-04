@@ -5,14 +5,14 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 public class DecompositionEmiRecipe implements EmiRecipe {
-    private static final Identifier GUI_TEXTURE = new Identifier("farmersdelight", "textures/gui/rei/decomposition.png");
+    private static final ResourceLocation GUI_TEXTURE = new ResourceLocation("farmersdelight", "textures/gui/rei/decomposition.png");
 
     private final EmiIngredient base;
     private final EmiStack enriched;
@@ -30,7 +30,7 @@ public class DecompositionEmiRecipe implements EmiRecipe {
     }
 
     @Override
-    public @Nullable Identifier getId() {
+    public @Nullable ResourceLocation getId() {
         return null;
     }
 
@@ -74,15 +74,15 @@ public class DecompositionEmiRecipe implements EmiRecipe {
                 .catalyst(true);
 
         widgets.addTooltipText(
-                List.of(Text.translatable("farmersdelight.rei.decomposition.light")),
+                List.of(Component.translatable("farmersdelight.rei.decomposition.light")),
                 33, 30, 10, 10
         );
         widgets.addTooltipText(
-                List.of(Text.translatable("farmersdelight.rei.decomposition.fluid")),
+                List.of(Component.translatable("farmersdelight.rei.decomposition.fluid")),
                 46, 30, 10, 10
         );
         widgets.addTooltipText(
-                List.of(Text.translatable("farmersdelight.rei.decomposition.accelerators")),
+                List.of(Component.translatable("farmersdelight.rei.decomposition.accelerators")),
                 59, 30, 10, 10
         );
     }

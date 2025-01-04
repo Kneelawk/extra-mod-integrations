@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ShapedTesselatingEmiRecipe extends AbstractTesselatingEmiRecipe {
     public ShapedTesselatingEmiRecipe(ShapedTesselatingRecipe recipe) {
-        super(padIngredients(recipe), EmiStack.of(recipe.getOutput(null)), recipe.weavingTime(), recipe.getId(), false);
+        super(padIngredients(recipe), EmiStack.of(recipe.getResultItem(null)), recipe.weavingTime(), recipe.getId(), false);
     }
 
     private static List<EmiIngredient> padIngredients(ShapedTesselatingRecipe recipe) {

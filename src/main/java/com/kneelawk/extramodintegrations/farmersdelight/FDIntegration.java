@@ -12,37 +12,37 @@ import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
-import net.minecraft.recipe.RecipeManager;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeManager;
 
 @SuppressWarnings("unused")
 public class FDIntegration extends AbstractFDIntegration {
     public static EmiRecipeCategory COOKING_CATEGORY = new EmiRecipeCategory(
-            new Identifier("farmersdelight", "cooking"),
+            new ResourceLocation("farmersdelight", "cooking"),
             EmiStack.of(BlocksRegistry.COOKING_POT.get())
     ) {
         @Override
-        public Text getName() {
-            return Text.translatable("farmersdelight.rei.cooking");
+        public Component getName() {
+            return Component.translatable("farmersdelight.rei.cooking");
         }
     };
     public static EmiRecipeCategory CUTTING_CATEGORY = new EmiRecipeCategory(
-            new Identifier("farmersdelight", "cutting"),
+            new ResourceLocation("farmersdelight", "cutting"),
             EmiStack.of(BlocksRegistry.CUTTING_BOARD.get())
     ) {
         @Override
-        public Text getName() {
-            return Text.translatable("farmersdelight.rei.cutting");
+        public Component getName() {
+            return Component.translatable("farmersdelight.rei.cutting");
         }
     };
     public static EmiRecipeCategory DECOMPOSITION_CATEGORY = new EmiRecipeCategory(
-            new Identifier("farmersdelight", "decomposition"),
+            new ResourceLocation("farmersdelight", "decomposition"),
             EmiStack.of(BlocksRegistry.RICH_SOIL.get())
     ) {
         @Override
-        public Text getName() {
-            return Text.translatable("farmersdelight.rei.decomposition");
+        public Component getName() {
+            return Component.translatable("farmersdelight.rei.decomposition");
         }
     };
 
@@ -62,12 +62,12 @@ public class FDIntegration extends AbstractFDIntegration {
 
         // recipes
         RecipeManager manager = registry.getRecipeManager();
-        manager.listAllOfType(RecipeTypesRegistry.COOKING_RECIPE_SERIALIZER.type())
+        manager.getAllRecipesFor(RecipeTypesRegistry.COOKING_RECIPE_SERIALIZER.type())
                 .stream()
                 .map(CookingPotRecipe.class::cast)
                 .map(CookingPotEmiRecipe::new)
                 .forEach(registry::addRecipe);
-        manager.listAllOfType(RecipeTypesRegistry.CUTTING_RECIPE_SERIALIZER.type())
+        manager.getAllRecipesFor(RecipeTypesRegistry.CUTTING_RECIPE_SERIALIZER.type())
                 .stream()
                 .map(CuttingBoardRecipe.class::cast)
                 .map(CuttingEmiRecipe::new)

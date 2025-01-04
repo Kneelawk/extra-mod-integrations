@@ -11,40 +11,40 @@ import com.kneelawk.extramodintegrations.ExMIMod;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiStack;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.RecipeManager;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeManager;
 
 @SuppressWarnings("unused")
 public class ConjuringIntegration extends AbstractConjuringIntegration {
     public static final EmiRecipeCategory GEM_TINKERING = new EmiRecipeCategory(
-            new Identifier("conjuring", "gem_tinkering"),
+            new ResourceLocation("conjuring", "gem_tinkering"),
             EmiStack.of(ConjuringBlocks.GEM_TINKERER)
     ) {
         @Override
-        public Text getName() {
-            return Text.translatable("conjuring.gui.gem_tinkerer");
+        public Component getName() {
+            return Component.translatable("conjuring.gui.gem_tinkerer");
         }
     };
 
     public static final EmiRecipeCategory SOUL_WEAVING = new EmiRecipeCategory(
-            new Identifier("conjuring", "soul_weaving"),
+            new ResourceLocation("conjuring", "soul_weaving"),
             EmiStack.of(ConjuringBlocks.SOUL_WEAVER)
     ) {
         @Override
-        public Text getName() {
-            return Text.translatable("conjuring.gui.soul_weaver");
+        public Component getName() {
+            return Component.translatable("conjuring.gui.soul_weaver");
         }
     };
 
     public static final EmiRecipeCategory SOULFIRE_FORGE = new EmiRecipeCategory(
-            new Identifier("conjuring", "soulfire_forge"),
+            new ResourceLocation("conjuring", "soulfire_forge"),
             EmiStack.of(ConjuringBlocks.SOULFIRE_FORGE)
     ) {
         @Override
-        public Text getName() {
-            return Text.translatable("conjuring.gui.soulfire_forge");
+        public Component getName() {
+            return Component.translatable("conjuring.gui.soulfire_forge");
         }
     };
 
@@ -65,17 +65,17 @@ public class ConjuringIntegration extends AbstractConjuringIntegration {
 
         // recipes
         RecipeManager manager = registry.getRecipeManager();
-        manager.listAllOfType(SoulfireForgeRecipe.Type.INSTANCE)
+        manager.getAllRecipesFor(SoulfireForgeRecipe.Type.INSTANCE)
                 .stream()
-                .filter(r -> r.getOutput(null).getItem() != ConjuringItems.PIZZA)
+                .filter(r -> r.getResultItem(null).getItem() != ConjuringItems.PIZZA)
                 .map(SoulfireForgeEmiRecipe::new)
                 .forEach(registry::addRecipe);
-        manager.listAllOfType(GemTinkererRecipe.Type.INSTANCE)
+        manager.getAllRecipesFor(GemTinkererRecipe.Type.INSTANCE)
                 .stream()
-                .filter(r -> r.getOutput(null).getItem() != Items.COOKIE)
+                .filter(r -> r.getResultItem(null).getItem() != Items.COOKIE)
                 .map(GemTinkeringEmiRecipe::new)
                 .forEach(registry::addRecipe);
-        manager.listAllOfType(SoulWeaverRecipe.Type.INSTANCE)
+        manager.getAllRecipesFor(SoulWeaverRecipe.Type.INSTANCE)
                 .stream()
                 .map(SoulWeavingEmiRecipe::new)
                 .forEach(registry::addRecipe);

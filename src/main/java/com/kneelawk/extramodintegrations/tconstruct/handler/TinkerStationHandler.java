@@ -3,12 +3,12 @@ package com.kneelawk.extramodintegrations.tconstruct.handler;
 import com.kneelawk.extramodintegrations.tconstruct.TiCCategories;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.handler.StandardRecipeHandler;
-import net.minecraft.screen.slot.Slot;
 import slimeknights.tconstruct.tables.menu.TinkerStationContainerMenu;
 import slimeknights.tconstruct.tools.item.ArmorSlotType;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.world.inventory.Slot;
 
 public class TinkerStationHandler implements StandardRecipeHandler<TinkerStationContainerMenu> {
     @Override

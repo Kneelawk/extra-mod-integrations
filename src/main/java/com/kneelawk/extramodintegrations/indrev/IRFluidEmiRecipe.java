@@ -14,15 +14,13 @@ import me.steven.indrev.recipes.machines.IRFluidRecipe;
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.ResourceAmount;
-
-import net.minecraft.util.Identifier;
-
+import net.minecraft.resources.ResourceLocation;
 import com.kneelawk.extramodintegrations.ExMIMod;
 import com.kneelawk.extramodintegrations.util.LongHolder;
 
 public abstract class IRFluidEmiRecipe<R extends IRFluidRecipe> implements EmiRecipe {
     protected final R recipe;
-    protected final Identifier id;
+    protected final ResourceLocation id;
     protected final List<EmiIngredient> inputs;
     protected final List<EmiIngredient> inputItems;
     protected final List<EmiStack> outputs;
@@ -53,7 +51,7 @@ public abstract class IRFluidEmiRecipe<R extends IRFluidRecipe> implements EmiRe
     }
 
     @Override
-    public @NotNull Identifier getId() {
+    public @NotNull ResourceLocation getId() {
         return id;
     }
 

@@ -6,8 +6,7 @@ import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.recipe.EmiRecipeSorting;
 import dev.emi.emi.api.stack.EmiStack;
-
-import net.minecraft.item.Items;
+import net.minecraft.world.item.Items;
 
 import static com.kneelawk.extramodintegrations.ExMIMod.id;
 

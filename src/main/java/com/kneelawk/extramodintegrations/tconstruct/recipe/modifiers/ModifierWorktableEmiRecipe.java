@@ -7,21 +7,21 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.SlotWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.worktable.IModifierWorktableRecipe;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 public class ModifierWorktableEmiRecipe extends BasicEmiRecipe {
-    private static final Identifier BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/tinker_station.png");
+    private static final ResourceLocation BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/tinker_station.png");
 
-    private final Text title;
-    private final Text description;
+    private final Component title;
+    private final Component description;
     private final EmiIngredient inputTools;
     private final int inputCount;
     private final List<EmiIngredient> displayItems;
@@ -58,7 +58,7 @@ public class ModifierWorktableEmiRecipe extends BasicEmiRecipe {
         widgets.addTexture(BACKGROUND_LOC, 0, 0, 121, 35, 0, 166);
 
         widgets.addText(title, 3, 2, 0x404040, false);
-        widgets.addTooltip(List.of(TooltipComponent.of(description.asOrderedText())), 0, 0, width, 12);
+        widgets.addTooltip(List.of(ClientTooltipComponent.create(description.getVisualOrderText())), 0, 0, width, 12);
 
         widgets.addSlot(inputTools, 22, 15)
                 .drawBack(false);

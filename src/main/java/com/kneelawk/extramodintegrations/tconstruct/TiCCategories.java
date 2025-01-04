@@ -5,7 +5,7 @@ import com.kneelawk.extramodintegrations.util.NamedEmiRecipeCategory;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.render.EmiTexture;
 import dev.emi.emi.api.stack.EmiStack;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.tools.SlotType;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;

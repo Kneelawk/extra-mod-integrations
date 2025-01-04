@@ -22,12 +22,10 @@ import me.steven.indrev.packets.common.SelectModuleOnWorkbenchPacket;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.world.World;
-
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import com.kneelawk.extramodintegrations.ExMIMod;
 
 public class ModuleRecipeHandler implements StandardRecipeHandler<ModularWorkbenchScreenHandler> {
@@ -105,7 +103,7 @@ public class ModuleRecipeHandler implements StandardRecipeHandler<ModularWorkben
         Optional<BlockEntity> be;
         // no better way to do this
         try {
-            be = handler.getCtx().get(World::getBlockEntity);
+            be = handler.getCtx().evaluate(Level::getBlockEntity);
         } catch (NullPointerException e) {
             be = Optional.empty();
         }
@@ -124,7 +122,7 @@ public class ModuleRecipeHandler implements StandardRecipeHandler<ModularWorkben
         int slotCount = handler.slots.size();
         for (int i = 0; i < slotCount; i++) {
             Slot slot = handler.slots.get(i);
-            if (slot.inventory == irInv && slot instanceof ValidatedSlot vSlot) {
+            if (slot.container == irInv && slot instanceof ValidatedSlot vSlot) {
                 int invIndex = vSlot.getInventoryIndex();
                 if (CRAFTING_START <= invIndex && invIndex < CRAFTING_STOP) {
                     inputs.add(slot);
@@ -140,7 +138,7 @@ public class ModuleRecipeHandler implements StandardRecipeHandler<ModularWorkben
         int slotCount = handler.slots.size();
         for (int i = 0; i < slotCount; i++) {
             Slot slot = handler.slots.get(i);
-            if (slot.inventory == irInv && slot instanceof ValidatedSlot vSlot) {
+            if (slot.container == irInv && slot instanceof ValidatedSlot vSlot) {
                 int invIndex = vSlot.getInventoryIndex();
                 if (CRAFTING_START <= invIndex && invIndex < CRAFTING_STOP) {
                     if (invIndex == CRAFTING_START && !curInputs.isEmpty()) {
@@ -167,10 +165,10 @@ public class ModuleRecipeHandler implements StandardRecipeHandler<ModularWorkben
         be.setSelectedRecipe(recipe.recipe.getId());
 
         // WARNING: extremely cursed code
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeInt(sh.syncId);
-        buf.writeIdentifier(recipe.recipe.getId());
-        buf.writeBlockPos(be.getPos());
+        FriendlyByteBuf buf = PacketByteBufs.create();
+        buf.writeInt(sh.containerId);
+        buf.writeResourceLocation(recipe.recipe.getId());
+        buf.writeBlockPos(be.getBlockPos());
         ClientPlayNetworking.send(SelectModuleOnWorkbenchPacket.INSTANCE.getMODULE_SELECT_PACKET(), buf);
 
         // Cursed code for setting the Modular Workbench tab

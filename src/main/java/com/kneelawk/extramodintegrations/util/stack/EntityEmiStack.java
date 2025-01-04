@@ -6,20 +6,19 @@ import dev.emi.emi.api.stack.EmiStack;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.Mouse;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.client.gui.tooltip.TooltipComponent;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.Registries;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.MouseHandler;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,12 +34,12 @@ public class EntityEmiStack extends EmiStack {
 
     public EntityEmiStack(EntityType<?> entityType) {
         this.type = entityType;
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
         if (!BLOCKLIST.contains(entityType)) {
             CACHE.computeIfAbsent(entityType, entityType1 -> {
                 if (entityType1 == EntityType.PLAYER) return client.player;
                 try {
-                    return entityType.create(client.world);
+                    return entityType.create(client.level);
                 } catch (Throwable t) {
                     BLOCKLIST.add(entityType1);
                     ExMIMod.LOGGER.error("Failed to construct entity", t);
@@ -56,14 +55,14 @@ public class EntityEmiStack extends EmiStack {
     }
 
     @Override
-    public void render(DrawContext draw, int x, int y, float delta, int flags) {
+    public void render(GuiGraphics draw, int x, int y, float delta, int flags) {
         if (((flags & RENDER_ICON) != 0)) {
             Entity entity = CACHE.get(this.type);
             if (entity instanceof LivingEntity living) {
-                Mouse mouse = MinecraftClient.getInstance().mouse;
-                float mouseX = (float) mouse.getX() + x;
-                float mouseY = (float) mouse.getY() + y;
-                InventoryScreen.drawEntity(draw, x + 8, y + 16, 8, 0, 0, living);
+                MouseHandler mouse = Minecraft.getInstance().mouseHandler;
+                float mouseX = (float) mouse.xpos() + x;
+                float mouseY = (float) mouse.ypos() + y;
+                InventoryScreen.renderEntityInInventoryFollowsMouse(draw, x + 8, y + 16, 8, 0, 0, living);
             }
         }
         if ((flags & RENDER_REMAINDER) != 0) {
@@ -77,7 +76,7 @@ public class EntityEmiStack extends EmiStack {
     }
 
     @Override
-    public NbtCompound getNbt() {
+    public CompoundTag getNbt() {
         return null;
     }
 
@@ -87,16 +86,16 @@ public class EntityEmiStack extends EmiStack {
     }
 
     @Override
-    public Identifier getId() {
-        return Registries.ENTITY_TYPE.getId(type);
+    public ResourceLocation getId() {
+        return BuiltInRegistries.ENTITY_TYPE.getKey(type);
     }
 
     @Override
-    public List<TooltipComponent> getTooltip() {
-        List<TooltipComponent> list = new ArrayList<>();
-        list.add(TooltipComponent.of(getName().asOrderedText()));
-        if (MinecraftClient.getInstance().options.advancedItemTooltips) {
-            list.add(TooltipComponent.of(Text.literal(getId().toString()).formatted(Formatting.DARK_GRAY).asOrderedText()));
+    public List<ClientTooltipComponent> getTooltip() {
+        List<ClientTooltipComponent> list = new ArrayList<>();
+        list.add(ClientTooltipComponent.create(getName().getVisualOrderText()));
+        if (Minecraft.getInstance().options.advancedItemTooltips) {
+            list.add(ClientTooltipComponent.create(Component.literal(getId().toString()).withStyle(ChatFormatting.DARK_GRAY).getVisualOrderText()));
         }
         String namespace = getId().getNamespace();
         String mod = FabricLoader.getInstance()
@@ -104,22 +103,22 @@ public class EntityEmiStack extends EmiStack {
                 .map(ModContainer::getMetadata)
                 .map(ModMetadata::getName)
                 .orElse(namespace);
-        list.add(TooltipComponent.of(Text.literal(mod).formatted(Formatting.BLUE, Formatting.ITALIC).asOrderedText()));
+        list.add(ClientTooltipComponent.create(Component.literal(mod).withStyle(ChatFormatting.BLUE, ChatFormatting.ITALIC).getVisualOrderText()));
         list.addAll(super.getTooltip());
         return list;
     }
 
     @Override
-    public List<Text> getTooltipText() {
+    public List<Component> getTooltipText() {
         return null;
     }
 
     @Override
-    public Text getName() {
+    public Component getName() {
         Entity entity = CACHE.get(this.type);
         if (entity != null) {
             return entity.getName();
         }
-        return this.type.getName();
+        return this.type.getDescription();
     }
 }

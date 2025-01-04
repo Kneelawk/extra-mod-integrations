@@ -7,7 +7,7 @@ import com.kneelawk.extramodintegrations.dimdoors.recipe.ShapedTesselatingEmiRec
 import com.kneelawk.extramodintegrations.dimdoors.recipe.ShapelessTesselatingEmiRecipe;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.stack.EmiStack;
-import net.minecraft.recipe.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeManager;
 import org.dimdev.dimdoors.block.ModBlocks;
 import org.dimdev.dimdoors.recipe.ModRecipeTypes;
 import org.dimdev.dimdoors.screen.ModScreenHandlerTypes;
@@ -24,11 +24,11 @@ public class DimDoorsIntegration extends AbstractDimDoorsIntegration {
 
         RecipeManager manager = registry.getRecipeManager();
 
-        manager.listAllOfType(ModRecipeTypes.SHAPED_TESSELATING.get())
+        manager.getAllRecipesFor(ModRecipeTypes.SHAPED_TESSELATING.get())
                 .stream()
                 .map(ShapedTesselatingEmiRecipe::new)
                 .forEach(registry::addRecipe);
-        manager.listAllOfType(ModRecipeTypes.SHAPELESS_TESSELATING.get())
+        manager.getAllRecipesFor(ModRecipeTypes.SHAPELESS_TESSELATING.get())
                 .stream()
                 .map(ShapelessTesselatingEmiRecipe::new)
                 .forEach(registry::addRecipe);

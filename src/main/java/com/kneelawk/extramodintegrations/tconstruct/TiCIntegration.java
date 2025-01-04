@@ -27,18 +27,18 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.Bounds;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeManager;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.material.Fluid;
 import slimeknights.mantle.client.screen.MultiModuleScreen;
 import slimeknights.mantle.recipe.helper.RecipeHelper;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -153,7 +153,7 @@ public class TiCIntegration extends AbstractTiCIntegration {
         removeFluid(registry, TinkerFluids.moltenKnightslime.get(), TinkerFluids.moltenKnightslime.asItem());
         // hide compat that is not present
         for (SmelteryCompat compat : SmelteryCompat.values()) {
-            Iterable<RegistryEntry<Item>> ingot = getTag(new Identifier("c", compat.getName() + "_ingots"));
+            Iterable<Holder<Item>> ingot = getTag(new ResourceLocation("c", compat.getName() + "_ingots"));
             if (Iterables.isEmpty(ingot)) {
                 removeFluid(registry, compat.getFluid().get(), compat.getBucket());
             }
@@ -167,53 +167,53 @@ public class TiCIntegration extends AbstractTiCIntegration {
     private static void registerRecipes(EmiRegistry registry) {
         RecipeManager manager = registry.getRecipeManager();
         // casting
-        RecipeHelper.getJEIRecipes(manager.listAllOfType(TinkerRecipeTypes.CASTING_BASIN.get()).stream(), IDisplayableCastingRecipe.class)
+        RecipeHelper.getJEIRecipes(manager.getAllRecipesFor(TinkerRecipeTypes.CASTING_BASIN.get()).stream(), IDisplayableCastingRecipe.class)
                 .stream()
                 .map(CastingBasinEmiRecipe::new)
                 .forEach(registry::addRecipe);
-        RecipeHelper.getJEIRecipes(manager.listAllOfType(TinkerRecipeTypes.CASTING_TABLE.get()).stream(), IDisplayableCastingRecipe.class)
+        RecipeHelper.getJEIRecipes(manager.getAllRecipesFor(TinkerRecipeTypes.CASTING_TABLE.get()).stream(), IDisplayableCastingRecipe.class)
                 .stream()
                 .map(CastingTableEmiRecipe::new)
                 .forEach(registry::addRecipe);
         // melting
-        List<MeltingRecipe> meltingRecipes = RecipeHelper.getJEIRecipes(manager.listAllOfType(TinkerRecipeTypes.MELTING.get()).stream(), MeltingRecipe.class);
+        List<MeltingRecipe> meltingRecipes = RecipeHelper.getJEIRecipes(manager.getAllRecipesFor(TinkerRecipeTypes.MELTING.get()).stream(), MeltingRecipe.class);
         meltingRecipes.forEach(meltingRecipe -> registry.addRecipe(MeltingEmiRecipe.of(meltingRecipe)));
         meltingRecipes.forEach(meltingRecipe -> registry.addRecipe(FoundryEmiRecipe.of(meltingRecipe)));
         MeltingFuelHandler.setMeltngFuels(RecipeHelper.getRecipes(manager, TinkerRecipeTypes.FUEL.get(), MeltingFuel.class));
 
         // entity melting
-        List<EntityMeltingRecipe> entityMeltingRecipes = manager.listAllOfType(TinkerRecipeTypes.ENTITY_MELTING.get());
+        List<EntityMeltingRecipe> entityMeltingRecipes = manager.getAllRecipesFor(TinkerRecipeTypes.ENTITY_MELTING.get());
         // generate a "default" recipe for all other entity types
         Streams.concat(entityMeltingRecipes.stream(), Stream.of(new DefaultEntityMeltingRecipe(entityMeltingRecipes)))
                 .forEach(entityMeltingRecipe -> registry.addRecipe(new EntityMeltingEmiRecipe(entityMeltingRecipe)));
 
         // alloying
-        manager.listAllOfType(TinkerRecipeTypes.ALLOYING.get())
+        manager.getAllRecipesFor(TinkerRecipeTypes.ALLOYING.get())
                 .forEach(alloyRecipe -> registry.addRecipe(new AlloyEmiRecipe(alloyRecipe)));
 
         // molding
         List<MoldingRecipe> moldingRecipes = ImmutableList.<MoldingRecipe>builder()
-                .addAll(manager.listAllOfType(TinkerRecipeTypes.MOLDING_TABLE.get()))
-                .addAll(manager.listAllOfType(TinkerRecipeTypes.MOLDING_BASIN.get()))
+                .addAll(manager.getAllRecipesFor(TinkerRecipeTypes.MOLDING_TABLE.get()))
+                .addAll(manager.getAllRecipesFor(TinkerRecipeTypes.MOLDING_BASIN.get()))
                 .build();
         moldingRecipes.forEach(moldingRecipe -> registry.addRecipe(new MoldingEmiRecipe(moldingRecipe)));
 
         // modifiers
-        RecipeHelper.getJEIRecipes(manager.listAllOfType(TinkerRecipeTypes.TINKER_STATION.get()).stream(), IDisplayModifierRecipe.class)
+        RecipeHelper.getJEIRecipes(manager.getAllRecipesFor(TinkerRecipeTypes.TINKER_STATION.get()).stream(), IDisplayModifierRecipe.class)
                 .forEach(modifierRecipe -> registry.addRecipe(new ModifierEmiRecipe(modifierRecipe)));
 
         // beheading
-        manager.listAllOfType(TinkerRecipeTypes.SEVERING.get())
+        manager.getAllRecipesFor(TinkerRecipeTypes.SEVERING.get())
                 .forEach(severingRecipe -> registry.addRecipe(new SeveringEmiRecipe(severingRecipe)));
 
         // part builder
-        List<MaterialRecipe> materialRecipes = manager.listAllOfType(TinkerRecipeTypes.MATERIAL.get());
+        List<MaterialRecipe> materialRecipes = manager.getAllRecipesFor(TinkerRecipeTypes.MATERIAL.get());
         MaterialItemList.setRecipes(materialRecipes);
-        RecipeHelper.getJEIRecipes(manager.listAllOfType(TinkerRecipeTypes.PART_BUILDER.get()).stream(), IDisplayPartBuilderRecipe.class)
+        RecipeHelper.getJEIRecipes(manager.getAllRecipesFor(TinkerRecipeTypes.PART_BUILDER.get()).stream(), IDisplayPartBuilderRecipe.class)
                 .forEach(partRecipe -> registry.addRecipe(PartBuilderEmiRecipe.of(partRecipe)));
 
         // modifier worktable
-        manager.listAllOfType(TinkerRecipeTypes.MODIFIER_WORKTABLE.get())
+        manager.getAllRecipesFor(TinkerRecipeTypes.MODIFIER_WORKTABLE.get())
                 .forEach(iModifierWorktableRecipe -> registry.addRecipe(new ModifierWorktableEmiRecipe(iModifierWorktableRecipe)));
     }
 
@@ -246,32 +246,32 @@ public class TiCIntegration extends AbstractTiCIntegration {
         manager.removeEmiStacks(EmiStack.of(bucket));
     }
 
-    private static Iterable<RegistryEntry<Item>> getTag(Identifier name) {
-        return getTag(TagKey.of(RegistryKeys.ITEM, name));
+    private static Iterable<Holder<Item>> getTag(ResourceLocation name) {
+        return getTag(TagKey.create(Registries.ITEM, name));
     }
 
-    private static Iterable<RegistryEntry<Item>> getTag(TagKey<Item> name) {
-        return Objects.requireNonNull(Registries.ITEM.iterateEntries(name));
+    private static Iterable<Holder<Item>> getTag(TagKey<Item> name) {
+        return Objects.requireNonNull(BuiltInRegistries.ITEM.getTagOrEmpty(name));
     }
 
-    private static void optionalItem(EmiRegistry manager, ItemConvertible item, String tagName) {
-        Iterable<RegistryEntry<Item>> tag = getTag(new Identifier("c", tagName));
+    private static void optionalItem(EmiRegistry manager, ItemLike item, String tagName) {
+        Iterable<Holder<Item>> tag = getTag(new ResourceLocation("c", tagName));
         if (Iterables.isEmpty(tag)) {
             manager.removeEmiStacks(EmiStack.of(item));
         }
     }
 
     private static void optionalCast(EmiRegistry manager, CastItemObject cast) {
-        Iterable<RegistryEntry<Item>> tag = getTag(new Identifier("c", cast.getName().getPath() + "_blocks"));
+        Iterable<Holder<Item>> tag = getTag(new ResourceLocation("c", cast.getName().getPath() + "_blocks"));
         if (Iterables.isEmpty(tag)) {
             cast.values().stream().map(EmiStack::of).forEach(manager::addEmiStack);
         }
     }
 
-    private static <T extends Recipe<C>, C extends Inventory> void addCastingCatalyst(EmiRegistry registry, ItemConvertible item, EmiRecipeCategory ownCategory, RecipeType<MoldingRecipe> type) {
+    private static <T extends Recipe<C>, C extends Container> void addCastingCatalyst(EmiRegistry registry, ItemLike item, EmiRecipeCategory ownCategory, RecipeType<MoldingRecipe> type) {
         EmiStack stack = EmiStack.of(item);
         registry.addWorkstation(ownCategory, stack);
-        if (!registry.getRecipeManager().listAllOfType(type).isEmpty()) {
+        if (!registry.getRecipeManager().getAllRecipesFor(type).isEmpty()) {
             registry.addWorkstation(TiCCategories.MOLDING, stack);
         }
     }

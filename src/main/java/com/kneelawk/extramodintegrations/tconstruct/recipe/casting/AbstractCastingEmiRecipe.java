@@ -8,17 +8,17 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.TankWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.casting.IDisplayableCastingRecipe;
 
 import java.util.List;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.Recipe;
 
 public abstract class AbstractCastingEmiRecipe extends BasicEmiRecipe {
-    public static final Identifier BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/casting.png");
+    public static final ResourceLocation BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/casting.png");
     private static final String KEY_COOLING_TIME = TConstruct.makeTranslationKey("jei", "time");
     private static final String KEY_CAST_KEPT = TConstruct.makeTranslationKey("jei", "casting.cast_kept");
     private static final String KEY_CAST_CONSUMED = TConstruct.makeTranslationKey("jei", "casting.cast_consumed");
@@ -73,7 +73,7 @@ public abstract class AbstractCastingEmiRecipe extends BasicEmiRecipe {
                 .drawBack(false);
 
         widgets.addFillingArrow(58, 18, coolingTime * 50)
-                .tooltipText(List.of(Text.translatable(KEY_COOLING_TIME, coolingTime / 20)));
+                .tooltipText(List.of(Component.translatable(KEY_COOLING_TIME, coolingTime / 20)));
         widgets.addTexture(block, 38, 35);
     }
 }

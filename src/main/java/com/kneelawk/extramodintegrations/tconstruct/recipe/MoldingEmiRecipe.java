@@ -5,16 +5,16 @@ import dev.emi.emi.api.recipe.BasicEmiRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.util.Identifier;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.molding.MoldingRecipe;
 
 import java.util.List;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeType;
 
 public class MoldingEmiRecipe extends BasicEmiRecipe {
-    private static final Identifier BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/casting.png");
+    private static final ResourceLocation BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/casting.png");
     private final EmiIngredient pattern;
     private final EmiIngredient material;
     private final boolean isPatternConsumed;
@@ -25,7 +25,7 @@ public class MoldingEmiRecipe extends BasicEmiRecipe {
 
         this.material = EmiIngredient.of(recipe.getMaterial());
         this.pattern = EmiIngredient.of(recipe.getPattern());
-        this.outputs = List.of(EmiStack.of(recipe.getOutput(null)));
+        this.outputs = List.of(EmiStack.of(recipe.getResultItem(null)));
         this.isPatternConsumed = recipe.isPatternConsumed();
         this.type = recipe.getType();
     }

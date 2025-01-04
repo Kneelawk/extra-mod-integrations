@@ -1,14 +1,12 @@
 package com.kneelawk.extramodintegrations.appeng;
 
 import java.util.List;
-
+import net.minecraft.world.inventory.Slot;
 import org.apache.commons.compress.utils.Lists;
 
 import appeng.menu.implementations.InscriberMenu;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.handler.StandardRecipeHandler;
-
-import net.minecraft.screen.slot.Slot;
 
 public class InscriberRecipeHandler implements StandardRecipeHandler<InscriberMenu> {
     @Override
