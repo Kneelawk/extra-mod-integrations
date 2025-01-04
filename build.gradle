@@ -384,11 +384,11 @@ publishing {
     }
 
     repositories {
-        if (hasProperty("kneelawkUsername") && hasProperty("kneelawkPassword")) {
+        if (project.hasProperty("kneelawkUsername") && project.hasProperty("kneelawkPassword")) {
             maven {
                 name = "kneelawk"
                 url = uri("https://maven.kneelawk.com/releases")
-                credentials(PasswordCredentials::class)
+                credentials(PasswordCredentials)
                 authentication {
                     basic(BasicAuthentication)
                 }
