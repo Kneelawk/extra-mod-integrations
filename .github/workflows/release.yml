@@ -68,13 +68,13 @@ jobs:
           RELEASE_TAG: ${{ github.ref_name }}
       - name: Modrinth Release
         continue-on-error: true
-        run: ./gradlew modrinth modrinthSyncBody --no-daemon
+        run: ./gradlew modrinth modrinthSyncBody
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           RELEASE_TAG: ${{ github.ref_name }}
       - name: Curseforge Release
         continue-on-error: true
-        run: ./gradlew curseforge --no-daemon
+        run: ./gradlew curseforge
         env:
           CURSE_API_KEY: ${{ secrets.CURSE_API_KEY }}
           RELEASE_TAG: ${{ github.ref_name }}
