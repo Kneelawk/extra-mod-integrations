@@ -368,10 +368,10 @@ if (curseApiKey != null) {
             forgeGradleIntegration = false
         }
     }
-}
-tasks.withType(CurseUploadTask).configureEach {
-    doLast {
-        file("curse-file-id.txt").text = mainArtifact.fileID
+    tasks.named("curseforge739970", CurseUploadTask) {
+        doLast {
+            file("curse-file-id.txt").text = mainArtifact.fileID
+        }
     }
 }
 
