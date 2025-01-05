@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "Extra Mod Integrations",
+  "description": "EMI addon adding support for as many mods as possible",
+  "authors": [
+    "Kneelawk",
+    "abbie",
+    "KirboEatsFood"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/mod/extra-mod-integrations",
+    "issues": "https://github.com/Kneelawk/extra-mod-integrations/issues",
+    "sources": "https://github.com/Kneelawk/extra-mod-integrations"
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/${mod_id}/icon.png",
+  "environment": "*",
+  "entrypoints": { },
+  "mixins": [ ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "fabric-api": "*",
+    "emi": "*",
+    "minecraft": ">=1.21- <1.22-",
+    "java": ">=21",
+    "extra_mod_integrations_core": "*"
+  },
+  "custom": {
+    "modmenu": {
+    }
+  }
+}
