@@ -17,7 +17,11 @@
   "license": "CC0-1.0",
   "icon": "assets/${mod_id}/icon.png",
   "environment": "*",
-  "entrypoints": { },
+  "entrypoints": {
+    "emi": [
+      "com.kneelawk.exmi.techreborn.TRPlugin"
+    ]
+  },
   "mixins": [ ],
   "depends": {
     "fabricloader": ">=0.16.0",

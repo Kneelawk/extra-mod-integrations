@@ -1,0 +1,162 @@
+package com.kneelawk.exmi.core.api.util;
+
+import org.joml.Matrix4f;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat;
+
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.resources.ResourceLocation;
+
+public class NinePatchTexture {
+    private final ResourceLocation textureId;
+    private final int textureWidth, textureHeight;
+    private final int leftWidth, rightWidth, topHeight, bottomHeight;
+    private final boolean tiling;
+    private final int tileWidth, tileHeight;
+    private final int leftRight, topBottom;
+    private final float pieceU1, pieceV1, pieceU2, pieceV2;
+    private final float leftRightU, rightLeftU, topBottomV, bottomTopV;
+
+    public NinePatchTexture(ResourceLocation textureId, int u, int v, int width, int height, int leftWidth,
+                            int rightWidth,
+                            int topHeight, int bottomHeight, boolean tiling) {
+        this(textureId, 256, 256, u, v, width, height, leftWidth, rightWidth, topHeight, bottomHeight, tiling);
+    }
+
+    public NinePatchTexture(ResourceLocation textureId, int textureWidth, int textureHeight, int u, int v, int width,
+                            int height, int leftWidth, int rightWidth, int topHeight, int bottomHeight,
+                            boolean tiling) {
+        this.textureId = textureId;
+        this.textureWidth = textureWidth;
+        this.textureHeight = textureHeight;
+        this.leftWidth = leftWidth;
+        this.rightWidth = rightWidth;
+        this.topHeight = topHeight;
+        this.bottomHeight = bottomHeight;
+        this.tiling = tiling;
+        int endX = u + width;
+        int endY = v + height;
+        tileWidth = width - leftWidth - rightWidth;
+        tileHeight = height - topHeight - bottomHeight;
+
+        if (tileWidth < 1) {
+            throw new IllegalArgumentException("leftWidth + rightWidth must be less than pieceWidth");
+        }
+        if (tileHeight < 1) {
+            throw new IllegalArgumentException("topHeight + bottomHeight must be less than pieceHeight");
+        }
+
+        leftRight = u + leftWidth;
+        topBottom = v + topHeight;
+
+        pieceU1 = (float) u / (float) textureWidth;
+        pieceV1 = (float) v / (float) textureHeight;
+        pieceU2 = (float) endX / (float) textureWidth;
+        pieceV2 = (float) endY / (float) textureHeight;
+        leftRightU = (float) (u + leftWidth) / (float) textureWidth;
+        rightLeftU = (float) (endX - rightWidth) / (float) textureWidth;
+        topBottomV = (float) (v + topHeight) / (float) textureHeight;
+        bottomTopV = (float) (endY - bottomHeight) / (float) textureHeight;
+    }
+
+    public void render(PoseStack stack, int x, int y, int w, int h) {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        RenderSystem.setShaderTexture(0, textureId);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        Tesselator tess = Tesselator.getInstance();
+        BufferBuilder bufferBuilder = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        render(bufferBuilder, stack.last().pose(), 0, x, y, w, h);
+        BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
+    }
+
+    private void render(VertexConsumer consumer, Matrix4f mat, int z, int x, int y, int w, int h) {
+        int centerWidth = w - leftWidth - rightWidth;
+        int centerHeight = h - topHeight - bottomHeight;
+        int rightLeft = x + w - rightWidth;
+        int bottomTop = y + h - bottomHeight;
+
+        // draw 4 corners
+        rect(consumer, mat, z, x, y, leftWidth, topHeight, pieceU1, pieceV1, leftRightU, topBottomV);
+        rect(consumer, mat, z, rightLeft, y, rightWidth, topHeight, rightLeftU, pieceV1, pieceU2, topBottomV);
+        rect(consumer, mat, z, x, bottomTop, leftWidth, bottomHeight, pieceU1, bottomTopV, leftRightU, pieceV2);
+        rect(consumer, mat, z, rightLeft, bottomTop, rightWidth, bottomHeight, rightLeftU, bottomTopV, pieceU2,
+            pieceV2);
+
+        if (tiling) {
+            int tilesX = (centerWidth + tileWidth - 1) / tileWidth;
+            int tilesY = (centerHeight + tileHeight - 1) / tileHeight;
+
+            // draw top and bottom edge tiles
+            for (int tileXIndex = 0; tileXIndex < tilesX; tileXIndex++) {
+                int localTileX = tileXIndex * tileWidth;
+                int curTileWidth = Math.min(tileWidth, centerWidth - localTileX);
+                float curTileU2 = (float) (leftRight + curTileWidth) / (float) textureWidth;
+                rect(consumer, mat, z, leftWidth + localTileX + x, y, curTileWidth, topHeight, leftRightU, pieceV1,
+                    curTileU2, topBottomV);
+                rect(consumer, mat, z, leftWidth + localTileX + x, bottomTop, curTileWidth, bottomHeight, leftRightU,
+                    bottomTopV, curTileU2, pieceV2);
+            }
+
+            for (int tileYIndex = 0; tileYIndex < tilesY; tileYIndex++) {
+                int localTileY = tileYIndex * tileHeight;
+                int curTileHeight = Math.min(tileHeight, centerHeight - localTileY);
+                float curTileV2 = (float) (topBottom + curTileHeight) / (float) textureHeight;
+
+                // draw left and right edge tiles
+                rect(consumer, mat, z, x, topHeight + localTileY + y, leftWidth, curTileHeight, pieceU1, topBottomV,
+                    leftRightU, curTileV2);
+                rect(consumer, mat, z, rightLeft, topHeight + localTileY + y, rightWidth, curTileHeight, rightLeftU,
+                    topBottomV, pieceU2, curTileV2);
+
+                // draw center tiles
+                for (int tileXIndex = 0; tileXIndex < tilesX; tileXIndex++) {
+                    int localTileX = tileXIndex * tileWidth;
+                    int curTileWidth = Math.min(tileWidth, centerWidth - localTileX);
+                    float curTileU2 = (float) (leftRight + curTileWidth) / (float) textureWidth;
+                    rect(consumer, mat, z, leftWidth + localTileX + x, topHeight + localTileY + y, curTileWidth,
+                        curTileHeight, leftRightU, topBottomV, curTileU2, curTileV2);
+                }
+            }
+        } else {
+            // draw top and bottom edges
+            if (centerWidth > 0) {
+                rect(consumer, mat, z, leftWidth + x, y, centerWidth, topHeight, leftRightU, pieceV1, rightLeftU,
+                    topBottomV);
+                rect(consumer, mat, z, leftWidth + x, bottomTop, centerWidth, bottomHeight, leftRightU, bottomTopV,
+                    rightLeftU, pieceV2);
+            }
+
+            if (centerHeight > 0) {
+                // draw left and right edges
+                rect(consumer, mat, z, x, topHeight + y, leftWidth, centerHeight, pieceU1, topBottomV, leftRightU,
+                    bottomTopV);
+                rect(consumer, mat, z, rightLeft, topHeight + y, rightWidth, centerHeight, rightLeftU, topBottomV,
+                    pieceU2, bottomTopV);
+
+                // draw center
+                if (centerWidth > 0) {
+                    rect(consumer, mat, z, leftWidth + x, topHeight + y, centerWidth, centerHeight, leftRightU,
+                        topBottomV, rightLeftU, bottomTopV);
+                }
+            }
+        }
+    }
+
+    private static void rect(VertexConsumer consumer, Matrix4f mat, int z, int x0, int y0, int w, int h, float u0,
+                             float v0, float u1, float v1) {
+        int x1 = x0 + w;
+        int y1 = y0 + h;
+        consumer.addVertex(mat, x0, y1, z).setUv(u0, v1);
+        consumer.addVertex(mat, x1, y1, z).setUv(u1, v1);
+        consumer.addVertex(mat, x1, y0, z).setUv(u1, v0);
+        consumer.addVertex(mat, x0, y0, z).setUv(u0, v0);
+    }
+}
