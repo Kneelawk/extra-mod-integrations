@@ -66,6 +66,10 @@ module(mojmap, "core-xplat-mojmap")
 module(fabric, "core-fabric")
 module(neoforge, "core-neoforge")
 
+// Tech Reborn
+val tech_reborn_enabled: String by settings
+module(fabric && tech_reborn_enabled.toBoolean(), "tech-reborn-fabric")
+
 // Final artifacts
 module(fabric, "all-fabric")
 module(neoforge, "all-neoforge")

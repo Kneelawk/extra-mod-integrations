@@ -9,6 +9,7 @@ plugins {
     id("com.kneelawk.kpublish")
     id("com.modrinth.minotaur")
     id("com.matthewprenger.cursegradle")
+    id("exmi-deps")
 }
 
 submodule {
@@ -21,7 +22,20 @@ kpublish {
     createPublication()
 }
 
+val tech_reborn_enabled: String by project
+
+modDeps {
+    if (tech_reborn_enabled.toBoolean()) {
+        techReborn()
+    }
+}
+
 dependencies {
+    if (tech_reborn_enabled.toBoolean()) {
+        implementation(project(":tech-reborn-fabric", configuration = "namedElements"))
+        include(project(":tech-reborn-fabric"))
+    }
+
     val mod_menu_version: String by project
     modLocalRuntime("com.terraformersmc:modmenu:$mod_menu_version") {
         exclude(group = "net.fabricmc")
@@ -61,7 +75,7 @@ val curseApiKey = System.getenv("CURSE_API_KEY")
 if (curseApiKey != null) {
     curseforge {
         apiKey = curseApiKey
-        project(closureOf<CurseProject> { 
+        project(closureOf<CurseProject> {
             val cfProjectId: String by project
             id = cfProjectId
             changelogType = "markdown"
@@ -74,14 +88,14 @@ if (curseApiKey != null) {
             }
             mainArtifact(tasks.remapJar)
             addArtifact(tasks.sourcesJar)
-            relations(closureOf<CurseRelation> { 
+            relations(closureOf<CurseRelation> {
                 val cfDependencies: String by project
                 for (dependency in cfDependencies.split(regex)) {
                     requiredDependency(dependency)
                 }
             })
         })
-        options(closureOf<Options> { 
+        options(closureOf<Options> {
             forgeGradleIntegration = false
         })
     }
