@@ -10,7 +10,7 @@ planned!
 
 | Mod         | Support | Notes |
 |-------------|:-------:|-------|
-| Tech Reborn |   🔲    |       |
+| Tech Reborn |    ✅    |       |
 
 ✅: Support Completed<br>
 🚧: Support In Progress<br>
