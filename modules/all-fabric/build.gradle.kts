@@ -1,7 +1,4 @@
-import com.matthewprenger.cursegradle.CurseProject
-import com.matthewprenger.cursegradle.CurseRelation
-import com.matthewprenger.cursegradle.CurseUploadTask
-import com.matthewprenger.cursegradle.Options
+import com.matthewprenger.cursegradle.*
 
 plugins {
     id("com.kneelawk.versioning")
@@ -53,7 +50,10 @@ modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     val mrProjectId: String by project
     projectId.set(mrProjectId)
-    versionNumber.set(project.version.toString())
+    val version_extra: String by project
+    versionNumber.set(project.version.toString() + "." + version_extra)
+    val publish_display_name: String by project
+    versionName.set("$publish_display_name $version_extra ${project.version}")
     val mrVersionType: String by project
     versionType.set(mrVersionType)
     val file = rootProject.file("changelogs/changelog-v${project.version}.md")
@@ -90,7 +90,11 @@ if (curseApiKey != null) {
             for (version in cfMinecraftVersions.split(regex)) {
                 addGameVersion(version)
             }
-            mainArtifact(tasks.remapJar)
+            mainArtifact(tasks.remapJar, closureOf<CurseArtifact> {
+                val publish_display_name: String by project
+                val version_extra: String by project
+                displayName = "$publish_display_name $version_extra ${project.version}"
+            })
             addArtifact(tasks.sourcesJar)
             relations(closureOf<CurseRelation> {
                 val cfDependencies: String by project
@@ -105,7 +109,8 @@ if (curseApiKey != null) {
     }
     tasks.named<CurseUploadTask>("curseforge739970") {
         doLast {
-            rootProject.file("curse-file-id.txt").writeText(mainArtifact.fileID.toString())
+            val version_extra: String by project
+            rootProject.file("curse-file-id-$version_extra.txt").writeText(mainArtifact.fileID.toString())
         }
     }
 }
