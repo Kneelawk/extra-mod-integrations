@@ -4,6 +4,10 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.*
 
 open class ModDeps(private val project: Project, private val modDev: Boolean) {
+    private var modrinth = false
+
+    // Mod Dependency importers (sorted alphabetically)
+
     fun actuallyAdditions() {
         project.repositories {
             maven {
@@ -22,10 +26,28 @@ open class ModDeps(private val project: Project, private val modDev: Boolean) {
         }
     }
 
+    fun farmersDelight() {
+        project.repositories {
+            if (!modrinth) {
+                maven {
+                    name = "ModrinthMaven"
+                    url = project.uri("https://api.modrinth.com/maven/")
+                    content {
+                        includeGroup("maven.modrinth")
+                    }
+                }
+            }
+        }
+
+        project.dependencies {
+            val farmers_delight_id: String by project
+            mod("maven.modrinth:farmers-delight:$farmers_delight_id")
+        }
+    }
+
     fun techReborn() {
         project.repositories {
             maven {
-                // TechReborn
                 name = "CurseMaven"
                 url = project.uri("https://cursemaven.com")
                 content {

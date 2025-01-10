@@ -22,18 +22,29 @@ kpublish {
     createPublication()
 }
 
+// enabled variables (sorted alphabetically)
 val actually_additions_enabled: String by project
+val farmers_delight_enabled: String by project
 
 modDeps {
+    // mod dependencies (sorted alphabetically)
     if (actually_additions_enabled.toBoolean()) {
         actuallyAdditions()
+    }
+    if (farmers_delight_enabled.toBoolean()) {
+        farmersDelight()
     }
 }
 
 dependencies {
+    // integration project dependencies (sorted alphabetically)
     if (actually_additions_enabled.toBoolean()) {
         implementation(project(":actually-additions-neoforge"))
         jarJar(project(":actually-additions-neoforge"))
+    }
+    if (farmers_delight_enabled.toBoolean()) {
+        implementation(project(":farmers-delight-neoforge"))
+        jarJar(project(":farmers-delight-neoforge"))
     }
 }
 

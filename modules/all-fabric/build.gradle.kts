@@ -22,20 +22,24 @@ kpublish {
     createPublication()
 }
 
+// enabled variables (sorted alphabetically)
 val tech_reborn_enabled: String by project
 
 modDeps {
+    // mod dependencies (sorted alphabetically)
     if (tech_reborn_enabled.toBoolean()) {
         techReborn()
     }
 }
 
 dependencies {
+    // integration project dependencies (sorted alphabetically)
     if (tech_reborn_enabled.toBoolean()) {
         implementation(project(":tech-reborn-fabric", configuration = "namedElements"))
         include(project(":tech-reborn-fabric"))
     }
 
+    // non-integration mods
     val mod_menu_version: String by project
     modLocalRuntime("com.terraformersmc:modmenu:$mod_menu_version") {
         exclude(group = "net.fabricmc")

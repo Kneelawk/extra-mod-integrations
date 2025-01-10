@@ -66,13 +66,20 @@ module(mojmap, "core-xplat-mojmap")
 module(fabric, "core-fabric")
 module(neoforge, "core-neoforge")
 
+// Mod Integrations (sorted alphabetically)
+
 // Actually Additions
 val actually_additions_enabled: String by settings
 module(neoforge && actually_additions_enabled.toBoolean(), "actually-additions-neoforge")
 
+// Farmer's Delight
+val farmers_delight_enabled: String by settings
+module(neoforge && farmers_delight_enabled.toBoolean(), "farmers-delight-neoforge")
+
 // Tech Reborn
 val tech_reborn_enabled: String by settings
 module(fabric && tech_reborn_enabled.toBoolean(), "tech-reborn-fabric")
+
 
 // Final artifacts
 module(fabric, "all-fabric")
