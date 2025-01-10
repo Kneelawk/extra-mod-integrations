@@ -8,9 +8,11 @@ planned!
 
 ## Supported Mods
 
-| Mod         | Support | Notes |
-|-------------|:-------:|-------|
-| Tech Reborn |    ✅    |       |
+| Mod                | Support | Notes                                                 |
+|--------------------|:-------:|-------------------------------------------------------|
+| Tech Reborn        |    ✅    | Fabric only                                           |
+| Actually Additions |    ✅    | NeoForge only                                         |
+| Farmer's Delight   |    ✅    | NeoForge only (Fabric version has native EMI support) |
 
 ✅: Support Completed<br>
 🚧: Support In Progress<br>
