@@ -2,6 +2,7 @@ package com.kneelawk.exmi.core.api.util.widget;
 
 import dev.emi.emi.api.widget.Bounds;
 import dev.emi.emi.api.widget.Widget;
+
 import net.minecraft.client.gui.GuiGraphics;
 
 import com.kneelawk.exmi.core.api.util.NinePatchTexture;

@@ -5,7 +5,7 @@ import org.gradle.kotlin.dsl.*
 
 open class ModDeps(private val project: Project, private val modDev: Boolean) {
     fun actuallyAdditions() {
-        project.repositories { 
+        project.repositories {
             maven {
                 name = "MiKeY"
                 url = project.uri("https://maven.saps.dev/releases")
@@ -15,13 +15,13 @@ open class ModDeps(private val project: Project, private val modDev: Boolean) {
                 url = project.uri("https://maven.octo-studios.com/releases")
             }
         }
-        
+
         project.dependencies {
             val actually_additions_version: String by project
             mod("de.ellpeck:actuallyadditions:$actually_additions_version")
         }
     }
-    
+
     fun techReborn() {
         project.repositories {
             maven {

@@ -1,10 +1,10 @@
 package com.kneelawk.exmi.core.api.util;
 
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.render.EmiRenderable;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 public class NamedEmiRecipeCategory extends EmiRecipeCategory {
     private final Component name;

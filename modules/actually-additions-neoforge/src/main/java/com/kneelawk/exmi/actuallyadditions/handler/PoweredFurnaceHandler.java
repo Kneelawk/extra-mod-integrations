@@ -1,14 +1,14 @@
 package com.kneelawk.exmi.actuallyadditions.handler;
 
-import net.minecraft.world.inventory.Slot;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.ellpeck.actuallyadditions.mod.inventory.ContainerFurnaceDouble;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.VanillaEmiRecipeCategories;
 import dev.emi.emi.api.recipe.handler.StandardRecipeHandler;
 
-import java.util.ArrayList;
-import java.util.List;
+import net.minecraft.world.inventory.Slot;
 
 public class PoweredFurnaceHandler implements StandardRecipeHandler<ContainerFurnaceDouble> {
     @Override

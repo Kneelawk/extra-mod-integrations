@@ -22,12 +22,15 @@ kpublish {
     createPublication()
 }
 
+val actually_additions_enabled: String by project
+
 modDeps {
-    actuallyAdditions()
+    if (actually_additions_enabled.toBoolean()) {
+        actuallyAdditions()
+    }
 }
 
 dependencies {
-    val actually_additions_enabled: String by project
     if (actually_additions_enabled.toBoolean()) {
         implementation(project(":actually-additions-neoforge"))
         jarJar(project(":actually-additions-neoforge"))

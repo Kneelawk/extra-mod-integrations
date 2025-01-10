@@ -10,14 +10,14 @@ authors = "Kneelawk, abbie, KirboEatsFood"
 description = "EMI addon adding support for as many mods as possible"
 logoFile = "assets/${mod_id}/icon.png"
 
-[[dependencies.${mod_id}]]
+[[dependencies.${ mod_id }]]
 modId = "neoforge"
 type = "REQUIRED"
 versionRange = "[21.0,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.${mod_id}]]
+[[dependencies.${ mod_id }]]
 modId = "emi"
 type = "REQUIRED"
 versionRange = "[1,)"
