@@ -9,6 +9,7 @@ plugins {
     id("com.kneelawk.kpublish")
     id("com.modrinth.minotaur")
     id("com.matthewprenger.cursegradle")
+    id("exmi-deps")
 }
 
 submodule {
@@ -19,6 +20,18 @@ submodule {
 
 kpublish {
     createPublication()
+}
+
+modDeps {
+    actuallyAdditions()
+}
+
+dependencies {
+    val actually_additions_enabled: String by project
+    if (actually_additions_enabled.toBoolean()) {
+        implementation(project(":actually-additions-neoforge"))
+        jarJar(project(":actually-additions-neoforge"))
+    }
 }
 
 val regex = Regex("""\s*,\s*""")

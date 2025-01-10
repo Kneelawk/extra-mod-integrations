@@ -25,7 +25,8 @@
     "emi": "*",
     "minecraft": ">=1.21- <1.22-",
     "java": ">=21",
-    "extra_mod_integrations_core": "*"
+    "extra_mod_integrations_core": "*",
+    "extra_mod_integrations_tech_reborn": "*"
   },
   "custom": {
     "modmenu": {

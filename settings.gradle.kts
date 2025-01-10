@@ -66,6 +66,10 @@ module(mojmap, "core-xplat-mojmap")
 module(fabric, "core-fabric")
 module(neoforge, "core-neoforge")
 
+// Actually Additions
+val actually_additions_enabled: String by settings
+module(neoforge && actually_additions_enabled.toBoolean(), "actually-additions-neoforge")
+
 // Tech Reborn
 val tech_reborn_enabled: String by settings
 module(fabric && tech_reborn_enabled.toBoolean(), "tech-reborn-fabric")
