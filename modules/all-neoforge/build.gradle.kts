@@ -21,12 +21,16 @@ kpublish {
 
 // enabled variables (sorted alphabetically)
 val actually_additions_enabled: String by project
+val chipped_enabled: String by project
 val farmers_delight_enabled: String by project
 
 modDeps {
     // mod dependencies (sorted alphabetically)
     if (actually_additions_enabled.toBoolean()) {
         actuallyAdditions()
+    }
+    if (chipped_enabled.toBoolean()) {
+        chipped()
     }
     if (farmers_delight_enabled.toBoolean()) {
         farmersDelight()
@@ -38,6 +42,10 @@ dependencies {
     if (actually_additions_enabled.toBoolean()) {
         implementation(project(":actually-additions-neoforge"))
         jarJar(project(":actually-additions-neoforge"))
+    }
+    if (chipped_enabled.toBoolean()) {
+        implementation(project(":chipped-neoforge"))
+        jarJar(project(":chipped-neoforge"))
     }
     if (farmers_delight_enabled.toBoolean()) {
         implementation(project(":farmers-delight-neoforge"))

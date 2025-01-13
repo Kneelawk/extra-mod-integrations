@@ -26,6 +26,42 @@ open class ModDeps(private val project: Project, private val modDev: Boolean) {
         }
     }
 
+    fun chipped() {
+        project.repositories {
+            if (!modrinth) {
+                maven {
+                    name = "ModrinthMaven"
+                    url = project.uri("https://api.modrinth.com/maven/")
+                    content {
+                        includeGroup("maven.modrinth")
+                    }
+                }
+            }
+        }
+
+        project.dependencies {
+            val platform = project.property("submodule.platform")
+            when (platform) {
+                "fabric", "xplat" -> {
+                    val chipped_id_fabric: String by project
+                    mod("maven.modrinth:chipped:$chipped_id_fabric")
+                    val athena_id_fabric: String by project
+                    mod("maven.modrinth:athena-ctm:$athena_id_fabric")
+                    val resourceful_lib_id_fabric: String by project
+                    mod("maven.modrinth:resourceful-lib:$resourceful_lib_id_fabric")
+                }
+                "neoforge" -> {
+                    val chipped_id_neoforge: String by project
+                    mod("maven.modrinth:chipped:$chipped_id_neoforge")
+                    val athena_id_neoforge: String by project
+                    mod("maven.modrinth:athena-ctm:$athena_id_neoforge")
+                    val resourceful_lib_id_neoforge: String by project
+                    mod("maven.modrinth:resourceful-lib:$resourceful_lib_id_neoforge")
+                }
+            }
+        }
+    }
+
     fun farmersDelight() {
         project.repositories {
             if (!modrinth) {

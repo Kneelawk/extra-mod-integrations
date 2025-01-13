@@ -2,12 +2,11 @@
   "schemaVersion": 1,
   "id": "${mod_id}",
   "version": "${version}",
-  "name": "ExMI Tech Reborn",
-  "description": "EMI Tech Reborn integration",
+  "name": "ExMI Chipped",
+  "description": "EMI Chipped integration",
   "authors": [
     "Kneelawk",
-    "abbie",
-    "KirboEatsFood"
+    "abbie"
   ],
   "contact": {
     "homepage": "https://modrinth.com/mod/extra-mod-integrations",
@@ -19,7 +18,7 @@
   "environment": "*",
   "entrypoints": {
     "emi": [
-      "com.kneelawk.exmi.techreborn.TRPlugin"
+      "com.kneelawk.exmi.chipped.CPlugin"
     ]
   },
   "mixins": [ ],

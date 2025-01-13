@@ -20,10 +20,14 @@ kpublish {
 }
 
 // enabled variables (sorted alphabetically)
+val chipped_enabled: String by project
 val tech_reborn_enabled: String by project
 
 modDeps {
     // mod dependencies (sorted alphabetically)
+    if (chipped_enabled.toBoolean()) {
+        chipped()
+    }
     if (tech_reborn_enabled.toBoolean()) {
         techReborn()
     }
@@ -31,6 +35,10 @@ modDeps {
 
 dependencies {
     // integration project dependencies (sorted alphabetically)
+    if (chipped_enabled.toBoolean()) {
+        implementation(project(":chipped-fabric", configuration = "namedElements"))
+        include(project(":chipped-fabric"))
+    }
     if (tech_reborn_enabled.toBoolean()) {
         implementation(project(":tech-reborn-fabric", configuration = "namedElements"))
         include(project(":tech-reborn-fabric"))

@@ -72,6 +72,12 @@ module(neoforge, "core-neoforge")
 val actually_additions_enabled: String by settings
 module(neoforge && actually_additions_enabled.toBoolean(), "actually-additions-neoforge")
 
+// Chipped
+val chipped_enabled: String by settings
+module(xplat && chipped_enabled.toBoolean(), "chipped-xplat")
+module(fabric && chipped_enabled.toBoolean(), "chipped-fabric")
+module(neoforge && chipped_enabled.toBoolean(), "chipped-neoforge")
+
 // Farmer's Delight
 val farmers_delight_enabled: String by settings
 module(neoforge && farmers_delight_enabled.toBoolean(), "farmers-delight-neoforge")
