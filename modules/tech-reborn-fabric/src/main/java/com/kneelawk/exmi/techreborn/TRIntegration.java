@@ -137,8 +137,6 @@ public class TRIntegration implements ExMIPlugin {
 
     @Override
     public void register(EmiRegistry registry) {
-        ExMILog.logLoading("Tech Reborn");
-
         // Alloy Smelting
         registry.addCategory(ALLOY_SMELTER_CATEGORY);
         registry.addWorkstation(ALLOY_SMELTER_CATEGORY, ALLOY_SMELTER_STACK);

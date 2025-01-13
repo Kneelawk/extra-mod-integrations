@@ -26,10 +26,14 @@ public interface ExMIPlugin {
      */
     static void register(EmiRegistry registry, String modId, String modDisplayName, String implClass) {
         if (ExMIPlatform.INSTANCE.isModLoaded(modId)) {
+            ExMILog.LOG.info("[Extra Mod Integrations] Loading {} Integration...", modDisplayName);
             ExMIPlugin plugin = ReflectionUtils.newIntegrationInstance(ExMIPlugin.class, implClass, modDisplayName);
             if (plugin != null) {
                 plugin.register(registry);
+                ExMILog.LOG.info("[Extra Mod Integrations] {} Integration Integration Loaded.", modDisplayName);
             }
+        } else {
+            ExMILog.LOG.info("[Extra Mod Integrations] Skipping {} Integration...", modDisplayName);
         }
     }
 }

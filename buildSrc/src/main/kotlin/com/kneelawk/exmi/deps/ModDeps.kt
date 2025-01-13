@@ -37,26 +37,30 @@ open class ModDeps(private val project: Project, private val modDev: Boolean) {
                     }
                 }
             }
+            maven {
+                name = "Team Resourceful"
+                url = project.uri("https://maven.resourcefulbees.com/repository/maven-public/")
+            }
         }
 
         project.dependencies {
             val platform = project.property("submodule.platform")
+            val resourceful_lib_version: String by project
+            val resourceful_lib_minecraft: String by project
             when (platform) {
                 "fabric", "xplat" -> {
                     val chipped_id_fabric: String by project
                     mod("maven.modrinth:chipped:$chipped_id_fabric")
                     val athena_id_fabric: String by project
                     mod("maven.modrinth:athena-ctm:$athena_id_fabric")
-                    val resourceful_lib_id_fabric: String by project
-                    mod("maven.modrinth:resourceful-lib:$resourceful_lib_id_fabric")
+                    mod("com.teamresourceful.resourcefullib:resourcefullib-fabric-$resourceful_lib_minecraft:$resourceful_lib_version")
                 }
                 "neoforge" -> {
                     val chipped_id_neoforge: String by project
                     mod("maven.modrinth:chipped:$chipped_id_neoforge")
                     val athena_id_neoforge: String by project
                     mod("maven.modrinth:athena-ctm:$athena_id_neoforge")
-                    val resourceful_lib_id_neoforge: String by project
-                    mod("maven.modrinth:resourceful-lib:$resourceful_lib_id_neoforge")
+                    mod("com.teamresourceful.resourcefullib:resourcefullib-neoforge-$resourceful_lib_minecraft:$resourceful_lib_version")
                 }
             }
         }
