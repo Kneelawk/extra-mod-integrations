@@ -13,6 +13,7 @@ planned!
 | Actually Additions |    ✅    | NeoForge only                                         |
 | Chipped            |    ✅    | Fabric & NeoForge                                     |
 | Farmer's Delight   |    ✅    | NeoForge only (Fabric version has native EMI support) |
+| Rechiseled         |    ✅    | Fabric & NeoForge                                     |
 | Tech Reborn        |    ✅    | Fabric only                                           |
 
 ✅: Support Completed<br>
