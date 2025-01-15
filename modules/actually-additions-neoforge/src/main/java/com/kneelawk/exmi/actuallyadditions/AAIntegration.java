@@ -18,7 +18,6 @@ import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.Bounds;
 
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -34,32 +33,24 @@ import com.kneelawk.exmi.actuallyadditions.recipe.LaserEmiRecipe;
 import com.kneelawk.exmi.actuallyadditions.recipe.MiningLensEmiRecipe;
 import com.kneelawk.exmi.actuallyadditions.recipe.PressingEmiRecipe;
 import com.kneelawk.exmi.core.api.ExMIPlugin;
-import com.kneelawk.exmi.core.api.util.NamedEmiRecipeCategory;
 
 import static de.ellpeck.actuallyadditions.mod.ActuallyAdditions.modLoc;
 
 public class AAIntegration implements ExMIPlugin {
     public static final EmiRecipeCategory FERMENTING =
-        new NamedEmiRecipeCategory(modLoc("fermenting"), EmiStack.of(ActuallyBlocks.FERMENTING_BARREL.getItem()),
-            Component.literal("Fermenting Recipe"));
+        new EmiRecipeCategory(modLoc("fermenting"), EmiStack.of(ActuallyBlocks.FERMENTING_BARREL.getItem()));
     public static final EmiRecipeCategory PRESSING =
-        new NamedEmiRecipeCategory(modLoc("pressing"), EmiStack.of(ActuallyBlocks.CANOLA_PRESS.getItem()),
-            Component.literal("Pressing Recipe"));
+        new EmiRecipeCategory(modLoc("pressing"), EmiStack.of(ActuallyBlocks.CANOLA_PRESS.getItem()));
     public static final EmiRecipeCategory LASER =
-        new NamedEmiRecipeCategory(modLoc("laser"), EmiStack.of(ActuallyBlocks.ATOMIC_RECONSTRUCTOR.getItem()),
-            Component.translatable("container.actuallyadditions.reconstructor"));
+        new EmiRecipeCategory(modLoc("laser"), EmiStack.of(ActuallyBlocks.ATOMIC_RECONSTRUCTOR.getItem()));
     public static final EmiRecipeCategory EMPOWERER =
-        new NamedEmiRecipeCategory(modLoc("empowerer"), EmiStack.of(ActuallyBlocks.EMPOWERER.getItem()),
-            Component.translatable("container.actuallyadditions.empowerer"));
+        new EmiRecipeCategory(modLoc("empowerer"), EmiStack.of(ActuallyBlocks.EMPOWERER.getItem()));
     public static final EmiRecipeCategory COFFEE_MACHINE =
-        new NamedEmiRecipeCategory(modLoc("coffee_machine"), EmiStack.of(ActuallyBlocks.COFFEE_MACHINE.getItem()),
-            Component.translatable("container.actuallyadditions.coffeeMachine"));
+        new EmiRecipeCategory(modLoc("coffee_machine"), EmiStack.of(ActuallyBlocks.COFFEE_MACHINE.getItem()));
     public static final EmiRecipeCategory CRUSHING =
-        new NamedEmiRecipeCategory(modLoc("crushing"), EmiStack.of(ActuallyBlocks.CRUSHER.getItem()),
-            Component.translatable("container.actuallyadditions.crusher"));
+        new EmiRecipeCategory(modLoc("crushing"), EmiStack.of(ActuallyBlocks.CRUSHER.getItem()));
     public static final EmiRecipeCategory MINING_LENS =
-        new NamedEmiRecipeCategory(modLoc("mining_lens"), EmiStack.of(ActuallyItems.LENS_OF_THE_MINER.get()),
-            Component.translatable("jei.actuallyadditions.mining_lens"));
+        new EmiRecipeCategory(modLoc("mining_lens"), EmiStack.of(ActuallyItems.LENS_OF_THE_MINER.get()));
 
     @Override
     public void register(EmiRegistry registry) {

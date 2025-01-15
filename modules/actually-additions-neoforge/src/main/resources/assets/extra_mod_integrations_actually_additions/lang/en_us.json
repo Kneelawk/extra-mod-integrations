@@ -5,5 +5,13 @@
   "tag.item.actuallyadditions.deepslate_ore_replaceables": "Ceepslate Ore Replaceables",
   "tag.item.actuallyadditions.drills": "Drills",
   "tag.item.actuallyadditions.stone_ore_replaceables": "Stone Ore Replaceables",
-  "tag.item.actuallyadditions.tiny_coals": "Tiny Coals"
+  "tag.item.actuallyadditions.tiny_coals": "Tiny Coals",
+
+  "emi.category.actuallyadditions.fermenting": "Fermenting",
+  "emi.category.actuallyadditions.pressing": "Pressing",
+  "emi.category.actuallyadditions.laser": "Laser",
+  "emi.category.actuallyadditions.empowerer": "Empowerer",
+  "emi.category.actuallyadditions.coffee_machine": "Coffee Machine",
+  "emi.category.actuallyadditions.crushing": "Crushing",
+  "emi.category.actuallyadditions.mining_lens": "Mining Lens"
 }
