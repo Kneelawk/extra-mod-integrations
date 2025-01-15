@@ -2,12 +2,11 @@
   "schemaVersion": 1,
   "id": "${mod_id}",
   "version": "${version}",
-  "name": "Extra Mod Integrations",
-  "description": "EMI addon adding support for as many mods as possible",
+  "name": "ExMI Rechiseled",
+  "description": "EMI Rechiseled integration",
   "authors": [
     "Kneelawk",
-    "abbie",
-    "KirboEatsFood"
+    "abbie"
   ],
   "contact": {
     "homepage": "https://modrinth.com/mod/extra-mod-integrations",
@@ -17,7 +16,11 @@
   "license": "CC0-1.0",
   "icon": "assets/${mod_id}/icon.png",
   "environment": "*",
-  "entrypoints": { },
+  "entrypoints": {
+    "emi": [
+      "com.kneelawk.exmi.rechiseled.RPlugin"
+    ]
+  },
   "mixins": [ ],
   "depends": {
     "fabricloader": ">=0.16.0",
@@ -25,13 +28,11 @@
     "emi": "*",
     "minecraft": ">=1.21- <1.22-",
     "java": ">=21",
-    "extra_mod_integrations_core": "*",
-    "extra_mod_integrations_chipped": "*",
-    "extra_mod_integrations_rechiseled": "*",
-    "extra_mod_integrations_tech_reborn": "*"
+    "extra_mod_integrations_core": "*"
   },
   "custom": {
     "modmenu": {
+      "parent": "extra_mod_integrations"
     }
   }
 }

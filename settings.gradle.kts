@@ -82,6 +82,12 @@ module(neoforge && chipped_enabled.toBoolean(), "chipped-neoforge")
 val farmers_delight_enabled: String by settings
 module(neoforge && farmers_delight_enabled.toBoolean(), "farmers-delight-neoforge")
 
+// Rechiseled
+val rechiseled_enabled: String by settings
+module(xplat && rechiseled_enabled.toBoolean(), "rechiseled-xplat")
+module(fabric && rechiseled_enabled.toBoolean(), "rechiseled-fabric")
+module(neoforge && rechiseled_enabled.toBoolean(), "rechiseled-neoforge")
+
 // Tech Reborn
 val tech_reborn_enabled: String by settings
 module(fabric && tech_reborn_enabled.toBoolean(), "tech-reborn-fabric")

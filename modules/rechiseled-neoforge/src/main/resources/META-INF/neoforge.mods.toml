@@ -1,0 +1,32 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "MIT"
+
+[[mods]]
+modId = "${mod_id}"
+version = "${version}"
+displayName = "ExMI Rechiseled"
+authors = "Kneelawk, abbie"
+description = "EMI Rechiseled integration"
+logoFile = "assets/${mod_id}/icon.png"
+
+[[dependencies.${ mod_id }]]
+modId = "neoforge"
+type = "REQUIRED"
+versionRange = "[21.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${ mod_id }]]
+modId = "emi"
+type = "REQUIRED"
+versionRange = "[1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${ mod_id }]]
+modId = "extra_mod_integrations_core"
+type = "REQUIRED"
+versionRange = "[0,)"
+ordering = "NONE"
+side = "BOTH"

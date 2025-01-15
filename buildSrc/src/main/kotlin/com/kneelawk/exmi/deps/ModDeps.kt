@@ -85,6 +85,46 @@ open class ModDeps(private val project: Project, private val modDev: Boolean) {
         }
     }
 
+    fun rechiseled() {
+        project.repositories {
+            if (!modrinth) {
+                maven {
+                    name = "ModrinthMaven"
+                    url = project.uri("https://api.modrinth.com/maven/")
+                    content {
+                        includeGroup("maven.modrinth")
+                    }
+                }
+            }
+        }
+
+        project.dependencies {
+            val platform = project.property("submodule.platform")
+            when (platform) {
+                "fabric", "xplat" -> {
+                    val rechiseled_id_fabric: String by project
+                    mod("maven.modrinth:rechiseled:$rechiseled_id_fabric")
+                    val fusion_id_fabric: String by project
+                    mod("maven.modrinth:fusion-connected-textures:$fusion_id_fabric")
+                    val sm_config_id_fabric: String by project
+                    mod("maven.modrinth:supermartijn642s-config-lib:$sm_config_id_fabric")
+                    val sm_core_id_fabric: String by project
+                    mod("maven.modrinth:supermartijn642s-core-lib:$sm_core_id_fabric")
+                }
+                "neoforge" -> {
+                    val rechiseled_id_neoforge: String by project
+                    mod("maven.modrinth:rechiseled:$rechiseled_id_neoforge")
+                    val fusion_id_neoforge: String by project
+                    mod("maven.modrinth:fusion-connected-textures:$fusion_id_neoforge")
+                    val sm_config_id_neoforge: String by project
+                    mod("maven.modrinth:supermartijn642s-config-lib:$sm_config_id_neoforge")
+                    val sm_core_id_neoforge: String by project
+                    mod("maven.modrinth:supermartijn642s-core-lib:$sm_core_id_neoforge")
+                }
+            }
+        }
+    }
+
     fun techReborn() {
         project.repositories {
             maven {

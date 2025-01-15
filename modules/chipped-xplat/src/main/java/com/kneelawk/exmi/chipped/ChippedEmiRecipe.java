@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import dev.emi.emi.api.recipe.EmiIngredientRecipe;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
+import dev.emi.emi.api.recipe.EmiResolutionRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 
@@ -41,7 +42,7 @@ public class ChippedEmiRecipe extends EmiIngredientRecipe {
 
     @Override
     protected EmiRecipe getRecipeContext(EmiStack stack, int offset) {
-        return new ChippedEmiResolutionRecipe(ingredient, stack);
+        return new EmiResolutionRecipe(ingredient, stack);
     }
 
     @Override
