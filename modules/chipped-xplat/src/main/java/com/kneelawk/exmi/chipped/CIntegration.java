@@ -9,11 +9,7 @@ import earth.terrarium.chipped.Chipped;
 import earth.terrarium.chipped.common.registry.ModBlocks;
 import earth.terrarium.chipped.common.registry.ModRecipeTypes;
 
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import com.kneelawk.exmi.core.api.ExMIPlugin;
@@ -42,19 +38,13 @@ public class CIntegration implements ExMIPlugin {
         registry.addWorkstation(WORKBENCH, ALCHEMY_BENCH);
         registry.addWorkstation(WORKBENCH, TINKERING_TABLE);
 
-        Registry<Item> items = BuiltInRegistries.ITEM;
         for (var recipeHolder : registry.getRecipeManager().getAllRecipesFor(ModRecipeTypes.WORKBENCH.get())) {
             List<Ingredient> ingredients = recipeHolder.value().ingredients();
             int ingredientsLen = ingredients.size();
             for (int i = 0; i < ingredientsLen; i++) {
                 Ingredient ingredient = ingredients.get(i);
-                for (ItemStack stack : ingredient.getItems()) {
-                    ResourceLocation key = items.getKey(stack.getItem());
-                    ResourceLocation id =
-                        recipeHolder.id().withPrefix("/")
-                            .withSuffix("/" + i + "/" + key.getNamespace() + "/" + key.getPath());
-                    registry.addRecipe(new ChippedEmiRecipe(ingredient, stack, id));
-                }
+                ResourceLocation id = recipeHolder.id().withPrefix("/").withSuffix("/" + i);
+                registry.addRecipe(new ChippedEmiRecipe(id, ingredient));
             }
         }
     }

@@ -10,9 +10,10 @@ planned!
 
 | Mod                | Support | Notes                                                 |
 |--------------------|:-------:|-------------------------------------------------------|
-| Tech Reborn        |    ✅    | Fabric only                                           |
 | Actually Additions |    ✅    | NeoForge only                                         |
+| Chipped            |    ✅    | Fabric & NeoForge                                     |
 | Farmer's Delight   |    ✅    | NeoForge only (Fabric version has native EMI support) |
+| Tech Reborn        |    ✅    | Fabric only                                           |
 
 ✅: Support Completed<br>
 🚧: Support In Progress<br>
