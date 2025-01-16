@@ -125,6 +125,25 @@ open class ModDeps(private val project: Project, private val modDev: Boolean) {
         }
     }
 
+    fun reliquary() {
+        project.repositories {
+            if (!modrinth) {
+                maven {
+                    name = "ModrinthMaven"
+                    url = project.uri("https://api.modrinth.com/maven/")
+                    content {
+                        includeGroup("maven.modrinth")
+                    }
+                }
+            }
+        }
+
+        project.dependencies {
+            val reliquary_id: String by project
+            mod("maven.modrinth:reliquary-reincarnations:$reliquary_id")
+        }
+    }
+
     fun techReborn() {
         project.repositories {
             maven {

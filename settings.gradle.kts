@@ -88,6 +88,10 @@ module(xplat && rechiseled_enabled.toBoolean(), "rechiseled-xplat")
 module(fabric && rechiseled_enabled.toBoolean(), "rechiseled-fabric")
 module(neoforge && rechiseled_enabled.toBoolean(), "rechiseled-neoforge")
 
+// Reliquary
+val reliquary_enabled: String by settings
+module(xplat && reliquary_enabled.toBoolean(), "reliquary-neoforge")
+
 // Tech Reborn
 val tech_reborn_enabled: String by settings
 module(fabric && tech_reborn_enabled.toBoolean(), "tech-reborn-fabric")

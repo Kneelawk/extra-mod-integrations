@@ -46,6 +46,13 @@ ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.${ mod_id }]]
+modId = "extra_mod_integrations_farmers_delight"
+type = "REQUIRED"
+versionRange = "[0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${ mod_id }]]
 modId = "extra_mod_integrations_rechiseled"
 type = "REQUIRED"
 versionRange = "[0,)"
@@ -53,7 +60,7 @@ ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.${ mod_id }]]
-modId = "extra_mod_integrations_farmers_delight"
+modId = "extra_mod_integrations_reliquary"
 type = "REQUIRED"
 versionRange = "[0,)"
 ordering = "NONE"

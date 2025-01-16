@@ -22,7 +22,9 @@
       "com.kneelawk.exmi.core.impl.ExMICorePlugin"
     ]
   },
-  "mixins": [ ],
+  "mixins": [
+    "extra_mod_integrations_core.fabric.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.16.0",
     "fabric-api": "*",

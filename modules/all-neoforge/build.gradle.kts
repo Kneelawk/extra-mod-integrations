@@ -24,6 +24,7 @@ val actually_additions_enabled: String by project
 val chipped_enabled: String by project
 val farmers_delight_enabled: String by project
 val rechiseled_enabled: String by project
+val reliquary_enabled: String by project
 
 modDeps {
     // mod dependencies (sorted alphabetically)
@@ -38,6 +39,9 @@ modDeps {
     }
     if (rechiseled_enabled.toBoolean()) {
         rechiseled()
+    }
+    if (reliquary_enabled.toBoolean()) {
+        reliquary()
     }
 }
 
@@ -58,6 +62,10 @@ dependencies {
     if (rechiseled_enabled.toBoolean()) {
         implementation(project(":rechiseled-neoforge"))
         jarJar(project(":rechiseled-neoforge"))
+    }
+    if (reliquary_enabled.toBoolean()) {
+        implementation(project(":reliquary-neoforge"))
+        jarJar(project(":reliquary-neoforge"))
     }
 }
 
