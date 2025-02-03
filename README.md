@@ -14,6 +14,7 @@ planned!
 | Chipped            |    ✅    | Fabric & NeoForge                                     |
 | Farmer's Delight   |    ✅    | NeoForge only (Fabric version has native EMI support) |
 | Rechiseled         |    ✅    | Fabric & NeoForge                                     |
+| Reliquary          |    ✅    | NeoForge only                                         |
 | Tech Reborn        |    ✅    | Fabric only                                           |
 
 ✅: Support Completed<br>
