@@ -1,6 +1,9 @@
 {
   "item": [
     "create:upright_on_belt",
-    "farmersdelight:flat_on_cutting_board"
+    "farmersdelight:flat_on_cutting_board",
+    "curios:belt",
+    "curios:body",
+    "curios:necklace"
   ]
 }

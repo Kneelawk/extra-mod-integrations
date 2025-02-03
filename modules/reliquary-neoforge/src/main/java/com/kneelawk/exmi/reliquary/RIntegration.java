@@ -19,12 +19,15 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
 import com.kneelawk.exmi.core.api.ExMIPlugin;
 import com.kneelawk.exmi.core.api.util.RecipeReverseLookup;
 import com.kneelawk.exmi.reliquary.recipe.AlkahestryChargingEmiRecipe;
 import com.kneelawk.exmi.reliquary.recipe.AlkahestryCraftingEmiRecipe;
+import com.kneelawk.exmi.reliquary.recipe.CauldronEmiRecipe;
+import com.kneelawk.exmi.reliquary.recipe.EmiItemDescriptionBuilder;
 import com.kneelawk.exmi.reliquary.recipe.MortarEmiRecipe;
 
 public class RIntegration implements ExMIPlugin {
@@ -34,6 +37,20 @@ public class RIntegration implements ExMIPlugin {
     public static final EmiStack CAULDRON_STACK = EmiStack.of(ModBlocks.APOTHECARY_CAULDRON_ITEM.get());
     public static final EmiStack POTION_ESSENCE = EmiStack.of(ModItems.POTION_ESSENCE.get());
     public static final EmiStack POTION = EmiStack.of(ModItems.POTION.get());
+    public static final EmiStack[] POTIONS = {
+        EmiStack.of(ModItems.POTION.get()), EmiStack.of(ModItems.SPLASH_POTION.get()),
+        EmiStack.of(ModItems.LINGERING_POTION.get())
+    };
+    public static final EmiStack[][] POTION_INPUTS = {
+        {
+            EmiStack.of(Items.NETHER_WART), EmiStack.of(ModItems.EMPTY_POTION_VIAL.get())
+        }, {
+        EmiStack.of(Items.GUNPOWDER), EmiStack.of(Items.NETHER_WART), EmiStack.of(ModItems.EMPTY_POTION_VIAL.get())
+    }, {
+        EmiStack.of(Items.GUNPOWDER), EmiStack.of(Items.DRAGON_BREATH), EmiStack.of(Items.NETHER_WART),
+        EmiStack.of(ModItems.EMPTY_POTION_VIAL.get())
+    }
+    };
 
     public static final EmiRecipeCategory ALKAHESTRY_CHARGING =
         new EmiRecipeCategory(Reliquary.getRL("alkahestry_charging"), ALKAHESTRY_TOME);
@@ -69,19 +86,31 @@ public class RIntegration implements ExMIPlugin {
         }
 
         registry.addCategory(APOTHECARY_MORTAR);
+        registry.addCategory(APOTHECARY_CAULDRON);
         registry.addWorkstation(APOTHECARY_MORTAR, MORTAR_STACK);
+        registry.addWorkstation(APOTHECARY_CAULDRON, CAULDRON_STACK);
         registry.setDefaultComparison(POTION_ESSENCE, Comparison.compareComponents());
+        for (EmiStack potion : POTIONS) {
+            registry.setDefaultComparison(potion, Comparison.compareComponents());
+        }
         Registry<Item> items = BuiltInRegistries.ITEM;
         for (PotionEssence essence : PotionMap.potionCombinations) {
             String combined = essence.getIngredients().stream().map(i -> {
-                    ResourceLocation key = items.getKey(i.getItem().getItem());
-                    return key.getNamespace() + "/" + key.getPath();
-                })
-                .sorted().collect(Collectors.joining("/"));
-            ResourceLocation id = Reliquary.getRL("/apothecary_mortar/" + combined);
-            registry.addRecipe(new MortarEmiRecipe(essence, id));
+                ResourceLocation key = items.getKey(i.getItem().getItem());
+                return key.getNamespace() + "/" + key.getPath();
+            }).sorted().collect(Collectors.joining("/"));
+            ResourceLocation mortarId = Reliquary.getRL("/apothecary_mortar/" + combined);
+            registry.addRecipe(new MortarEmiRecipe(essence, mortarId));
+
+            for (int i = 0; i < POTIONS.length; i++) {
+                EmiStack potion = POTIONS[i];
+                ResourceLocation cauldronId = Reliquary.getRL(
+                    "/apothecary_cauldron/" + combined + "/" + potion.getId().getNamespace() + "/" +
+                        potion.getId().getPath());
+                registry.addRecipe(new CauldronEmiRecipe(essence, POTION_INPUTS[i], potion, cauldronId));
+            }
         }
 
-        registry.setDefaultComparison(POTION, Comparison.compareComponents());
+        EmiItemDescriptionBuilder.addIngredientInfo(registry);
     }
 }
