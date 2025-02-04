@@ -34,7 +34,7 @@ public class CauldronEmiRecipe extends BasicEmiRecipe {
         this.extraInputs = extraInputs;
         this.inputs =
             Stream.concat(Stream.of(essenceStack), Arrays.stream(extraInputs)).<EmiIngredient>map(e -> e).toList();
-        this.outputs = List.of(output);
+        this.outputs = List.of(this.output);
     }
 
     @Override
