@@ -30,7 +30,7 @@ public interface ExMIPlugin {
             ExMIPlugin plugin = ReflectionUtils.newIntegrationInstance(ExMIPlugin.class, implClass, modDisplayName);
             if (plugin != null) {
                 plugin.register(registry);
-                ExMILog.LOG.info("[Extra Mod Integrations] {} Integration Integration Loaded.", modDisplayName);
+                ExMILog.LOG.info("[Extra Mod Integrations] {} Integration Loaded.", modDisplayName);
             }
         } else {
             ExMILog.LOG.info("[Extra Mod Integrations] Skipping {} Integration...", modDisplayName);
