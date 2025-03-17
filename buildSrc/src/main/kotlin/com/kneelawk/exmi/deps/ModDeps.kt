@@ -85,6 +85,43 @@ open class ModDeps(private val project: Project, private val modDev: Boolean) {
         }
     }
 
+    fun ironsSpellsNSpellbooks() {
+        project.repositories {
+            project.repositories {
+                if (!modrinth) {
+                    maven {
+                        name = "ModrinthMaven"
+                        url = project.uri("https://api.modrinth.com/maven/")
+                        content {
+                            includeGroup("maven.modrinth")
+                        }
+                    }
+                }
+                maven {
+                    name = "GeckoLib"
+                    url = project.uri("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+                    content {
+                        includeGroup("software.bernie.geckolib")
+                    }
+                }
+                maven {
+                    name = "KosmX's Maven"
+                    url = project.uri("https://maven.kosmx.dev/")
+                }
+            }
+        }
+
+        project.dependencies {
+            val isns_id: String by project
+            mod("maven.modrinth:irons-spells-n-spellbooks:$isns_id")
+            val geckolib_version: String by project
+            val geckolib_mc_version: String by project
+            mod("software.bernie.geckolib:geckolib-neoforge-$geckolib_mc_version:$geckolib_version")
+            val playeranimator_version: String by project
+            mod("dev.kosmx.player-anim:player-animation-lib-forge:$playeranimator_version")
+        }
+    }
+
     fun rechiseled() {
         project.repositories {
             if (!modrinth) {

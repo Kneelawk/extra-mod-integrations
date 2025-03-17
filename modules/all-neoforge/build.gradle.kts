@@ -23,6 +23,7 @@ kpublish {
 val actually_additions_enabled: String by project
 val chipped_enabled: String by project
 val farmers_delight_enabled: String by project
+val isns_enabled: String by project
 val rechiseled_enabled: String by project
 val reliquary_enabled: String by project
 
@@ -36,6 +37,9 @@ modDeps {
     }
     if (farmers_delight_enabled.toBoolean()) {
         farmersDelight()
+    }
+    if (isns_enabled.toBoolean()) {
+        ironsSpellsNSpellbooks()
     }
     if (rechiseled_enabled.toBoolean()) {
         rechiseled()
@@ -58,6 +62,10 @@ dependencies {
     if (farmers_delight_enabled.toBoolean()) {
         implementation(project(":farmers-delight-neoforge"))
         jarJar(project(":farmers-delight-neoforge"))
+    }
+    if (isns_enabled.toBoolean()) {
+        implementation(project(":isns-neoforge"))
+        jarJar(project(":isns-neoforge"))
     }
     if (rechiseled_enabled.toBoolean()) {
         implementation(project(":rechiseled-neoforge"))
