@@ -108,6 +108,10 @@ open class ModDeps(private val project: Project, private val modDev: Boolean) {
                     name = "KosmX's Maven"
                     url = project.uri("https://maven.kosmx.dev/")
                 }
+                maven {
+                    name = "Illusive Soulworks Maven"
+                    url = project.uri("https://maven.theillusivec4.top/")
+                }
             }
         }
 
@@ -119,6 +123,8 @@ open class ModDeps(private val project: Project, private val modDev: Boolean) {
             mod("software.bernie.geckolib:geckolib-neoforge-$geckolib_mc_version:$geckolib_version")
             val playeranimator_version: String by project
             mod("dev.kosmx.player-anim:player-animation-lib-forge:$playeranimator_version")
+            val curios_version: String by project
+            mod("top.theillusivec4.curios:curios-neoforge:$curios_version")
         }
     }
 
