@@ -267,6 +267,7 @@
   "tag.item.c.ingots.iridium": "Iridium Ingots",
   "tag.item.c.ingots.iridium_alloy": "Iridium Alloy Ingots",
   "tag.item.c.ingots.lead": "Lead Ingots",
+  "tag.item.c.ingots.mithril": "Mithril Ingots",
   "tag.item.c.ingots.mixed_metal": "Mixed Metal Ingots",
   "tag.item.c.ingots.nickel": "Nickel Ingots",
   "tag.item.c.ingots.platinum": "Platinum  Ingots",
@@ -372,6 +373,7 @@
   "tag.item.c.ores.galena": "Galena Ores",
   "tag.item.c.ores.iridium": "Iridium Ores",
   "tag.item.c.ores.lead": "Lead Ores",
+  "tag.item.c.ores.mithril": "Mithril Ores",
   "tag.item.c.ores.peridot": "Peridot Ores",
   "tag.item.c.ores.pyrite": "Pyrite Ores",
   "tag.item.c.ores.ruby": "Ruby Ores",
@@ -467,6 +469,7 @@
   "tag.item.c.raw_materials.cobalt": "Raw Cobalt Ores",
   "tag.item.c.raw_materials.iridium": "Raw Iridium Ore",
   "tag.item.c.raw_materials.lead": "Raw Lead Ore",
+  "tag.item.c.raw_materials.mithril": "Mithril",
   "tag.item.c.raw_materials.silver": "Raw Silver Ore",
   "tag.item.c.raw_materials.tin": "Raw Tin Ore",
   "tag.item.c.raw_materials.tungsten": "Raw Tungsten Ore",
@@ -724,6 +727,8 @@
   "tag.item.createaddition.plants": "Plants",
 
   "tag.item.curios.charm": "Curios Charm",
+  "tag.item.curios.ring": "Curios Ring",
+  "tag.item.curios.spellbook": "Curios Spellbook",
 
   "tag.item.origins.meat": "Origins Meat",
 

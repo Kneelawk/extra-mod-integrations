@@ -1,3 +1,23 @@
 {
-  "emi.category.irons_spellbooks.arcane_anvil": "Arcane Anvil"
+  "emi.category.irons_spellbooks.arcane_anvil": "Arcane Anvil",
+
+  "tag.item.irons_spellbooks.add_to_lectern_and_bookshelf": "Add To Lectern And Bookshelf",
+  "tag.item.irons_spellbooks.arcane_ingot_base": "Arcane Ingot Base",
+  "tag.item.irons_spellbooks.armors.boots":  "Boot Armor",
+  "tag.item.irons_spellbooks.armors.chestplates": "Chestplate Armor",
+  "tag.item.irons_spellbooks.armors.helmets":  "Helmet Armor",
+  "tag.item.irons_spellbooks.armors.leggings": "Legging Armor",
+  "tag.item.irons_spellbooks.blood_focus":  "Blood Focus",
+  "tag.item.irons_spellbooks.eldritch_focus": "Eldritch Focus",
+  "tag.item.irons_spellbooks.ender_focus":  "Ender Focus",
+  "tag.item.irons_spellbooks.evocation_focus": "Evocation Focus",
+  "tag.item.irons_spellbooks.fire_focus":  "Fire Focus",
+  "tag.item.irons_spellbooks.holy_focus": "iHoly Focus",
+  "tag.item.irons_spellbooks.ice_focus":  "irons_spellbooks:ice Focus",
+  "tag.item.irons_spellbooks.inscribed_rune": "Inscribed Rune",
+  "tag.item.irons_spellbooks.lightning_focus":  "Lightning Focus",
+  "tag.item.irons_spellbooks.mithril_material": "Mithril Material",
+  "tag.item.irons_spellbooks.nature_focus":  "Nature Focus",
+  "tag.item.irons_spellbooks.school_focus": "School Focus",
+  "tag.item.irons_spellbooks.staff":  "Staff"
 }
