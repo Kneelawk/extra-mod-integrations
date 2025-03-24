@@ -95,17 +95,16 @@ public class ArcaneAnvilEmiRecipe extends BasicEmiRecipe {
         ISpellContainer.createScrollContainer(spell, level, result);
         ResourceLocation itemId = getKey(stack);
         return new ArcaneAnvilEmiRecipe(IronsSpellbooks.id(
-            "/imbue/" + spell.getSpellId() + "/" + level + "/" + itemId.getNamespace() + "/" +
-                itemId.getPath()), EmiStack.of(stack), EmiStack.of(scroll), EmiStack.of(result));
+            "/imbue/" + spell.getSpellId() + "/" + level + "/" + itemId.getNamespace() + "/" + itemId.getPath()),
+            EmiStack.of(stack), EmiStack.of(scroll), EmiStack.of(result));
     }
 
     private static ArcaneAnvilEmiRecipe ofItemUpgrade(ItemStack stack, ItemStack upgrade) {
         ItemStack result = stack.copy();
         ResourceKey<UpgradeOrbType> orbType = upgrade.get(ComponentRegistry.UPGRADE_ORB_TYPE);
-        result.set(ComponentRegistry.UPGRADE_DATA, UpgradeData.NONE.addUpgrade(result,
-            Minecraft.getInstance().level.registryAccess()
-                .holderOrThrow(orbType),
-            UpgradeUtils.getRelevantEquipmentSlot(stack)));
+        result.set(ComponentRegistry.UPGRADE_DATA,
+            UpgradeData.NONE.addUpgrade(result, Minecraft.getInstance().level.registryAccess().holderOrThrow(orbType),
+                UpgradeUtils.getRelevantEquipmentSlot(stack)));
         ResourceLocation itemId = getKey(stack);
         return new ArcaneAnvilEmiRecipe(IronsSpellbooks.id(
             "/item_upgrade/" + orbType.location().getNamespace() + "/" + orbType.location().getPath() + "/" +
