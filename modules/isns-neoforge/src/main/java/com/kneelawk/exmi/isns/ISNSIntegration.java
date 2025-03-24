@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 
 import com.kneelawk.exmi.core.api.ExMIPlugin;
 import com.kneelawk.exmi.isns.recipe.ArcaneAnvilEmiRecipe;
+import com.kneelawk.exmi.isns.recipe.ScrollForgeEmiRecipe;
 
 public class ISNSIntegration implements ExMIPlugin {
     public static final EmiStack SCROLL_FORGE_BLOCK = EmiStack.of(BlockRegistry.SCROLL_FORGE_BLOCK.get());
@@ -37,6 +38,7 @@ public class ISNSIntegration implements ExMIPlugin {
 
         registry.addCategory(SCROLL_FORGE);
         registry.addWorkstation(SCROLL_FORGE, SCROLL_FORGE_BLOCK);
+        ScrollForgeEmiRecipe.getRecipes().forEach(registry::addRecipe);
 
         registry.addCategory(ARCANE_ANVIL);
         registry.addWorkstation(ARCANE_ANVIL, ARCANE_ANVIL_BLOCK);

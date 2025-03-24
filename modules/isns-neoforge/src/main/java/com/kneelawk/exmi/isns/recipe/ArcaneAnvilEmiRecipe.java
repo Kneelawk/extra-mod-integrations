@@ -84,7 +84,8 @@ public class ArcaneAnvilEmiRecipe extends BasicEmiRecipe {
         ItemStack ink = new ItemStack(InkItem.getInkForRarity(spell.getRarity(baseLevel + 1)));
         ISpellContainer.createScrollContainer(spell, baseLevel, scroll1);
         ISpellContainer.createScrollContainer(spell, baseLevel + 1, scroll2);
-        return new ArcaneAnvilEmiRecipe(IronsSpellbooks.id("/scroll_upgrade/" + spell.getSpellId() + "/" + baseLevel),
+        return new ArcaneAnvilEmiRecipe(
+            IronsSpellbooks.id("/scroll_upgrade/" + spell.getSpellId().replace(':', '/') + "/" + baseLevel),
             EmiStack.of(scroll1), EmiStack.of(ink), EmiStack.of(scroll2));
     }
 
@@ -95,8 +96,8 @@ public class ArcaneAnvilEmiRecipe extends BasicEmiRecipe {
         ISpellContainer.createScrollContainer(spell, level, result);
         ResourceLocation itemId = getKey(stack);
         return new ArcaneAnvilEmiRecipe(IronsSpellbooks.id(
-            "/imbue/" + spell.getSpellId() + "/" + level + "/" + itemId.getNamespace() + "/" + itemId.getPath()),
-            EmiStack.of(stack), EmiStack.of(scroll), EmiStack.of(result));
+            "/imbue/" + spell.getSpellId().replace(':', '/') + "/" + level + "/" + itemId.getNamespace() + "/" +
+                itemId.getPath()), EmiStack.of(stack), EmiStack.of(scroll), EmiStack.of(result));
     }
 
     private static ArcaneAnvilEmiRecipe ofItemUpgrade(ItemStack stack, ItemStack upgrade) {
@@ -127,7 +128,8 @@ public class ArcaneAnvilEmiRecipe extends BasicEmiRecipe {
                 ISpellContainer.createScrollContainer(spell, level, scrollStack);
                 return EmiStack.of(scrollStack);
             }).toList());
-        return new ArcaneAnvilEmiRecipe(IronsSpellbooks.id("/affinity_ring_attune/" + spell.getSpellId()), ring, scroll,
+        return new ArcaneAnvilEmiRecipe(
+            IronsSpellbooks.id("/affinity_ring_attune/" + spell.getSpellId().replace(':', '/')), ring, scroll,
             EmiStack.of(result));
     }
 
