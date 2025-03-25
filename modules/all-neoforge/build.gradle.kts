@@ -24,6 +24,7 @@ val actually_additions_enabled: String by project
 val chipped_enabled: String by project
 val farmers_delight_enabled: String by project
 val isns_enabled: String by project
+val pneumaticcraft_enabled: String by project
 val rechiseled_enabled: String by project
 val reliquary_enabled: String by project
 
@@ -40,6 +41,9 @@ modDeps {
     }
     if (isns_enabled.toBoolean()) {
         ironsSpellsNSpellbooks()
+    }
+    if (pneumaticcraft_enabled.toBoolean()) {
+        pneumaticCraft()
     }
     if (rechiseled_enabled.toBoolean()) {
         rechiseled()
@@ -66,6 +70,10 @@ dependencies {
     if (isns_enabled.toBoolean()) {
         implementation(project(":isns-neoforge"))
         jarJar(project(":isns-neoforge"))
+    }
+    if (pneumaticcraft_enabled.toBoolean()) {
+        implementation(project(":pneumaticcraft-neoforge"))
+        jarJar(project(":pneumaticcraft-neoforge"))
     }
     if (rechiseled_enabled.toBoolean()) {
         implementation(project(":rechiseled-neoforge"))

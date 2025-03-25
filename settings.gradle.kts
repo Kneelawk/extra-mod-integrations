@@ -86,6 +86,9 @@ module(neoforge && farmers_delight_enabled.toBoolean(), "farmers-delight-neoforg
 val isns_enabled: String by settings
 module(neoforge && isns_enabled.toBoolean(), "isns-neoforge")
 
+val pneumaticcraft_enabled: String by settings
+module(neoforge && pneumaticcraft_enabled.toBoolean(), "pneumaticcraft-neoforge")
+
 // Rechiseled
 val rechiseled_enabled: String by settings
 module(xplat && rechiseled_enabled.toBoolean(), "rechiseled-xplat")
