@@ -14,6 +14,7 @@ import io.redspace.ironsspellbooks.registries.ItemRegistry;
 import net.minecraft.world.item.ItemStack;
 
 import com.kneelawk.exmi.core.api.ExMIPlugin;
+import com.kneelawk.exmi.isns.recipe.AlchemistCauldronEmiRecipe;
 import com.kneelawk.exmi.isns.recipe.ArcaneAnvilEmiRecipe;
 import com.kneelawk.exmi.isns.recipe.ScrollForgeEmiRecipe;
 
@@ -46,6 +47,7 @@ public class ISNSIntegration implements ExMIPlugin {
 
         registry.addCategory(ALCHEMIST_CAULDRON);
         registry.addWorkstation(ALCHEMIST_CAULDRON, ALCHEMIST_CAULDRON_BLOCK);
+        AlchemistCauldronEmiRecipe.getRecipes().forEach(registry::addRecipe);
 
         SpellRegistry.getEnabledSpells().forEach(spell -> {
             ItemStack newRing = new ItemStack(ItemRegistry.AFFINITY_RING.get());
