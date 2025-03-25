@@ -11,6 +11,8 @@ import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
+import com.kneelawk.exmi.pneumaticcraft.transfer.ProgrammerRecipeHandler;
+
 import dev.emi.emi.api.EmiDragDropHandler;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.neoforge.NeoForgeEmiStack;
@@ -51,6 +53,7 @@ import me.desht.pneumaticcraft.common.recipes.machine.UVLightBoxRecipe;
 import me.desht.pneumaticcraft.common.registry.ModBlocks;
 import me.desht.pneumaticcraft.common.registry.ModFluids;
 import me.desht.pneumaticcraft.common.registry.ModItems;
+import me.desht.pneumaticcraft.common.registry.ModMenuTypes;
 import me.desht.pneumaticcraft.common.registry.ModRecipeTypes;
 import me.desht.pneumaticcraft.common.upgrades.ModUpgrades;
 
@@ -355,6 +358,8 @@ public class PIntegration implements ExMIPlugin {
             (gui, slot, ingredient) -> 
                 gui.setSearchStack(ingredient.getEmiStacks().getFirst().getItemStack())
         ));
+        
+        registry.addRecipeHandler(ModMenuTypes.PROGRAMMER.get(), new ProgrammerRecipeHandler());
     }
 
     public static ResourceLocation pncLoc(String path) {
