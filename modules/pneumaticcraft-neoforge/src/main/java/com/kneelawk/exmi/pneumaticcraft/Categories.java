@@ -1,7 +1,6 @@
 package com.kneelawk.exmi.pneumaticcraft;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
@@ -100,7 +99,7 @@ public class Categories {
     }
 
     private static EmiRecipeCategory create(String name, Component title, EmiRenderable icon) {
-        return new EmiRecipeCategory(ResourceLocation.fromNamespaceAndPath("pneumaticcraft", name), icon) {
+        return new EmiRecipeCategory(PIntegration.pncLoc(name), icon) {
             @Override
             public Component getName() {
                 return title;
