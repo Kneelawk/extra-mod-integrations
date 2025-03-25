@@ -9,19 +9,13 @@ import java.util.Map;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.registries.DeferredHolder;
-
-import com.kneelawk.exmi.pneumaticcraft.transfer.ProgrammerRecipeHandler;
 
 import dev.emi.emi.api.EmiDragDropHandler;
 import dev.emi.emi.api.EmiRegistry;
-import dev.emi.emi.api.neoforge.NeoForgeEmiStack;
 import dev.emi.emi.api.recipe.EmiInfoRecipe;
-import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.Bounds;
-import me.desht.pneumaticcraft.api.PNCCapabilities;
 import me.desht.pneumaticcraft.api.PneumaticRegistry;
 import me.desht.pneumaticcraft.api.crafting.recipe.AmadronRecipe;
 import me.desht.pneumaticcraft.api.crafting.recipe.AssemblyRecipe;
@@ -34,7 +28,6 @@ import me.desht.pneumaticcraft.api.crafting.recipe.RefineryRecipe;
 import me.desht.pneumaticcraft.api.crafting.recipe.ThermoPlantRecipe;
 import me.desht.pneumaticcraft.api.data.PneumaticCraftTags;
 import me.desht.pneumaticcraft.api.item.ISpawnerCoreStats;
-import me.desht.pneumaticcraft.api.tileentity.IAirHandler;
 import me.desht.pneumaticcraft.client.gui.AbstractPneumaticCraftContainerScreen;
 import me.desht.pneumaticcraft.client.gui.AmadronAddTradeScreen;
 import me.desht.pneumaticcraft.client.gui.InventorySearcherScreen;
@@ -48,7 +41,6 @@ import me.desht.pneumaticcraft.common.entity.semiblock.AbstractLogisticsFrameEnt
 import me.desht.pneumaticcraft.common.inventory.slot.PhantomSlot;
 import me.desht.pneumaticcraft.common.item.EmptyPCBItem;
 import me.desht.pneumaticcraft.common.item.ICustomTooltipName;
-import me.desht.pneumaticcraft.common.item.PressurizableItem;
 import me.desht.pneumaticcraft.common.recipes.machine.UVLightBoxRecipe;
 import me.desht.pneumaticcraft.common.registry.ModBlocks;
 import me.desht.pneumaticcraft.common.registry.ModFluids;
@@ -95,6 +87,7 @@ import com.kneelawk.exmi.pneumaticcraft.recipe.SpawnerExtractionEmiRecipe;
 import com.kneelawk.exmi.pneumaticcraft.recipe.ThermoPlantEmiRecipe;
 import com.kneelawk.exmi.pneumaticcraft.recipe.UVLightBoxEmiRecipe;
 import com.kneelawk.exmi.pneumaticcraft.recipe.YeastCraftingEmiRecipe;
+import com.kneelawk.exmi.pneumaticcraft.transfer.ProgrammerRecipeHandler;
 
 public class PIntegration implements ExMIPlugin {
     @Override
@@ -286,14 +279,15 @@ public class PIntegration implements ExMIPlugin {
             }
         });
         
-        Comparison pressureComparison = Comparison.compareData(s -> PNCCapabilities.getAirHandler(s.getItemStack()).map(IAirHandler::getPressure).orElse(null));
-        Comparison exposureComparison = Comparison.compareData(s -> UVLightBoxBlockEntity.getExposureProgress(s.getItemStack()));
-        for (DeferredHolder<Item, ? extends Item> holder : ModItems.ITEMS.getEntries()) {
-            Item item = holder.get();
-            if (!(item instanceof PressurizableItem)) continue;
-            registry.setDefaultComparison(EmiStack.of(item), pressureComparison);
-        }
-        registry.setDefaultComparison(EmiStack.of(ModItems.EMPTY_PCB.get()), exposureComparison);
+        // neither of these are useful
+//        Comparison pressureComparison = Comparison.compareData(s -> PNCCapabilities.getAirHandler(s.getItemStack()).map(IAirHandler::getPressure).orElse(null));
+//        Comparison exposureComparison = Comparison.compareData(s -> UVLightBoxBlockEntity.getExposureProgress(s.getItemStack()));
+//        for (DeferredHolder<Item, ? extends Item> holder : ModItems.ITEMS.getEntries()) {
+//            Item item = holder.get();
+//            if (!(item instanceof PressurizableItem)) continue;
+//            registry.setDefaultComparison(EmiStack.of(item), pressureComparison);
+//        }
+//        registry.setDefaultComparison(EmiStack.of(ModItems.EMPTY_PCB.get()), exposureComparison);
 
         registry.addDragDropHandler(AmadronAddTradeScreen.class, new EmiDragDropHandler.SlotBased<>(
             (screen, slot) -> slot instanceof PhantomSlot phantomSlot && phantomSlot.canAdjust(),
