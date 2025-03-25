@@ -14,6 +14,7 @@ import dev.emi.emi.api.neoforge.NeoForgeEmiStack;
 import dev.emi.emi.api.recipe.EmiInfoRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.widget.Bounds;
 import me.desht.pneumaticcraft.api.PneumaticRegistry;
 import me.desht.pneumaticcraft.api.crafting.recipe.AmadronRecipe;
 import me.desht.pneumaticcraft.api.crafting.recipe.AssemblyRecipe;
@@ -26,6 +27,7 @@ import me.desht.pneumaticcraft.api.crafting.recipe.RefineryRecipe;
 import me.desht.pneumaticcraft.api.crafting.recipe.ThermoPlantRecipe;
 import me.desht.pneumaticcraft.api.data.PneumaticCraftTags;
 import me.desht.pneumaticcraft.api.item.ISpawnerCoreStats;
+import me.desht.pneumaticcraft.client.gui.AbstractPneumaticCraftContainerScreen;
 import me.desht.pneumaticcraft.common.block.entity.processing.UVLightBoxBlockEntity;
 import me.desht.pneumaticcraft.common.config.ConfigHelper;
 import me.desht.pneumaticcraft.common.item.EmptyPCBItem;
@@ -38,6 +40,7 @@ import me.desht.pneumaticcraft.common.registry.ModRecipeTypes;
 import me.desht.pneumaticcraft.common.upgrades.ModUpgrades;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -258,6 +261,14 @@ public class PIntegration implements ExMIPlugin {
                 pncLoc("/info/" + entry.getKey())
             ));
         }
+        
+        registry.addGenericExclusionArea((screen, consumer) -> {
+            if (screen instanceof AbstractPneumaticCraftContainerScreen<?, ?> containerScreen) {
+                for (Rect2i r : containerScreen.getTabRectangles()) {
+                    consumer.accept(new Bounds(r.getX(), r.getY(), r.getWidth(), r.getHeight()));
+                }
+            }
+        });
 
     }
 
