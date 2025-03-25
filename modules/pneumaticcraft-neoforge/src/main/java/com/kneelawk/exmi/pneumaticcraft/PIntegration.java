@@ -53,6 +53,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import com.kneelawk.exmi.core.api.ExMIPlugin;
 import com.kneelawk.exmi.pneumaticcraft.recipe.AmadronEmiRecipe;
@@ -94,6 +95,25 @@ public class PIntegration implements ExMIPlugin {
         registry.addCategory(Categories.THERMO_PLANT);
         registry.addCategory(Categories.UV_LIGHT_BOX);
         registry.addCategory(Categories.YEAST_CRAFTING);
+
+        registry.addWorkstation(Categories.AMADRON_TRADE, EmiStack.of(ModItems.AMADRON_TABLET.get()));
+        registry.addWorkstation(Categories.ASSEMBLY, EmiStack.of(ModBlocks.ASSEMBLY_CONTROLLER.get()));
+        registry.addWorkstation(Categories.PRESSURE_CHAMBER, EmiStack.of(ModBlocks.PRESSURE_CHAMBER_WALL.get()));
+        registry.addWorkstation(Categories.PRESSURE_CHAMBER, EmiStack.of(ModBlocks.PRESSURE_CHAMBER_VALVE.get()));
+        registry.addWorkstation(Categories.PRESSURE_CHAMBER, EmiStack.of(ModBlocks.PRESSURE_CHAMBER_INTERFACE.get()));
+        registry.addWorkstation(Categories.PRESSURE_CHAMBER, EmiStack.of(ModBlocks.PRESSURE_CHAMBER_GLASS.get()));
+        registry.addWorkstation(Categories.REFINERY, EmiStack.of(ModBlocks.REFINERY.get()));
+        registry.addWorkstation(Categories.REFINERY, EmiStack.of(ModBlocks.REFINERY_OUTPUT.get()));
+        registry.addWorkstation(Categories.THERMO_PLANT, EmiStack.of(ModBlocks.THERMOPNEUMATIC_PROCESSING_PLANT.get()));
+        registry.addWorkstation(Categories.UV_LIGHT_BOX, EmiStack.of(ModBlocks.UV_LIGHT_BOX.get()));
+        registry.addWorkstation(Categories.HEAT_FRAME_COOLING, EmiStack.of(ModItems.HEAT_FRAME.get()));
+        registry.addWorkstation(Categories.ETCHING_TANK, EmiStack.of(ModBlocks.ETCHING_TANK.get()));
+        registry.addWorkstation(Categories.FLUID_MIXER, EmiStack.of(ModBlocks.FLUID_MIXER.get()));
+        registry.addWorkstation(Categories.SPAWNER_EXTRACTION, EmiStack.of(ModBlocks.SPAWNER_EXTRACTOR.get()));
+        registry.addWorkstation(Categories.HEAT_PROPERTIES, EmiStack.of(ModBlocks.HEAT_PIPE.get()));
+        registry.addWorkstation(Categories.MEMORY_ESSENCE, EmiStack.of(ModItems.MEMORY_ESSENCE_BUCKET.get()));
+        registry.addWorkstation(Categories.EXPLOSION_CRAFTING, EmiStack.of(Blocks.TNT));
+        registry.addWorkstation(Categories.ELECTRO_GRID, EmiStack.of(ModBlocks.ELECTROSTATIC_COMPRESSOR));
 
         for (RecipeHolder<ExplosionCraftingRecipe> holder : manager.getAllRecipesFor(ModRecipeTypes.EXPLOSION_CRAFTING.get())) {
             registry.addRecipe(new ExplosionEmiRecipe(holder));
