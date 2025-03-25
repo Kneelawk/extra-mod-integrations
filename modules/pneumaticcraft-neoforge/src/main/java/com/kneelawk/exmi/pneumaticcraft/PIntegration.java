@@ -1,15 +1,17 @@
 package com.kneelawk.exmi.pneumaticcraft;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
-import com.kneelawk.exmi.pneumaticcraft.recipe.YeastCraftingEmiRecipe;
-
+import dev.emi.emi.api.EmiDragDropHandler;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.neoforge.NeoForgeEmiStack;
 import dev.emi.emi.api.recipe.EmiInfoRecipe;
@@ -32,8 +34,16 @@ import me.desht.pneumaticcraft.api.data.PneumaticCraftTags;
 import me.desht.pneumaticcraft.api.item.ISpawnerCoreStats;
 import me.desht.pneumaticcraft.api.tileentity.IAirHandler;
 import me.desht.pneumaticcraft.client.gui.AbstractPneumaticCraftContainerScreen;
+import me.desht.pneumaticcraft.client.gui.AmadronAddTradeScreen;
+import me.desht.pneumaticcraft.client.gui.InventorySearcherScreen;
+import me.desht.pneumaticcraft.client.gui.ItemSearcherScreen;
+import me.desht.pneumaticcraft.client.gui.programmer.ProgWidgetItemFilterScreen;
+import me.desht.pneumaticcraft.client.gui.semiblock.AbstractLogisticsScreen;
+import me.desht.pneumaticcraft.client.util.PointXY;
 import me.desht.pneumaticcraft.common.block.entity.processing.UVLightBoxBlockEntity;
 import me.desht.pneumaticcraft.common.config.ConfigHelper;
+import me.desht.pneumaticcraft.common.entity.semiblock.AbstractLogisticsFrameEntity;
+import me.desht.pneumaticcraft.common.inventory.slot.PhantomSlot;
 import me.desht.pneumaticcraft.common.item.EmptyPCBItem;
 import me.desht.pneumaticcraft.common.item.ICustomTooltipName;
 import me.desht.pneumaticcraft.common.item.PressurizableItem;
@@ -53,6 +63,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -62,6 +73,7 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluid;
 
 import com.kneelawk.exmi.core.api.ExMIPlugin;
 import com.kneelawk.exmi.pneumaticcraft.recipe.AmadronEmiRecipe;
@@ -79,6 +91,7 @@ import com.kneelawk.exmi.pneumaticcraft.recipe.RefineryEmiRecipe;
 import com.kneelawk.exmi.pneumaticcraft.recipe.SpawnerExtractionEmiRecipe;
 import com.kneelawk.exmi.pneumaticcraft.recipe.ThermoPlantEmiRecipe;
 import com.kneelawk.exmi.pneumaticcraft.recipe.UVLightBoxEmiRecipe;
+import com.kneelawk.exmi.pneumaticcraft.recipe.YeastCraftingEmiRecipe;
 
 public class PIntegration implements ExMIPlugin {
     @Override
@@ -284,6 +297,64 @@ public class PIntegration implements ExMIPlugin {
         }
         registry.setDefaultComparison(EmiStack.of(ModItems.EMPTY_PCB.get()), exposureComparison);
 
+        registry.addDragDropHandler(AmadronAddTradeScreen.class, new EmiDragDropHandler.SlotBased<>(
+            (screen, slot) -> slot instanceof PhantomSlot phantomSlot && phantomSlot.canAdjust(),
+            (screen, slot, ingredient) -> {
+                EmiStack emiStack = ingredient.getEmiStacks().getFirst();
+                if (emiStack.getKey() instanceof Fluid fluid) {
+                    screen.setFluid(slot.index, fluid);
+                } else {
+                    ItemStack stack = emiStack.getItemStack();
+                    screen.setStack(slot.index, stack);
+                }
+            }
+        ));
+        registry.addGenericDragDropHandler(new EmiDragDropHandler.BoundsBased<>((screen, bc) -> {
+            if (!(screen instanceof AbstractLogisticsScreen<?> gui)) return;
+            
+            for (Slot slot : gui.getMenu().slots) {
+                if (slot instanceof PhantomSlot phantomSlot && phantomSlot.canAdjust()) {
+                    bc.accept(
+                        new Bounds(gui.getGuiLeft() + slot.x, gui.getGuiTop() + slot.y, 16, 16),
+                        ingredient -> gui.updateItemFilter(phantomSlot.getSlotIndex(), ingredient.getEmiStacks().getFirst().getItemStack())
+                    );
+                }
+            }
+
+            for (int i = 0; i < AbstractLogisticsFrameEntity.FLUID_FILTER_SLOTS; i++) {
+                PointXY p = gui.getFluidSlotPos(i);
+                final int slotNumber = i;
+                bc.accept(new Bounds(p.x(), p.y(), 16, 16), ingredient -> {
+                    EmiStack emiStack = ingredient.getEmiStacks().getFirst();
+                    if (emiStack.getKey() instanceof Fluid fluid) {
+                        int amount = emiStack.getAmount() == 0 ? FluidType.BUCKET_VOLUME : (int) emiStack.getAmount();
+                        FluidStack fluidStack = new FluidStack(BuiltInRegistries.FLUID.wrapAsHolder(fluid), amount, emiStack.getComponentChanges());
+                        gui.updateFluidFilter(slotNumber, fluidStack);
+                    } else {
+                        FluidUtil.getFluidContained(emiStack.getItemStack()).ifPresent(fluidStack -> 
+                            gui.updateFluidFilter(slotNumber, fluidStack));
+                    }
+                });
+            }
+        }));
+        registry.addDragDropHandler(ProgWidgetItemFilterScreen.class, new EmiDragDropHandler.BoundsBased<>((gui, bc) -> {
+            bc.accept(
+                new Bounds(gui.guiLeft + gui.itemX + 1, gui.guiTop + 52, 16, 16),
+                ingredient -> gui.setFilterStack(ingredient.getEmiStacks().getFirst().getItemStack())
+            );
+        }));
+        registry.addDragDropHandler(InventorySearcherScreen.class, new EmiDragDropHandler.SlotBased<>(
+            // InventorySearcherScreen.SEARCH_SLOT = 36
+            gui -> Collections.singleton(gui.getMenu().getSlot(36)),
+            (gui, slot, ingredient) -> 
+                gui.setSearchStack(ingredient.getEmiStacks().getFirst().getItemStack()))
+        );
+        registry.addDragDropHandler(ItemSearcherScreen.class, new EmiDragDropHandler.SlotBased<>(
+            // ItemSearcherScreen.SEARCH_SLOT = 48
+            gui -> Collections.singleton(gui.getMenu().getSlot(48)),
+            (gui, slot, ingredient) -> 
+                gui.setSearchStack(ingredient.getEmiStacks().getFirst().getItemStack())
+        ));
     }
 
     public static ResourceLocation pncLoc(String path) {
