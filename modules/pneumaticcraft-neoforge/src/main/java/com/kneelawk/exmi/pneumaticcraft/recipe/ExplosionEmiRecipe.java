@@ -2,7 +2,7 @@ package com.kneelawk.exmi.pneumaticcraft.recipe;
 
 import net.minecraft.world.item.crafting.RecipeHolder;
 
-import com.kneelawk.exmi.pneumaticcraft.Categories;
+import com.kneelawk.exmi.pneumaticcraft.PCategories;
 
 import dev.emi.emi.api.neoforge.NeoForgeEmiIngredient;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
@@ -39,7 +39,7 @@ public class ExplosionEmiRecipe extends AbstractPNCEmiRecipe {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return Categories.EXPLOSION_CRAFTING;
+        return PCategories.EXPLOSION_CRAFTING;
     }
 
     @Override

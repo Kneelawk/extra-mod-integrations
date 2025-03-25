@@ -2,7 +2,7 @@ package com.kneelawk.exmi.pneumaticcraft.recipe;
 
 import net.minecraft.resources.ResourceLocation;
 
-import com.kneelawk.exmi.pneumaticcraft.Categories;
+import com.kneelawk.exmi.pneumaticcraft.PCategories;
 
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.render.EmiTexture;
@@ -39,7 +39,7 @@ public class EtchingTankEmiRecipe extends AbstractPNCEmiRecipe {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return Categories.ETCHING_TANK;
+        return PCategories.ETCHING_TANK;
     }
 
     @Override

@@ -12,7 +12,7 @@ import me.desht.pneumaticcraft.lib.Textures;
 
 import net.minecraft.resources.ResourceLocation;
 
-import com.kneelawk.exmi.pneumaticcraft.Categories;
+import com.kneelawk.exmi.pneumaticcraft.PCategories;
 
 public class UVLightBoxEmiRecipe extends AbstractPNCEmiRecipe {
     
@@ -36,7 +36,7 @@ public class UVLightBoxEmiRecipe extends AbstractPNCEmiRecipe {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return Categories.UV_LIGHT_BOX;
+        return PCategories.UV_LIGHT_BOX;
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.kneelawk.exmi.pneumaticcraft.recipe;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-import com.kneelawk.exmi.pneumaticcraft.Categories;
+import com.kneelawk.exmi.pneumaticcraft.PCategories;
 
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.render.EmiTexture;
@@ -35,7 +35,7 @@ public class PlasticSolidifyingEmiRecipe extends AbstractPNCEmiRecipe {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return Categories.PLASTIC_SOLIDIFYING;
+        return PCategories.PLASTIC_SOLIDIFYING;
     }
 
     @Override

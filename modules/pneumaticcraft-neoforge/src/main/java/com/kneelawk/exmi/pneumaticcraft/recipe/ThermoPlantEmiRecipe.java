@@ -15,7 +15,7 @@ import me.desht.pneumaticcraft.lib.Textures;
 
 import net.minecraft.world.item.crafting.RecipeHolder;
 
-import com.kneelawk.exmi.pneumaticcraft.Categories;
+import com.kneelawk.exmi.pneumaticcraft.PCategories;
 
 public class ThermoPlantEmiRecipe extends AbstractPNCEmiRecipe {
     
@@ -45,7 +45,7 @@ public class ThermoPlantEmiRecipe extends AbstractPNCEmiRecipe {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return Categories.THERMO_PLANT;
+        return PCategories.THERMO_PLANT;
     }
 
     @Override

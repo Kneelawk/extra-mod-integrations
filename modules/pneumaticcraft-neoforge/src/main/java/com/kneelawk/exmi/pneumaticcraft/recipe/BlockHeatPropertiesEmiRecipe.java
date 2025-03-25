@@ -30,7 +30,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-import com.kneelawk.exmi.pneumaticcraft.Categories;
+import com.kneelawk.exmi.pneumaticcraft.PCategories;
 
 public class BlockHeatPropertiesEmiRecipe extends AbstractPNCEmiRecipe {
     
@@ -54,7 +54,7 @@ public class BlockHeatPropertiesEmiRecipe extends AbstractPNCEmiRecipe {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return Categories.HEAT_PROPERTIES;
+        return PCategories.HEAT_PROPERTIES;
     }
 
     @Override

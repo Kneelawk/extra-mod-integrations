@@ -3,7 +3,7 @@ package com.kneelawk.exmi.pneumaticcraft.recipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 
-import com.kneelawk.exmi.pneumaticcraft.Categories;
+import com.kneelawk.exmi.pneumaticcraft.PCategories;
 
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.render.EmiTexture;
@@ -39,7 +39,7 @@ public class SpawnerExtractionEmiRecipe extends AbstractPNCEmiRecipe {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return Categories.SPAWNER_EXTRACTION;
+        return PCategories.SPAWNER_EXTRACTION;
     }
 
     @Override

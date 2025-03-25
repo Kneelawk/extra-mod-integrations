@@ -17,7 +17,7 @@ import me.desht.pneumaticcraft.lib.Textures;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
-import com.kneelawk.exmi.pneumaticcraft.Categories;
+import com.kneelawk.exmi.pneumaticcraft.PCategories;
 
 public class PressureChamberEmiRecipe extends AbstractPNCEmiRecipe {
 
@@ -45,7 +45,7 @@ public class PressureChamberEmiRecipe extends AbstractPNCEmiRecipe {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return Categories.PRESSURE_CHAMBER;
+        return PCategories.PRESSURE_CHAMBER;
     }
 
     @Override

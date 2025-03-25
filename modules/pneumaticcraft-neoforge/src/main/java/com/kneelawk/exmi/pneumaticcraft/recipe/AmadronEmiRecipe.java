@@ -16,7 +16,7 @@ import me.desht.pneumaticcraft.lib.Textures;
 
 import net.minecraft.world.item.crafting.RecipeHolder;
 
-import com.kneelawk.exmi.pneumaticcraft.Categories;
+import com.kneelawk.exmi.pneumaticcraft.PCategories;
 
 public class AmadronEmiRecipe extends AbstractPNCEmiRecipe {
     
@@ -42,7 +42,7 @@ public class AmadronEmiRecipe extends AbstractPNCEmiRecipe {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return Categories.AMADRON_TRADE;
+        return PCategories.AMADRON_TRADE;
     }
 
     @Override

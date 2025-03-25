@@ -14,7 +14,7 @@ import me.desht.pneumaticcraft.lib.Textures;
 
 import net.minecraft.world.item.crafting.RecipeHolder;
 
-import com.kneelawk.exmi.pneumaticcraft.Categories;
+import com.kneelawk.exmi.pneumaticcraft.PCategories;
 
 public class RefineryEmiRecipe extends AbstractPNCEmiRecipe {
     
@@ -39,7 +39,7 @@ public class RefineryEmiRecipe extends AbstractPNCEmiRecipe {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return Categories.REFINERY;
+        return PCategories.REFINERY;
     }
 
     @Override

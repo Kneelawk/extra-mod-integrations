@@ -14,7 +14,7 @@ import net.minecraft.world.level.material.Fluids;
 
 import net.neoforged.neoforge.fluids.FluidType;
 
-import com.kneelawk.exmi.pneumaticcraft.Categories;
+import com.kneelawk.exmi.pneumaticcraft.PCategories;
 
 public class YeastCraftingEmiRecipe extends AbstractPNCEmiRecipe {
     
@@ -40,7 +40,7 @@ public class YeastCraftingEmiRecipe extends AbstractPNCEmiRecipe {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return Categories.YEAST_CRAFTING;
+        return PCategories.YEAST_CRAFTING;
     }
 
     @Override

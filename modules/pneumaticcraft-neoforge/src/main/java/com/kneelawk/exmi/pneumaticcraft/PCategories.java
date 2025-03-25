@@ -15,7 +15,7 @@ import me.desht.pneumaticcraft.common.registry.ModFluids;
 import me.desht.pneumaticcraft.common.registry.ModItems;
 import me.desht.pneumaticcraft.lib.Textures;
 
-public class Categories {
+public class PCategories {
     public static final EmiRecipeCategory AMADRON_TRADE = create(
         "amadron_trade",
         ModItems.AMADRON_TABLET.get()

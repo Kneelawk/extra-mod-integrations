@@ -15,7 +15,7 @@ import me.desht.pneumaticcraft.lib.Textures;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-import com.kneelawk.exmi.pneumaticcraft.Categories;
+import com.kneelawk.exmi.pneumaticcraft.PCategories;
 
 public class MemoryEssenceEmiRecipe extends AbstractPNCEmiRecipe {
     
@@ -40,7 +40,7 @@ public class MemoryEssenceEmiRecipe extends AbstractPNCEmiRecipe {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return Categories.MEMORY_ESSENCE;
+        return PCategories.MEMORY_ESSENCE;
     }
 
     @Override

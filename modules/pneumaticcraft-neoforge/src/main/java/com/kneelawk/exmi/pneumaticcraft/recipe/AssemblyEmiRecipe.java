@@ -18,7 +18,7 @@ import me.desht.pneumaticcraft.lib.Textures;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
-import com.kneelawk.exmi.pneumaticcraft.Categories;
+import com.kneelawk.exmi.pneumaticcraft.PCategories;
 
 public class AssemblyEmiRecipe extends AbstractPNCEmiRecipe {
     
@@ -52,7 +52,7 @@ public class AssemblyEmiRecipe extends AbstractPNCEmiRecipe {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return Categories.ASSEMBLY;
+        return PCategories.ASSEMBLY;
     }
 
     @Override

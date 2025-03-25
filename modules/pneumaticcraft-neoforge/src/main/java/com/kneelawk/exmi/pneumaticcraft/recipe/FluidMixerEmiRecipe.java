@@ -19,7 +19,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
-import com.kneelawk.exmi.pneumaticcraft.Categories;
+import com.kneelawk.exmi.pneumaticcraft.PCategories;
 
 public class FluidMixerEmiRecipe extends AbstractPNCEmiRecipe {
     
@@ -49,7 +49,7 @@ public class FluidMixerEmiRecipe extends AbstractPNCEmiRecipe {
 
     @Override
     public EmiRecipeCategory getCategory() {
-        return Categories.FLUID_MIXER;
+        return PCategories.FLUID_MIXER;
     }
 
     @Override
