@@ -1,35 +1,42 @@
 package com.kneelawk.exmi.pneumaticcraft.recipe;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import com.kneelawk.exmi.pneumaticcraft.PCategories;
 
+import dev.emi.emi.api.neoforge.NeoForgeEmiStack;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.render.EmiTexture;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
+import me.desht.pneumaticcraft.common.block.entity.processing.UVLightBoxBlockEntity;
 import me.desht.pneumaticcraft.lib.Textures;
 
 import java.util.List;
+import java.util.Random;
 
 public class EtchingTankEmiRecipe extends AbstractPNCEmiRecipe {
     
     private static final EmiTexture BACKGROUND = new EmiTexture(Textures.GUI_JEI_ETCHING_TANK, 0, 0, 83, 42);
     private static final EmiTexture PROGRESS_BAR = new EmiTexture(Textures.GUI_JEI_ETCHING_TANK, 83, 0, 42, 42);
     
-    private final EmiIngredient input;
-    private final EmiStack output;
-    private final EmiStack failed;
-    private final EmiIngredient etchingFluid;
+    private final ItemStack input;
+    private final ItemStack output;
+    private final ItemStack failed;
+    private final EmiStack etchingFluid;
+    private final int uniq = new Random().nextInt();
 
-    public EtchingTankEmiRecipe(ResourceLocation id, EmiIngredient input, EmiStack output, EmiStack failed, EmiIngredient etchingFluid) {
+    public EtchingTankEmiRecipe(ResourceLocation id, ItemStack input, ItemStack output, ItemStack failed, FluidStack etchingFluid) {
         super(id);
         
         this.input = input;
         this.output = output;
         this.failed = failed;
-        this.etchingFluid = etchingFluid;
+        this.etchingFluid = NeoForgeEmiStack.of(etchingFluid);
     }
 
     @Override
@@ -44,12 +51,17 @@ public class EtchingTankEmiRecipe extends AbstractPNCEmiRecipe {
 
     @Override
     public List<EmiIngredient> getInputs() {
-        return List.of(input, etchingFluid);
+        return List.of(EmiStack.of(input));
+    }
+
+    @Override
+    public List<EmiIngredient> getCatalysts() {
+        return List.of(etchingFluid);
     }
 
     @Override
     public List<EmiStack> getOutputs() {
-        return List.of(output);
+        return List.of(EmiStack.of(output), EmiStack.of(failed));
     }
 
     @Override
@@ -58,15 +70,29 @@ public class EtchingTankEmiRecipe extends AbstractPNCEmiRecipe {
         
         widgets.addAnimatedTexture(PROGRESS_BAR, 20, 0, 60 * 50, true, false, false);
         
-        widgets.addSlot(input, 0, 12)
+        widgets.addGeneratedSlot(r -> getStack(r, 0), uniq, 0, 12)
             .drawBack(false);
         widgets.addSlot(etchingFluid, 25, 12)
             .drawBack(false);
-        widgets.addSlot(output, 65, 0)
-            .drawBack(false)
+        widgets.addGeneratedSlot(r -> getStack(r, 1), uniq, 65, 0)
             .recipeContext(this);
-        widgets.addSlot(failed, 65, 24)
-            .drawBack(false)
+        widgets.addGeneratedSlot(r -> getStack(r, 2), uniq, 65, 24)
             .recipeContext(this);
+    }
+    
+    private EmiIngredient getStack(Random random, int idx) {
+        int p = random.nextInt(101);
+        ItemStack pcbStack = input.copy();
+        UVLightBoxBlockEntity.setExposureProgress(pcbStack, p);
+        return new EmiIngredient[] {
+            EmiStack.of(pcbStack),
+            EmiStack.of(output).setChance(p / 100f),
+            EmiStack.of(failed).setChance((100 - p) / 100f)
+        }[idx];
+    }
+
+    @Override
+    public boolean supportsRecipeTree() {
+        return false;
     }
 }

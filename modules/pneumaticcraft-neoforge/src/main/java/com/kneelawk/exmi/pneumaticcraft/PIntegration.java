@@ -227,17 +227,12 @@ public class PIntegration implements ExMIPlugin {
 
         for (Item item : BuiltInRegistries.ITEM) {
             if (!(item instanceof EmptyPCBItem emptyPCBItem)) continue;
-            ItemStack[] inputs = new ItemStack[4];
-            for (int i = 0; i < inputs.length; i++) {
-                inputs[i] = new ItemStack(emptyPCBItem);
-                UVLightBoxBlockEntity.setExposureProgress(inputs[i], 25 + 25 * i);
-            }
             registry.addRecipe(new EtchingTankEmiRecipe(
                 pncLoc("/etching_tank/" + BuiltInRegistries.ITEM.getKey(item).toString().replace(":", "/")),
-                EmiIngredient.of(Ingredient.of(inputs)),
-                EmiStack.of(emptyPCBItem.getSuccessItem()),
-                EmiStack.of(emptyPCBItem.getFailedItem()),
-                NeoForgeEmiStack.of(EmptyPCBItem.getEtchingFluid())
+                item.getDefaultInstance(),
+                emptyPCBItem.getSuccessItem(),
+                emptyPCBItem.getFailedItem(),
+                EmptyPCBItem.getEtchingFluid()
             ));
         }
 
