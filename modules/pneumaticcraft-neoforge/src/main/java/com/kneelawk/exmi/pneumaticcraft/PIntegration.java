@@ -1,6 +1,7 @@
 package com.kneelawk.exmi.pneumaticcraft;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import com.kneelawk.exmi.pneumaticcraft.recipe.YeastCraftingEmiRecipe;
 
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.neoforge.NeoForgeEmiStack;
+import dev.emi.emi.api.recipe.EmiInfoRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import me.desht.pneumaticcraft.api.PneumaticRegistry;
@@ -27,6 +29,7 @@ import me.desht.pneumaticcraft.api.item.ISpawnerCoreStats;
 import me.desht.pneumaticcraft.common.block.entity.processing.UVLightBoxBlockEntity;
 import me.desht.pneumaticcraft.common.config.ConfigHelper;
 import me.desht.pneumaticcraft.common.item.EmptyPCBItem;
+import me.desht.pneumaticcraft.common.item.ICustomTooltipName;
 import me.desht.pneumaticcraft.common.recipes.machine.UVLightBoxRecipe;
 import me.desht.pneumaticcraft.common.registry.ModBlocks;
 import me.desht.pneumaticcraft.common.registry.ModFluids;
@@ -35,8 +38,10 @@ import me.desht.pneumaticcraft.common.registry.ModRecipeTypes;
 import me.desht.pneumaticcraft.common.upgrades.ModUpgrades;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -216,6 +221,21 @@ public class PIntegration implements ExMIPlugin {
                 EmiStack.of(Items.SUGAR),
                 EmiStack.of(ModFluids.YEAST_CULTURE.get(), 1000),
                 EmiStack.of(ModFluids.YEAST_CULTURE.get(), 1000)
+            ));
+        }
+        
+        Map<String, List<EmiIngredient>> infos = new LinkedHashMap<>();
+        for (Item item : BuiltInRegistries.ITEM) {
+            ItemStack stack = item.getDefaultInstance();
+            String k = ICustomTooltipName.getTranslationKey(stack, false);
+            if (!I18n.exists(k)) continue;
+            infos.computeIfAbsent(k, s -> new ArrayList<>()).add(EmiStack.of(item));
+        }
+        for (Map.Entry<String, List<EmiIngredient>> entry : infos.entrySet()) {
+            registry.addRecipe(new EmiInfoRecipe(
+                List.of(EmiIngredient.of(entry.getValue())),
+                List.of(Component.translatable(entry.getKey())),
+                pncLoc("/info/" + entry.getKey())
             ));
         }
 
