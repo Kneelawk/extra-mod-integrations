@@ -25,6 +25,7 @@ import me.desht.pneumaticcraft.api.crafting.recipe.ThermoPlantRecipe;
 import me.desht.pneumaticcraft.api.data.PneumaticCraftTags;
 import me.desht.pneumaticcraft.api.item.ISpawnerCoreStats;
 import me.desht.pneumaticcraft.common.block.entity.processing.UVLightBoxBlockEntity;
+import me.desht.pneumaticcraft.common.config.ConfigHelper;
 import me.desht.pneumaticcraft.common.item.EmptyPCBItem;
 import me.desht.pneumaticcraft.common.recipes.machine.UVLightBoxRecipe;
 import me.desht.pneumaticcraft.common.registry.ModBlocks;
@@ -152,16 +153,18 @@ public class PIntegration implements ExMIPlugin {
             registry.addRecipe(new UVLightBoxEmiRecipe(recipeId, new UVLightBoxRecipe(input, output)));
         }
 
-        registry.addRecipe(new PlasticSolidifyingEmiRecipe(
-            pncLoc("/plastic_solidifying/fluid"),
-            EmiStack.of(ModFluids.PLASTIC.get(), FluidType.BUCKET_VOLUME),
-            EmiStack.of(ModItems.PLASTIC.get())
-        ));
-        registry.addRecipe(new PlasticSolidifyingEmiRecipe(
-            pncLoc("/plastic_solidifying/bucket"),
-            EmiStack.of(ModItems.PLASTIC_BUCKET.get()).setRemainder(EmiStack.of(Items.BUCKET)),
-            EmiStack.of(ModItems.PLASTIC.get())
-        ));
+        if (ConfigHelper.common().recipes.inWorldPlasticSolidification.get()) {
+            registry.addRecipe(new PlasticSolidifyingEmiRecipe(
+                pncLoc("/plastic_solidifying/fluid"),
+                EmiStack.of(ModFluids.PLASTIC.get(), FluidType.BUCKET_VOLUME),
+                EmiStack.of(ModItems.PLASTIC.get())
+            ));
+            registry.addRecipe(new PlasticSolidifyingEmiRecipe(
+                pncLoc("/plastic_solidifying/bucket"),
+                EmiStack.of(ModItems.PLASTIC_BUCKET.get()).setRemainder(EmiStack.of(Items.BUCKET)),
+                EmiStack.of(ModItems.PLASTIC.get())
+            ));
+        }
 
         BuiltInRegistries.BLOCK.getTag(PneumaticCraftTags.Blocks.ELECTROSTATIC_GRID).ifPresent(holderSet -> {
             for (Holder<Block> holder : holderSet) {
@@ -207,12 +210,14 @@ public class PIntegration implements ExMIPlugin {
             EmiStack.of(ModBlocks.EMPTY_SPAWNER.get())
         ));
 
-        registry.addRecipe(new YeastCraftingEmiRecipe(
-            pncLoc("/yeast_crafting"),
-            EmiStack.of(Items.SUGAR),
-            EmiStack.of(ModFluids.YEAST_CULTURE.get(), 1000),
-            EmiStack.of(ModFluids.YEAST_CULTURE.get(), 1000)
-        ));
+        if (ConfigHelper.common().recipes.inWorldYeastCrafting.get()) {
+            registry.addRecipe(new YeastCraftingEmiRecipe(
+                pncLoc("/yeast_crafting"),
+                EmiStack.of(Items.SUGAR),
+                EmiStack.of(ModFluids.YEAST_CULTURE.get(), 1000),
+                EmiStack.of(ModFluids.YEAST_CULTURE.get(), 1000)
+            ));
+        }
 
     }
 
