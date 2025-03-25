@@ -229,23 +229,7 @@ public class PIntegration implements ExMIPlugin {
             ));
         }
 
-        List<EmiStack> cores = new ArrayList<>();
-        for (EntityType<?> type : new EntityType<?>[]{
-            EntityType.ZOMBIE,
-            EntityType.SKELETON,
-            EntityType.CREEPER
-        }) {
-            ItemStack core = new ItemStack(ModItems.SPAWNER_CORE.get());
-            ISpawnerCoreStats stats = PneumaticRegistry.getInstance().getItemRegistry().getSpawnerCoreStats(core);
-            stats.addAmount(type, 100).save(core);
-            cores.add(EmiStack.of(core));
-        }
-        registry.addRecipe(new SpawnerExtractionEmiRecipe(
-            pncLoc("/spawner_extraction"),
-            EmiStack.of(ModBlocks.SPAWNER_EXTRACTOR.get()),
-            EmiIngredient.of(cores),
-            EmiStack.of(ModBlocks.EMPTY_SPAWNER.get())
-        ));
+        registry.addRecipe(new SpawnerExtractionEmiRecipe());
 
         if (ConfigHelper.common().recipes.inWorldYeastCrafting.get()) {
             registry.addRecipe(new YeastCraftingEmiRecipe(
