@@ -26,6 +26,9 @@ import io.redspace.ironsspellbooks.config.ServerConfigs;
 import io.redspace.ironsspellbooks.item.InkItem;
 import io.redspace.ironsspellbooks.registries.ItemRegistry;
 
+import it.unimi.dsi.fastutil.Hash;
+import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenCustomHashSet;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Holder;
@@ -178,8 +181,22 @@ public class AlchemistCauldronEmiRecipe extends BasicEmiRecipe {
     }
 
     private static List<ItemStack> getPotionItems() {
+        ObjectLinkedOpenCustomHashSet<ItemStack> set = new ObjectLinkedOpenCustomHashSet<>(
+            new Hash.Strategy<>() {
+                @Override
+                public int hashCode(ItemStack o) {
+                    return o.getItem().hashCode() * 31 + o.getComponentsPatch().hashCode();
+                }
+
+                @Override
+                public boolean equals(ItemStack a, ItemStack b) {
+                    if (a == b) return true;
+                    if (a == null || b == null) return false;
+                    return a.getItem() == b.getItem() && a.getComponentsPatch().equals(b.getComponentsPatch());
+                }
+            });
         return CreativeModeTabs.allTabs().stream().flatMap(tab -> tab.getDisplayItems().stream())
-            .filter(stack -> stack.getItem() instanceof PotionItem).toList();
+            .filter(stack -> stack.getItem() instanceof PotionItem).filter(set::add).toList();
     }
 
     public AlchemistCauldronEmiRecipe(ResourceLocation id, boolean recycle, EmiIngredient input, EmiIngredient bottle,
@@ -205,7 +222,7 @@ public class AlchemistCauldronEmiRecipe extends BasicEmiRecipe {
         widgets.addSlot(output, 18 + 4 + 26 + 28 + 26 + 5, 0).drawBack(false).recipeContext(this);
 
         if (recycle) {
-            Double chance = ServerConfigs.SCROLL_RECYCLE_CHANCE.get();
+            double chance = ServerConfigs.SCROLL_RECYCLE_CHANCE.get();
             widgets.addText(Component.literal((chance * 100) + "%"), 18 + 4 + 26 + 28 + 13, 18 + 2,
                     chance >= 1.0 ? 5635925 : 16733525, true).horizontalAlign(TextWidget.Alignment.CENTER)
                 .verticalAlign(TextWidget.Alignment.START);

@@ -36,6 +36,7 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 
 import com.kneelawk.exmi.core.api.ExMITextures;
+import com.kneelawk.exmi.isns.ISNSConfig;
 import com.kneelawk.exmi.isns.ISNSIntegration;
 
 public class ArcaneAnvilEmiRecipe extends BasicEmiRecipe {
@@ -57,9 +58,15 @@ public class ArcaneAnvilEmiRecipe extends BasicEmiRecipe {
     }
 
     private static Stream<ArcaneAnvilEmiRecipe> getImbueRecipes(List<ItemStack> visibleItems) {
-        return visibleItems.stream().filter(Utils::canImbue).flatMap(stack -> SpellRegistry.getEnabledSpells().stream()
-            .flatMap(spell -> IntStream.rangeClosed(spell.getMinLevel(), spell.getMaxLevel())
-                .mapToObj(level -> ofImbue(stack, spell, level))));
+        Stream<ArcaneAnvilEmiRecipe> stream =
+            visibleItems.stream().filter(Utils::canImbue).flatMap(stack -> SpellRegistry.getEnabledSpells().stream()
+                .flatMap(spell -> IntStream.rangeClosed(spell.getMinLevel(), spell.getMaxLevel())
+                    .mapToObj(level -> ofImbue(stack, spell, level))));
+        int maxImbueRecipes = ISNSConfig.getMaxImbueRecipes();
+        if (maxImbueRecipes >= 0) {
+            return stream.limit(maxImbueRecipes);
+        }
+        return stream;
     }
 
     private static Stream<ArcaneAnvilEmiRecipe> getUpgradeRecipes(List<ItemStack> visibleItems) {
