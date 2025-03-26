@@ -6,3 +6,4 @@ Changes:
   Applied Energistics as these mods now either support EMI natively or have not been updated to Minecraft 1.21.1.
 * Added support for Actually Additions, Chipped, Farmer's Delight NeoForge, Iron's Spells N Spellbooks, Rechiseled, and
   Reliquary.
+* Added a config to allow for individually disabling integrations.
