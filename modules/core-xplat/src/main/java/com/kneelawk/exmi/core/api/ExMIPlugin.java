@@ -3,6 +3,7 @@ package com.kneelawk.exmi.core.api;
 import dev.emi.emi.api.EmiRegistry;
 
 import com.kneelawk.exmi.core.api.util.ReflectionUtils;
+import com.kneelawk.exmi.core.impl.ExMIEnableConfig;
 import com.kneelawk.exmi.core.impl.ExMIPlatform;
 
 /**
@@ -25,7 +26,7 @@ public interface ExMIPlugin {
      * @param implClass      the integration implementation class.
      */
     static void register(EmiRegistry registry, String modId, String modDisplayName, String implClass) {
-        if (ExMIPlatform.INSTANCE.isModLoaded(modId)) {
+        if (ExMIPlatform.INSTANCE.isModLoaded(modId) && ExMIEnableConfig.checkIntegration(modId)) {
             ExMILog.LOG.info("[Extra Mod Integrations] Loading {} Integration...", modDisplayName);
             ExMIPlugin plugin = ReflectionUtils.newIntegrationInstance(ExMIPlugin.class, implClass, modDisplayName);
             if (plugin != null) {

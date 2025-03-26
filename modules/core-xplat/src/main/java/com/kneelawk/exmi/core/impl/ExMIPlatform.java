@@ -1,5 +1,7 @@
 package com.kneelawk.exmi.core.impl;
 
+import java.nio.file.Path;
+
 import com.kneelawk.exmi.core.api.util.ReflectionUtils;
 
 public interface ExMIPlatform {
@@ -8,4 +10,6 @@ public interface ExMIPlatform {
             "com.kneelawk.exmi.core.neoforge.impl.ExMIPlatformNeoForge");
 
     boolean isModLoaded(String modId);
+
+    Path getConfig(String path);
 }
