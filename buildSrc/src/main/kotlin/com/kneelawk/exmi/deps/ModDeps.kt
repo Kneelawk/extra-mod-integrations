@@ -127,6 +127,20 @@ open class ModDeps(private val project: Project, private val modDev: Boolean) {
             mod("top.theillusivec4.curios:curios-neoforge:$curios_version")
         }
     }
+    
+    fun pneumaticCraft() {
+        project.repositories {
+            maven {
+                name = "ModMaven"
+                url = project.uri("https://modmaven.dev/artifactory/local-releases/")
+            }
+        }
+        
+        project.dependencies {
+            val pneumaticcraft_version: String by project
+            mod("me.desht.pneumaticcraft:pneumaticcraft-repressurized:$pneumaticcraft_version")
+        }
+    }
 
     fun rechiseled() {
         project.repositories {
