@@ -82,7 +82,7 @@ module(neoforge && chipped_enabled.toBoolean(), "chipped-neoforge")
 val farmers_delight_enabled: String by settings
 module(neoforge && farmers_delight_enabled.toBoolean(), "farmers-delight-neoforge")
 
-// Iron's Spells N Spellbooks
+// Iron's Spells 'n Spellbooks
 val isns_enabled: String by settings
 module(neoforge && isns_enabled.toBoolean(), "isns-neoforge")
 

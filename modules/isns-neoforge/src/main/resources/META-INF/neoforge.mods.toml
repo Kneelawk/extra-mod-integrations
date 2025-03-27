@@ -5,9 +5,9 @@ license = "MIT"
 [[mods]]
 modId = "${mod_id}"
 version = "${version}"
-displayName = "ExMI Iron's Spells N Spellbooks"
+displayName = "ExMI Iron's Spells 'n Spellbooks"
 authors = "Kneelawk, abbie"
-description = "EMI Iron's Spells N Spellbooks integration"
+description = "EMI Iron's Spells 'n Spellbooks integration"
 logoFile = "assets/${mod_id}/icon.png"
 
 [[dependencies.${ mod_id }]]

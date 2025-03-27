@@ -10,6 +10,6 @@ import com.kneelawk.exmi.core.api.ExMIPlugin;
 public class ISNSPlugin implements EmiPlugin {
     @Override
     public void register(EmiRegistry emiRegistry) {
-        ExMIPlugin.register(emiRegistry, "irons_spellbooks", "Iron's Spells N Spellbooks", "com.kneelawk.exmi.isns.ISNSIntegration");
+        ExMIPlugin.register(emiRegistry, "irons_spellbooks", "Iron's Spells 'n Spellbooks", "com.kneelawk.exmi.isns.ISNSIntegration");
     }
 }
