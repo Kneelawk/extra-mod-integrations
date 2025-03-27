@@ -14,6 +14,7 @@ planned!
 | Chipped                    |    ✅    | Fabric & NeoForge                                     |
 | Farmer's Delight           |    ✅    | NeoForge only (Fabric version has native EMI support) |
 | Iron's Spells N Spellbooks |    ✅    | NeoForge only                                         |
+| PneumaticCraft             |    ✅    | NeoForge only                                         |
 | Rechiseled                 |    ✅    | Fabric & NeoForge                                     |
 | Reliquary                  |    ✅    | NeoForge only                                         |
 | Tech Reborn                |    ✅    | Fabric only                                           |

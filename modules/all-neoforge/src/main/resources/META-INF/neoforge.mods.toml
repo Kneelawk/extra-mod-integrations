@@ -53,6 +53,20 @@ ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.${ mod_id }]]
+modId = "extra_mod_integrations_irons_spells_n_spellbooks"
+type = "REQUIRED"
+versionRange = "[0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${ mod_id }]]
+modId = "extra_mod_integrations_pneumaticcraft"
+type = "REQUIRED"
+versionRange = "[0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${ mod_id }]]
 modId = "extra_mod_integrations_rechiseled"
 type = "REQUIRED"
 versionRange = "[0,)"
