@@ -123,10 +123,12 @@ if (curseApiKey != null) {
             forgeGradleIntegration = false
         })
     }
-    tasks.named<CurseUploadTask>("curseforge739970") {
-        doLast {
-            val version_extra: String by project
-            rootProject.file("curse-file-id-$version_extra.txt").writeText(mainArtifact.fileID.toString())
+    afterEvaluate {
+        tasks.named<CurseUploadTask>("curseforge739970") {
+            doLast {
+                val version_extra: String by project
+                rootProject.file("curse-file-id-$version_extra.txt").writeText(mainArtifact.fileID.toString())
+            }
         }
     }
 }
