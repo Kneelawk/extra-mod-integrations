@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
@@ -13,21 +14,11 @@ import net.neoforged.neoforge.fluids.FluidUtil;
 import dev.emi.emi.api.EmiDragDropHandler;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiInfoRecipe;
+import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.Bounds;
-import me.desht.pneumaticcraft.api.PneumaticRegistry;
-import me.desht.pneumaticcraft.api.crafting.recipe.AmadronRecipe;
-import me.desht.pneumaticcraft.api.crafting.recipe.AssemblyRecipe;
-import me.desht.pneumaticcraft.api.crafting.recipe.ExplosionCraftingRecipe;
-import me.desht.pneumaticcraft.api.crafting.recipe.FluidMixerRecipe;
-import me.desht.pneumaticcraft.api.crafting.recipe.HeatFrameCoolingRecipe;
-import me.desht.pneumaticcraft.api.crafting.recipe.HeatPropertiesRecipe;
-import me.desht.pneumaticcraft.api.crafting.recipe.PressureChamberRecipe;
-import me.desht.pneumaticcraft.api.crafting.recipe.RefineryRecipe;
-import me.desht.pneumaticcraft.api.crafting.recipe.ThermoPlantRecipe;
 import me.desht.pneumaticcraft.api.data.PneumaticCraftTags;
-import me.desht.pneumaticcraft.api.item.ISpawnerCoreStats;
 import me.desht.pneumaticcraft.client.gui.AbstractPneumaticCraftContainerScreen;
 import me.desht.pneumaticcraft.client.gui.AmadronAddTradeScreen;
 import me.desht.pneumaticcraft.client.gui.InventorySearcherScreen;
@@ -49,7 +40,6 @@ import me.desht.pneumaticcraft.common.registry.ModMenuTypes;
 import me.desht.pneumaticcraft.common.registry.ModRecipeTypes;
 import me.desht.pneumaticcraft.common.upgrades.ModUpgrades;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.Holder;
@@ -57,15 +47,15 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.item.crafting.RecipeInput;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.Fluid;
@@ -92,10 +82,6 @@ import com.kneelawk.exmi.pneumaticcraft.transfer.ProgrammerRecipeHandler;
 public class PIntegration implements ExMIPlugin {
     @Override
     public void register(EmiRegistry registry) {
-        Minecraft client = Minecraft.getInstance();
-        Level level = client.level;
-        RecipeManager manager = registry.getRecipeManager();
-
         registry.addCategory(PCategories.AMADRON_TRADE);
         registry.addCategory(PCategories.ASSEMBLY);
         registry.addCategory(PCategories.ELECTRO_GRID);
@@ -132,49 +118,17 @@ public class PIntegration implements ExMIPlugin {
         registry.addWorkstation(PCategories.EXPLOSION_CRAFTING, EmiStack.of(Blocks.TNT));
         registry.addWorkstation(PCategories.ELECTRO_GRID, EmiStack.of(ModBlocks.ELECTROSTATIC_COMPRESSOR));
 
-        for (RecipeHolder<ExplosionCraftingRecipe> holder : manager.getAllRecipesFor(ModRecipeTypes.EXPLOSION_CRAFTING.get())) {
-            registry.addRecipe(new ExplosionEmiRecipe(holder));
-        }
-
-        for (RecipeHolder<FluidMixerRecipe> holder : manager.getAllRecipesFor(ModRecipeTypes.FLUID_MIXER.get())) {
-            registry.addRecipe(new FluidMixerEmiRecipe(holder));
-        }
-
-        for (RecipeHolder<AmadronRecipe> holder : manager.getAllRecipesFor(ModRecipeTypes.AMADRON.get())) {
-            registry.addRecipe(new AmadronEmiRecipe(holder));
-        }
-
-        for (RecipeHolder<AssemblyRecipe> holder : manager.getAllRecipesFor(ModRecipeTypes.ASSEMBLY_DRILL.get())) {
-            registry.addRecipe(new AssemblyEmiRecipe(holder));
-        }
-
-        for (RecipeHolder<AssemblyRecipe> holder : manager.getAllRecipesFor(ModRecipeTypes.ASSEMBLY_LASER.get())) {
-            registry.addRecipe(new AssemblyEmiRecipe(holder));
-        }
-
-        for (RecipeHolder<AssemblyRecipe> holder : manager.getAllRecipesFor(ModRecipeTypes.ASSEMBLY_DRILL_LASER.get())) {
-            registry.addRecipe(new AssemblyEmiRecipe(holder));
-        }
-
-        for (RecipeHolder<HeatFrameCoolingRecipe> holder : manager.getAllRecipesFor(ModRecipeTypes.HEAT_FRAME_COOLING.get())) {
-            registry.addRecipe(new HeatFrameCoolingEmiRecipe(holder));
-        }
-
-        for (RecipeHolder<HeatPropertiesRecipe> holder : manager.getAllRecipesFor(ModRecipeTypes.BLOCK_HEAT_PROPERTIES.get())) {
-            registry.addRecipe(new BlockHeatPropertiesEmiRecipe(holder));
-        }
-
-        for (RecipeHolder<PressureChamberRecipe> holder : manager.getAllRecipesFor(ModRecipeTypes.PRESSURE_CHAMBER.get())) {
-            registry.addRecipe(new PressureChamberEmiRecipe(holder));
-        }
-
-        for (RecipeHolder<RefineryRecipe> holder : manager.getAllRecipesFor(ModRecipeTypes.REFINERY.get())) {
-            registry.addRecipe(new RefineryEmiRecipe(holder));
-        }
-
-        for (RecipeHolder<ThermoPlantRecipe> holder : manager.getAllRecipesFor(ModRecipeTypes.THERMO_PLANT.get())) {
-            registry.addRecipe(new ThermoPlantEmiRecipe(holder));
-        }
+        registerRecipes(registry, ModRecipeTypes.PRESSURE_CHAMBER.get(), PressureChamberEmiRecipe::new);
+        registerRecipes(registry, ModRecipeTypes.HEAT_FRAME_COOLING.get(), HeatFrameCoolingEmiRecipe::new);
+        registerRecipes(registry, ModRecipeTypes.REFINERY.get(), RefineryEmiRecipe::new);
+        registerRecipes(registry, ModRecipeTypes.THERMO_PLANT.get(), ThermoPlantEmiRecipe::new);
+        registerRecipes(registry, ModRecipeTypes.ASSEMBLY_LASER.get(), AssemblyEmiRecipe::new);
+        registerRecipes(registry, ModRecipeTypes.ASSEMBLY_DRILL.get(), AssemblyEmiRecipe::new);
+        registerRecipes(registry, ModRecipeTypes.ASSEMBLY_DRILL_LASER.get(), AssemblyEmiRecipe::new);
+        registerRecipes(registry, ModRecipeTypes.AMADRON.get(), AmadronEmiRecipe::new);
+        registerRecipes(registry, ModRecipeTypes.FLUID_MIXER.get(), FluidMixerEmiRecipe::new);
+        registerRecipes(registry, ModRecipeTypes.EXPLOSION_CRAFTING.get(), ExplosionEmiRecipe::new);
+        registerRecipes(registry, ModRecipeTypes.BLOCK_HEAT_PROPERTIES.get(), BlockHeatPropertiesEmiRecipe::new);
 
         registry.addRecipe(
             new MemoryEssenceEmiRecipe(pncLoc("/memory_essence/memory_stick"), EmiStack.of(ModItems.MEMORY_STICK.get()),
@@ -333,6 +287,12 @@ public class PIntegration implements ExMIPlugin {
         ));
         
         registry.addRecipeHandler(ModMenuTypes.PROGRAMMER.get(), new ProgrammerRecipeHandler());
+    }
+    
+    private static <I extends RecipeInput, T extends Recipe<I>> void registerRecipes(EmiRegistry registry, RecipeType<T> recipeType, Function<RecipeHolder<T>, EmiRecipe> ctor) {
+        for (RecipeHolder<T> holder : registry.getRecipeManager().getAllRecipesFor(recipeType)) {
+            registry.addRecipe(ctor.apply(holder));
+        }
     }
 
     public static ResourceLocation pncLoc(String path) {
