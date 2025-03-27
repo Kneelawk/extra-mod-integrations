@@ -159,6 +159,19 @@ repositories {
             includeGroup "me.shedaniel.cloth"
         }
     }
+
+    maven {
+        // Teamresourceful, required by Chipped
+        name "Teamresourceful"
+        url "https://maven.teamresourceful.com/repository/maven-public"
+        content {
+            includeGroup "earth.terrarium.chipped"
+            includeGroup "com.teamresourceful.resourcefullib"
+            includeGroup "com.teamresourceful"
+            includeGroup "earth.terrarium.athena"
+            includeGroup "com.terraformersmc"
+        }
+    }
 }
 
 dependencies {
@@ -256,6 +269,11 @@ dependencies {
         dependencies.ext.mod "org.jgrapht:jgrapht-core:1.1.0"
         dependencies.ext.mod "com.github.DimensionalDevelopment:poly2tri.java:0.1.1"
         dependencies.ext.mod "com.github.Chocohead:Fabric-ASM:v2.3"
+    }
+
+    // Chipped
+    if (chipped_enabled) {
+        dependencies.ext.mod "earth.terrarium.chipped:chipped-fabric-${minecraft_version}:${chipped_version}"
     }
 
     //
