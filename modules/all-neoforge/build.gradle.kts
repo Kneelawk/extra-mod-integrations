@@ -131,12 +131,12 @@ if (curseApiKey != null) {
             for (version in cfMinecraftVersions.split(regex)) {
                 addGameVersion(version)
             }
-            mainArtifact(tasks.jar, closureOf<CurseArtifact> {
+            mainArtifact(tasks.jar.get(), closureOf<CurseArtifact> {
                 val publish_display_name: String by project
                 val version_extra: String by project
                 displayName = "$publish_display_name $version_extra ${project.version}"
             })
-            addArtifact(tasks.sourcesJar)
+            addArtifact(tasks.sourcesJar.get())
             relations(closureOf<CurseRelation> {
                 val cfDependencies: String by project
                 for (dependency in cfDependencies.split(regex)) {
