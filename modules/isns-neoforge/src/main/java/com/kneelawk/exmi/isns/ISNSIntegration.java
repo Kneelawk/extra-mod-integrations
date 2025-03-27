@@ -1,16 +1,25 @@
 package com.kneelawk.exmi.isns;
 
+import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.IntStream;
+
 import dev.emi.emi.api.EmiRegistry;
+import dev.emi.emi.api.recipe.EmiInfoRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.Comparison;
+import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import io.redspace.ironsspellbooks.IronsSpellbooks;
 import io.redspace.ironsspellbooks.api.item.curios.AffinityData;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
+import io.redspace.ironsspellbooks.api.spells.ISpellContainer;
 import io.redspace.ironsspellbooks.registries.BlockRegistry;
 import io.redspace.ironsspellbooks.registries.ComponentRegistry;
 import io.redspace.ironsspellbooks.registries.ItemRegistry;
 
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import com.kneelawk.exmi.core.api.ExMIPlugin;
@@ -50,10 +59,39 @@ public class ISNSIntegration implements ExMIPlugin {
         AlchemistCauldronEmiRecipe.getRecipes().forEach(registry::addRecipe);
 
         SpellRegistry.getEnabledSpells().forEach(spell -> {
-            ItemStack newRing = new ItemStack(ItemRegistry.AFFINITY_RING.get());
-            newRing.set(ComponentRegistry.AFFINITY_COMPONENT, new AffinityData(spell.getSpellId(), 1));
-            registry.addEmiStackAfter(EmiStack.of(newRing),
-                stack -> stack.getItemStack().getItem() == ItemRegistry.AFFINITY_RING.get());
+            if (spell.isEnabled() && spell != SpellRegistry.none()) {
+                // add items to emi side-bar
+                ItemStack newRing = new ItemStack(ItemRegistry.AFFINITY_RING.get());
+                newRing.set(ComponentRegistry.AFFINITY_COMPONENT, new AffinityData(spell.getSpellId(), 1));
+                registry.addEmiStackAfter(EmiStack.of(newRing),
+                    stack -> stack.getItemStack().getItem() == ItemRegistry.AFFINITY_RING.get());
+
+                // add scroll info
+                List<EmiIngredient> scrolls =
+                    IntStream.rangeClosed(spell.getMinLevel(), spell.getMaxLevel()).mapToObj(level -> {
+                        ItemStack scroll = new ItemStack(ItemRegistry.SCROLL.get());
+                        ISpellContainer.createScrollContainer(spell, level, scroll);
+                        return (EmiIngredient) EmiStack.of(scroll);
+                    }).toList();
+                registry.addRecipe(
+                    new EmiInfoRecipe(scrolls, List.of(Component.translatable(spell.getComponentId() + ".guide")),
+                        IronsSpellbooks.id("/spell_info/" + spell.getSpellId().replace(':', '/'))));
+            }
         });
+
+        addInfo(registry, ItemRegistry.LIGHTNING_BOTTLE, "lightning_bottle");
+        addInfo(registry, ItemRegistry.BLOOD_VIAL, "blood_vial");
+        addInfo(registry, ItemRegistry.FROZEN_BONE_SHARD, "frozen_bone");
+        addInfo(registry, ItemRegistry.HOGSKIN, "hogskin");
+        addInfo(registry, ItemRegistry.DRAGONSKIN, "dragonskin");
+        addInfo(registry, ItemRegistry.RUINED_BOOK, "ruined_book");
+        addInfo(registry, ItemRegistry.CINDER_ESSENCE, "cinder_essence");
+        addInfo(registry, ItemRegistry.LIGHTNING_ROD_STAFF, "lightning_rod");
+    }
+
+    private static void addInfo(EmiRegistry registry, Supplier<Item> item, String name) {
+        registry.addRecipe(new EmiInfoRecipe(List.of(EmiStack.of(item.get())),
+            List.of(Component.translatable("item.irons_spellbooks." + name + ".guide")),
+            IronsSpellbooks.id("/info/" + name)));
     }
 }
