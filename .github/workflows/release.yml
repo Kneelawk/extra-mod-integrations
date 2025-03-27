@@ -5,7 +5,7 @@ env:
   PROJECT_NAME: Extra Mod Integrations
   MODRINTH_URL: 'https://modrinth.com/mod/extra-mod-integrations'
   CURSEFORGE_URL: 'https://www.curseforge.com/minecraft/mc-mods/extra-mod-integrations'
-  MAVEN_IDENTIFIER: 'com.kneelawk:extra-mod-integrations'
+  MAVEN_IDENTIFIER: 'com.kneelawk.extra-mod-integrations'
   ROLE_ID: '1239439047089455156'
 
 # Variant: github, maven+javadoc, discord
@@ -117,7 +117,7 @@ jobs:
             lines.push(`${process.env.MODRINTH_URL}/version/${modVersion}.fabric`, `${process.env.MODRINTH_URL}/version/${modVersion}.neoforge`);
             lines.push('Available on CurseForge:');
             lines.push(`${process.env.CURSEFORGE_URL}/files/${cfFileIdFabric}`, `${process.env.CURSEFORGE_URL}/files/${cfFileIdNeoForge}`);
-            lines.push("Available on Kneelawk's maven: https://maven.kneelawk.com/releases/", `With the identifier: \`${process.env.MAVEN_IDENTIFIER}:${modVersion}\``);
+            lines.push("Available on Kneelawk's maven: https://maven.kneelawk.com/releases/", `With the maven group: \`${process.env.MAVEN_IDENTIFIER}:${modVersion}\``);
             return lines.join('\n');
           result-encoding: string
       - name: Make Release Announcement
