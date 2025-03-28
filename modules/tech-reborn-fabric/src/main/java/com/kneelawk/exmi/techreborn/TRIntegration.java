@@ -15,7 +15,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
 
 import com.kneelawk.exmi.core.api.ExMI;
-import com.kneelawk.exmi.core.api.ExMILog;
 import com.kneelawk.exmi.core.api.ExMIPlugin;
 import com.kneelawk.exmi.core.api.ExMITextures;
 import com.kneelawk.exmi.core.api.FluidFromContainerEmiRecipe;

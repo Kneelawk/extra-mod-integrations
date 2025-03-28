@@ -22,6 +22,17 @@ public class SimpleRecipeHandler<T extends AbstractContainerMenu> implements Sta
     private final OptionalInt outputSlot;
 
     public SimpleRecipeHandler(EmiRecipeCategory category, int recipeSlotStart, int recipeSlotCount,
+                               int inventorySlotStart, int inventorySlotCount) {
+        this(category, recipeSlotStart, recipeSlotCount, inventorySlotStart, inventorySlotCount, OptionalInt.empty());
+    }
+
+    public SimpleRecipeHandler(EmiRecipeCategory category, int recipeSlotStart, int recipeSlotCount,
+                               int inventorySlotStart, int inventorySlotCount, int outputSlot) {
+        this(category, recipeSlotStart, recipeSlotCount, inventorySlotStart, inventorySlotCount,
+            OptionalInt.of(outputSlot));
+    }
+
+    public SimpleRecipeHandler(EmiRecipeCategory category, int recipeSlotStart, int recipeSlotCount,
                                int inventorySlotStart, int inventorySlotCount, OptionalInt outputSlot) {
         this.category = category;
         this.recipeSlotStart = recipeSlotStart;
