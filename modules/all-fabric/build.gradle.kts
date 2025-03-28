@@ -77,7 +77,7 @@ modrinth {
         changelog.set(file.readText())
     }
     uploadFile.set(tasks.remapJar)
-    additionalFiles.set(listOf(tasks.sourcesJar))
+//    additionalFiles.set(listOf(tasks.sourcesJar))
     val mrGameVersions: String by project
     gameVersions.set(mrGameVersions.split(regex))
     val mrLoaders: String by project
@@ -111,7 +111,7 @@ if (curseApiKey != null) {
                 val version_extra: String by project
                 displayName = "$publish_display_name $version_extra ${project.version}"
             })
-            addArtifact(tasks.sourcesJar.get())
+//            addArtifact(tasks.sourcesJar.get())
             relations(closureOf<CurseRelation> {
                 val cfDependencies: String by project
                 for (dependency in cfDependencies.split(regex)) {
