@@ -1,6 +1,7 @@
 package com.kneelawk.exmi.isns;
 
 import java.util.List;
+import java.util.OptionalInt;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
@@ -17,12 +18,14 @@ import io.redspace.ironsspellbooks.api.spells.ISpellContainer;
 import io.redspace.ironsspellbooks.registries.BlockRegistry;
 import io.redspace.ironsspellbooks.registries.ComponentRegistry;
 import io.redspace.ironsspellbooks.registries.ItemRegistry;
+import io.redspace.ironsspellbooks.registries.MenuRegistry;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import com.kneelawk.exmi.core.api.ExMIPlugin;
+import com.kneelawk.exmi.core.api.SimpleRecipeHandler;
 import com.kneelawk.exmi.isns.recipe.AlchemistCauldronEmiRecipe;
 import com.kneelawk.exmi.isns.recipe.ArcaneAnvilEmiRecipe;
 import com.kneelawk.exmi.isns.recipe.ScrollForgeEmiRecipe;
@@ -78,6 +81,9 @@ public class ISNSIntegration implements ExMIPlugin {
                         IronsSpellbooks.id("/spell_info/" + spell.getSpellId().replace(':', '/'))));
             }
         });
+
+        registry.addRecipeHandler(MenuRegistry.ARCANE_ANVIL_MENU.get(),
+            new SimpleRecipeHandler<>(ARCANE_ANVIL, 0, 2, 3, 36, OptionalInt.of(2)));
 
         addInfo(registry, ItemRegistry.LIGHTNING_BOTTLE, "lightning_bottle");
         addInfo(registry, ItemRegistry.BLOOD_VIAL, "blood_vial");

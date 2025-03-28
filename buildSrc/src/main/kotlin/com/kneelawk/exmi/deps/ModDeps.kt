@@ -6,6 +6,33 @@ import org.gradle.kotlin.dsl.*
 open class ModDeps(private val project: Project, private val modDev: Boolean) {
     private var modrinth = false
 
+    // JEI compile-time for figuring out how things were using JEI
+    fun jei() {
+        project.repositories {
+            maven {
+                name = "BlameJared"
+                url = project.uri("https://maven.blamejared.com/")
+            }
+        }
+
+        project.dependencies {
+            val platform = project.property("submodule.platform")
+            val jei_version: String by project
+            val jei_mc_version: String by project
+            when (platform) {
+                "xplat" -> {
+                    compileMod("mezz.jei:jei-$jei_mc_version-common-api-intermediary:$jei_version")
+                }
+                "fabric" -> {
+                    compileMod("mezz.jei:jei-$jei_mc_version-fabric-api:$jei_version")
+                }
+                "neoforge" -> {
+                    compileMod("mezz.jei:jei-$jei_mc_version-neoforge-api:$jei_version")
+                }
+            }
+        }
+    }
+
     // Mod Dependency importers (sorted alphabetically)
 
     fun actuallyAdditions() {
@@ -127,7 +154,7 @@ open class ModDeps(private val project: Project, private val modDev: Boolean) {
             mod("top.theillusivec4.curios:curios-neoforge:$curios_version")
         }
     }
-    
+
     fun pneumaticCraft() {
         project.repositories {
             maven {
@@ -135,7 +162,7 @@ open class ModDeps(private val project: Project, private val modDev: Boolean) {
                 url = project.uri("https://modmaven.dev/artifactory/local-releases/")
             }
         }
-        
+
         project.dependencies {
             val pneumaticcraft_version: String by project
             mod("me.desht.pneumaticcraft:pneumaticcraft-repressurized:$pneumaticcraft_version")
@@ -252,6 +279,24 @@ open class ModDeps(private val project: Project, private val modDev: Boolean) {
                 exclude(group = "io.github.prospector")
                 exclude(group = "me.shedaniel")
                 exclude(group = "mezz.jei")
+            }
+        }
+    }
+
+    fun DependencyHandlerScope.compileMod(dep: String) {
+        if (modDev) {
+            add("compileOnly", dep) {
+                exclude(group = "net.fabricmc")
+                exclude(group = "net.fabricmc.fabric-api")
+                exclude(group = "io.github.prospector")
+                exclude(group = "me.shedaniel")
+            }
+        } else {
+            add("modCompileOnly", dep) {
+                exclude(group = "net.fabricmc")
+                exclude(group = "net.fabricmc.fabric-api")
+                exclude(group = "io.github.prospector")
+                exclude(group = "me.shedaniel")
             }
         }
     }
