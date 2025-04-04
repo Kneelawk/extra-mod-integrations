@@ -3,10 +3,13 @@ package com.kneelawk.exmi.isns.recipe;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import com.google.common.collect.Streams;
+
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,11 +23,11 @@ import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import io.redspace.ironsspellbooks.api.spells.ISpellContainer;
 import io.redspace.ironsspellbooks.api.spells.SpellRarity;
-import io.redspace.ironsspellbooks.block.alchemist_cauldron.AlchemistCauldronRecipeRegistry;
-import io.redspace.ironsspellbooks.block.alchemist_cauldron.CauldronPlatformHelper;
 import io.redspace.ironsspellbooks.config.ServerConfigs;
+import io.redspace.ironsspellbooks.fluids.PotionFluid;
 import io.redspace.ironsspellbooks.item.InkItem;
 import io.redspace.ironsspellbooks.registries.ItemRegistry;
+import io.redspace.ironsspellbooks.registries.RecipeRegistry;
 
 import it.unimi.dsi.fastutil.Hash;
 import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenCustomHashSet;
@@ -32,7 +35,6 @@ import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenCustomHashSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -41,71 +43,63 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionContents;
-import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.level.material.Fluids;
 
 import com.kneelawk.exmi.core.api.ExMILog;
+import com.kneelawk.exmi.isns.ISNSConfig;
 import com.kneelawk.exmi.isns.ISNSIntegration;
+
+import static java.lang.Math.max;
 
 public class AlchemistCauldronEmiRecipe extends BasicEmiRecipe {
     private final boolean recycle;
     private final EmiIngredient input;
-    private final EmiIngredient bottle;
-    private final EmiStack output;
+    private final EmiIngredient fluidIn;
+    private final List<EmiStack> output;
 
-    public static Stream<AlchemistCauldronEmiRecipe> getRecipes() {
-        List<ItemStack> visibleItems = getVisibleItems();
-        return Streams.concat(getScrollRecipes(), getCustomRecipes(visibleItems), getPotionRecipes(visibleItems));
+    public static Stream<AlchemistCauldronEmiRecipe> getRecipes(RecipeManager manager) {
+        List<ItemStack> potionIngredients = getPotionIngredients();
+        return Streams.concat(getScrollRecipes(), getCustomRecipes(manager), getPotionRecipes(potionIngredients));
     }
 
     private static Stream<AlchemistCauldronEmiRecipe> getScrollRecipes() {
         return Arrays.stream(SpellRarity.values()).map(AlchemistCauldronEmiRecipe::recycleRecipe);
     }
 
-    private static Stream<AlchemistCauldronEmiRecipe> getCustomRecipes(List<ItemStack> visibleItems) {
-        List<ItemStack> reagents =
-            visibleItems.stream().filter(AlchemistCauldronRecipeRegistry::isValidIngredient).toList();
-        return reagents.stream().flatMap(reagent -> AlchemistCauldronRecipeRegistry.getRecipes().stream()
-            .filter(recipe -> CauldronPlatformHelper.itemMatches(reagent, recipe.getIngredient())).map(recipe -> {
-                ItemStack result = recipe.getResult();
-                if (result.getCount() == 4) {
-                    result.setCount(1);
-                }
-
-                ResourceLocation reagentKey = getKey(reagent);
-                ResourceLocation inputKey = getKey(recipe.getInput());
-                ResourceLocation resultKey = getKey(result);
-
-                return new AlchemistCauldronEmiRecipe(IronsSpellbooks.id(
-                    "/custom_cauldron_recipe/" + reagentKey.getNamespace() + "/" + reagentKey.getPath() + "/" +
-                        inputKey.getNamespace() + "/" + inputKey.getPath() + "/" + resultKey.getNamespace() + "/" +
-                        resultKey.getPath()), false, EmiStack.of(reagent), EmiStack.of(recipe.getInput()),
-                    EmiStack.of(result));
-            }));
+    private static Stream<AlchemistCauldronEmiRecipe> getCustomRecipes(RecipeManager manager) {
+        return manager.getAllRecipesFor(RecipeRegistry.ALCHEMIST_CAULDRON_BREW_TYPE.get()).stream().map(
+            holder -> new AlchemistCauldronEmiRecipe(holder.id(), false, EmiIngredient.of(holder.value().reagent()),
+                EmiStack.of(holder.value().fluidIn().getFluid(), holder.value().fluidIn().getComponentsPatch()),
+                Stream.concat(holder.value().byproduct().stream().map(EmiStack::of),
+                    holder.value().results().stream()
+                        .map(stack -> EmiStack.of(stack.getFluid(), stack.getComponentsPatch()))).toList()));
     }
 
-    private static Stream<AlchemistCauldronEmiRecipe> getPotionRecipes(List<ItemStack> visibleItems) {
+    private static Stream<AlchemistCauldronEmiRecipe> getPotionRecipes(List<ItemStack> potionIngredients) {
         if (!ServerConfigs.ALLOW_CAULDRON_BREWING.get()) {
             return Stream.of();
         } else {
-            List<ItemStack> reagents = visibleItems.stream().filter(AlchemistCauldronEmiRecipe::isIngredient).toList();
             List<ItemStack> potions = getPotionItems();
             ClientLevel level = Minecraft.getInstance().level;
 
-            return level == null ? Stream.of() : reagents.stream().flatMap(
+            return level == null ? Stream.of() : potionIngredients.stream().flatMap(
                 reagent -> potions.stream().filter(potion -> level.potionBrewing().hasMix(potion, reagent))
                     .map(baseItem -> {
                         ResourceLocation reagentKey = getKey(reagent);
                         ResourceLocation baseKey = getKey(baseItem);
                         ItemStack mix = level.potionBrewing().mix(reagent, baseItem);
+                        FluidStack baseFluid = PotionFluid.from(baseItem);
+                        FluidStack mixFluid = PotionFluid.from(mix);
                         return new AlchemistCauldronEmiRecipe(IronsSpellbooks.id(
                             "/potion_brewing/" + reagentKey.getNamespace() + "/" + reagentKey.getPath() + "/" +
                                 baseKey.getNamespace() + "/" + baseKey.getPath() + "/" +
                                 getPotionContentsPath(baseItem) + getPotionContentsPath(mix)), false,
-                            EmiStack.of(reagent), EmiStack.of(baseItem), EmiStack.of(mix));
+                            EmiStack.of(reagent), EmiStack.of(baseFluid.getFluid(), baseFluid.getComponentsPatch()),
+                            List.of(EmiStack.of(mixFluid.getFluid(), mixFluid.getComponentsPatch())));
                     }));
         }
     }
@@ -147,13 +141,10 @@ public class AlchemistCauldronEmiRecipe extends BasicEmiRecipe {
             spell -> IntStream.rangeClosed(spell.getMinLevel(), spell.getMaxLevel())
                 .filter(level -> spell.getRarity(level) == rarity)
                 .mapToObj(level -> EmiStack.of(getScrollStack(scrollStack, spell, level)))).toList());
-        EmiStack ink = EmiStack.of(InkItem.getInkForRarity(rarity))
+        EmiStack ink = EmiStack.of(InkItem.getInkForRarity(rarity).fluid().value(), 250)
             .setChance(ServerConfigs.SCROLL_RECYCLE_CHANCE.get().floatValue());
-        EmiStack waterBottle = EmiStack.of(Items.POTION,
-            DataComponentPatch.builder().set(DataComponents.POTION_CONTENTS, new PotionContents(Potions.WATER))
-                .build());
         return new AlchemistCauldronEmiRecipe(IronsSpellbooks.id("/scroll_recycle/" + rarity.getValue()), true, scrolls,
-            waterBottle, ink);
+            EmiStack.of(Fluids.WATER), List.of(ink));
     }
 
     private static ItemStack getScrollStack(ItemStack stack, AbstractSpell spell, int level) {
@@ -164,6 +155,7 @@ public class AlchemistCauldronEmiRecipe extends BasicEmiRecipe {
 
     private static boolean isIngredient(ItemStack stack) {
         try {
+            // This isn't great performance-wise, but it's the only non-hacky way to get all potion ingredients
             return Minecraft.getInstance().level.potionBrewing().isIngredient(stack);
         } catch (LinkageError | RuntimeException e) {
             ExMILog.LOG.error("Failed to check if item is a potion reagent {}.", stack, e);
@@ -175,40 +167,47 @@ public class AlchemistCauldronEmiRecipe extends BasicEmiRecipe {
         return BuiltInRegistries.ITEM.getKey(stack.getItem());
     }
 
-    private static List<ItemStack> getVisibleItems() {
-        return BuiltInRegistries.ITEM.stream().map(ItemStack::new)
-            .filter(stack -> CreativeModeTabs.allTabs().stream().anyMatch(tab -> tab.contains(stack))).toList();
+    private static List<ItemStack> getPotionIngredients() {
+        // This isn't great performance-wise, but it's the only non-hacky way to get all potion ingredients
+        return ISNSConfig.limitMaxGatheredPotionIngredients(BuiltInRegistries.ITEM.stream().map(ItemStack::new)
+            .filter(stack -> CreativeModeTabs.allTabs().stream().anyMatch(tab -> tab.contains(stack)))
+            .filter(AlchemistCauldronEmiRecipe::isIngredient)).toList();
     }
 
     private static List<ItemStack> getPotionItems() {
-        ObjectLinkedOpenCustomHashSet<ItemStack> set = new ObjectLinkedOpenCustomHashSet<>(
-            new Hash.Strategy<>() {
-                @Override
-                public int hashCode(ItemStack o) {
-                    return o.getItem().hashCode() * 31 + o.getComponentsPatch().hashCode();
-                }
-
-                @Override
-                public boolean equals(ItemStack a, ItemStack b) {
-                    if (a == b) return true;
-                    if (a == null || b == null) return false;
-                    return a.getItem() == b.getItem() && a.getComponentsPatch().equals(b.getComponentsPatch());
-                }
-            });
-        return CreativeModeTabs.allTabs().stream().flatMap(tab -> tab.getDisplayItems().stream())
-            .filter(stack -> stack.getItem() instanceof PotionItem).filter(set::add).toList();
+        return ISNSConfig.limitMaxGatheredPotions(
+            CreativeModeTabs.allTabs().stream().flatMap(tab -> tab.getDisplayItems().stream())
+                .filter(stack -> stack.getItem() instanceof PotionItem).filter(filterDuplicates())).toList();
     }
 
-    public AlchemistCauldronEmiRecipe(ResourceLocation id, boolean recycle, EmiIngredient input, EmiIngredient bottle,
-                                      EmiStack output) {
-        super(ISNSIntegration.ALCHEMIST_CAULDRON, id, 18 + 4 + 26 + 28 + 26 + 5 + 18, 18 + 2 + 18);
+    private static Predicate<ItemStack> filterDuplicates() {
+        ObjectLinkedOpenCustomHashSet<ItemStack> set = new ObjectLinkedOpenCustomHashSet<>(new Hash.Strategy<>() {
+            @Override
+            public int hashCode(ItemStack o) {
+                return o.getItem().hashCode() * 31 + o.getComponentsPatch().hashCode();
+            }
+
+            @Override
+            public boolean equals(ItemStack a, ItemStack b) {
+                if (a == b) return true;
+                if (a == null || b == null) return false;
+                return a.getItem() == b.getItem() && a.getComponentsPatch().equals(b.getComponentsPatch());
+            }
+        });
+        return set::add;
+    }
+
+    public AlchemistCauldronEmiRecipe(ResourceLocation id, boolean recycle, EmiIngredient input, EmiIngredient fluidIn,
+                                      List<EmiStack> output) {
+        super(ISNSIntegration.ALCHEMIST_CAULDRON, id, 18 + 4 + 26 + 28 + 26 + 5 + 18,
+            max(18 + 2 + 18, output.size() * 18));
         this.recycle = recycle;
         this.input = input;
-        this.bottle = bottle;
+        this.fluidIn = fluidIn;
         this.output = output;
 
-        inputs = List.of(input, bottle);
-        outputs = List.of(output);
+        inputs = List.of(input, fluidIn);
+        outputs = List.copyOf(output);
     }
 
     @Override
@@ -217,9 +216,12 @@ public class AlchemistCauldronEmiRecipe extends BasicEmiRecipe {
             18 + 4 + 26 + 28 + 26 + 5 + 18, 18, 0, 0);
 
         widgets.addSlot(ISNSIntegration.ALCHEMIST_CAULDRON_BLOCK, 18 + 4 + 26 + 4, 18 + 2).drawBack(false);
-        widgets.addSlot(input, 0, 0).drawBack(false);
-        widgets.addSlot(bottle, 18 + 4 + 26 + 4, 0).drawBack(false);
-        widgets.addSlot(output, 18 + 4 + 26 + 28 + 26 + 5, 0).drawBack(false).recipeContext(this);
+        widgets.addSlot(input, 0, 0);
+        widgets.addSlot(fluidIn, 18 + 4 + 26 + 5, 0);
+        for (int i = 0; i < output.size(); i++) {
+            EmiStack o = output.get(i);
+            widgets.addSlot(o, 18 + 4 + 26 + 28 + 26 + 5, i * 18).recipeContext(this);
+        }
 
         if (recycle) {
             double chance = ServerConfigs.SCROLL_RECYCLE_CHANCE.get();

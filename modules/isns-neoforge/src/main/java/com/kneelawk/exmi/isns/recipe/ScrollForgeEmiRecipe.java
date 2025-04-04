@@ -48,7 +48,8 @@ public class ScrollForgeEmiRecipe extends BasicEmiRecipe {
                     int level = spell.getMinLevelForRarity(inkItem.getRarity());
                     ISpellContainer.createScrollContainer(spell, level, scrollStack);
                     return new ScrollForgeEmiRecipe(
-                        IronsSpellbooks.id("/scroll_forge/" + spell.getSpellId().replace(':', '/') + "/" + inkItem.getRarity().getValue()),
+                        IronsSpellbooks.id("/scroll_forge/" + spell.getSpellId().replace(':', '/') + "/" +
+                            inkItem.getRarity().getValue()),
                         inkStack, paper, EmiStack.of(focus), EmiStack.of(scrollStack));
                 }));
             });

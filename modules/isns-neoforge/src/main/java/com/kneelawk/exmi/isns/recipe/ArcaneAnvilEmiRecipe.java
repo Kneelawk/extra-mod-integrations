@@ -62,17 +62,15 @@ public class ArcaneAnvilEmiRecipe extends BasicEmiRecipe {
             visibleItems.stream().filter(Utils::canImbue).flatMap(stack -> SpellRegistry.getEnabledSpells().stream()
                 .flatMap(spell -> IntStream.rangeClosed(spell.getMinLevel(), spell.getMaxLevel())
                     .mapToObj(level -> ofImbue(stack, spell, level))));
-        int maxImbueRecipes = ISNSConfig.getMaxImbueRecipes();
-        if (maxImbueRecipes >= 0) {
-            return stream.limit(maxImbueRecipes);
-        }
-        return stream;
+        return ISNSConfig.limitMaxImbueRecipes(stream);
     }
 
     private static Stream<ArcaneAnvilEmiRecipe> getUpgradeRecipes(List<ItemStack> visibleItems) {
         List<ItemStack> upgradable = visibleItems.stream().filter(Utils::canBeUpgraded).toList();
-        return BuiltInRegistries.ITEM.stream().filter(item -> item instanceof UpgradeOrbItem)
-            .flatMap(upgradeOrb -> upgradable.stream().map(item -> ofItemUpgrade(item, new ItemStack(upgradeOrb))));
+        Stream<ArcaneAnvilEmiRecipe> stream =
+            BuiltInRegistries.ITEM.stream().filter(item -> item instanceof UpgradeOrbItem)
+                .flatMap(upgradeOrb -> upgradable.stream().map(item -> ofItemUpgrade(item, new ItemStack(upgradeOrb))));
+        return ISNSConfig.limitMaxUpgradeRecipes(stream);
     }
 
     private static Stream<ArcaneAnvilEmiRecipe> getAffinityAttuneRecipes() {
@@ -81,8 +79,8 @@ public class ArcaneAnvilEmiRecipe extends BasicEmiRecipe {
     }
 
     private static List<ItemStack> getVisibleItems() {
-        return BuiltInRegistries.ITEM.stream().map(ItemStack::new)
-            .filter(stack -> CreativeModeTabs.allTabs().stream().anyMatch(tab -> tab.contains(stack))).toList();
+        return ISNSConfig.limitMaxGatheredItems(BuiltInRegistries.ITEM.stream().map(ItemStack::new)
+            .filter(stack -> CreativeModeTabs.allTabs().stream().anyMatch(tab -> tab.contains(stack)))).toList();
     }
 
     private static ArcaneAnvilEmiRecipe ofScrollUpgrade(AbstractSpell spell, int baseLevel) {

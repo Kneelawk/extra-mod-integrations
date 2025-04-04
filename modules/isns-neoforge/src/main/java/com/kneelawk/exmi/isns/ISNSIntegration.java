@@ -59,15 +59,15 @@ public class ISNSIntegration implements ExMIPlugin {
 
         registry.addCategory(ALCHEMIST_CAULDRON);
         registry.addWorkstation(ALCHEMIST_CAULDRON, ALCHEMIST_CAULDRON_BLOCK);
-        AlchemistCauldronEmiRecipe.getRecipes().forEach(registry::addRecipe);
+        AlchemistCauldronEmiRecipe.getRecipes(registry.getRecipeManager()).forEach(registry::addRecipe);
 
         SpellRegistry.getEnabledSpells().forEach(spell -> {
             if (spell.isEnabled() && spell != SpellRegistry.none()) {
                 // add items to emi side-bar
                 ItemStack newRing = new ItemStack(ItemRegistry.AFFINITY_RING.get());
                 newRing.set(ComponentRegistry.AFFINITY_COMPONENT, new AffinityData(spell));
-                registry.addEmiStackAfter(EmiStack.of(newRing),
-                    stack -> stack.getItemStack().getItem() == ItemRegistry.AFFINITY_RING.get());
+                EmiStack ringStack = EmiStack.of(newRing);
+                registry.addEmiStack(ringStack);
 
                 // add scroll info
                 List<EmiIngredient> scrolls =
