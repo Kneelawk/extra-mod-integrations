@@ -122,11 +122,11 @@ public class ArcaneAnvilEmiRecipe extends BasicEmiRecipe {
 
     private static ArcaneAnvilEmiRecipe ofAffinityRingAttune(AbstractSpell spell) {
         ItemStack result = new ItemStack(ItemRegistry.AFFINITY_RING.get());
-        result.set(ComponentRegistry.AFFINITY_COMPONENT, new AffinityData(spell.getSpellId(), 1));
+        result.set(ComponentRegistry.AFFINITY_COMPONENT, new AffinityData(spell));
         EmiIngredient ring =
             EmiIngredient.of(Stream.concat(SpellRegistry.getEnabledSpells().stream().map(randomSpell -> {
                 ItemStack baseRing = new ItemStack(ItemRegistry.AFFINITY_RING.get());
-                baseRing.set(ComponentRegistry.AFFINITY_COMPONENT, new AffinityData(randomSpell.getSpellId(), 1));
+                baseRing.set(ComponentRegistry.AFFINITY_COMPONENT, new AffinityData(randomSpell));
                 return EmiStack.of(baseRing);
             }), Stream.of(EmiStack.of(ItemRegistry.AFFINITY_RING.get()))).toList());
         EmiIngredient scroll =

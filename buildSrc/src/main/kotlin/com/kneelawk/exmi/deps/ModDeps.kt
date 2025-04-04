@@ -5,6 +5,7 @@ import org.gradle.kotlin.dsl.*
 
 open class ModDeps(private val project: Project, private val modDev: Boolean) {
     private var modrinth = false
+    private var curseforge = false
 
     // JEI compile-time for figuring out how things were using JEI
     fun jei() {
@@ -56,6 +57,7 @@ open class ModDeps(private val project: Project, private val modDev: Boolean) {
     fun chipped() {
         project.repositories {
             if (!modrinth) {
+                modrinth = true
                 maven {
                     name = "ModrinthMaven"
                     url = project.uri("https://api.modrinth.com/maven/")
@@ -96,6 +98,7 @@ open class ModDeps(private val project: Project, private val modDev: Boolean) {
     fun farmersDelight() {
         project.repositories {
             if (!modrinth) {
+                modrinth = true
                 maven {
                     name = "ModrinthMaven"
                     url = project.uri("https://api.modrinth.com/maven/")
@@ -114,37 +117,36 @@ open class ModDeps(private val project: Project, private val modDev: Boolean) {
 
     fun ironsSpellsNSpellbooks() {
         project.repositories {
-            project.repositories {
-                if (!modrinth) {
-                    maven {
-                        name = "ModrinthMaven"
-                        url = project.uri("https://api.modrinth.com/maven/")
-                        content {
-                            includeGroup("maven.modrinth")
-                        }
-                    }
-                }
+            if (!curseforge) {
+                curseforge = true
                 maven {
-                    name = "GeckoLib"
-                    url = project.uri("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+                    name = "CurseMaven"
+                    url = project.uri("https://cursemaven.com")
                     content {
-                        includeGroup("software.bernie.geckolib")
+                        includeGroup("curse.maven")
                     }
                 }
-                maven {
-                    name = "KosmX's Maven"
-                    url = project.uri("https://maven.kosmx.dev/")
+            }
+            maven {
+                name = "GeckoLib"
+                url = project.uri("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+                content {
+                    includeGroup("software.bernie.geckolib")
                 }
-                maven {
-                    name = "Illusive Soulworks Maven"
-                    url = project.uri("https://maven.theillusivec4.top/")
-                }
+            }
+            maven {
+                name = "KosmX's Maven"
+                url = project.uri("https://maven.kosmx.dev/")
+            }
+            maven {
+                name = "Illusive Soulworks Maven"
+                url = project.uri("https://maven.theillusivec4.top/")
             }
         }
 
         project.dependencies {
             val isns_id: String by project
-            mod("maven.modrinth:irons-spells-n-spellbooks:$isns_id")
+            mod("curse.maven:irons-spells-n-spellbooks-855414:$isns_id")
             val geckolib_version: String by project
             val geckolib_mc_version: String by project
             mod("software.bernie.geckolib:geckolib-neoforge-$geckolib_mc_version:$geckolib_version")
@@ -172,6 +174,7 @@ open class ModDeps(private val project: Project, private val modDev: Boolean) {
     fun rechiseled() {
         project.repositories {
             if (!modrinth) {
+                modrinth = true
                 maven {
                     name = "ModrinthMaven"
                     url = project.uri("https://api.modrinth.com/maven/")
@@ -212,6 +215,7 @@ open class ModDeps(private val project: Project, private val modDev: Boolean) {
     fun reliquary() {
         project.repositories {
             if (!modrinth) {
+                modrinth = true
                 maven {
                     name = "ModrinthMaven"
                     url = project.uri("https://api.modrinth.com/maven/")
@@ -230,11 +234,14 @@ open class ModDeps(private val project: Project, private val modDev: Boolean) {
 
     fun techReborn() {
         project.repositories {
-            maven {
-                name = "CurseMaven"
-                url = project.uri("https://cursemaven.com")
-                content {
-                    includeGroup("curse.maven")
+            if (!curseforge) {
+                curseforge = true
+                maven {
+                    name = "CurseMaven"
+                    url = project.uri("https://cursemaven.com")
+                    content {
+                        includeGroup("curse.maven")
+                    }
                 }
             }
         }

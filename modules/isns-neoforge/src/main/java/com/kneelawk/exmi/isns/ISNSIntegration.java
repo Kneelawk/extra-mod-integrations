@@ -65,7 +65,7 @@ public class ISNSIntegration implements ExMIPlugin {
             if (spell.isEnabled() && spell != SpellRegistry.none()) {
                 // add items to emi side-bar
                 ItemStack newRing = new ItemStack(ItemRegistry.AFFINITY_RING.get());
-                newRing.set(ComponentRegistry.AFFINITY_COMPONENT, new AffinityData(spell.getSpellId(), 1));
+                newRing.set(ComponentRegistry.AFFINITY_COMPONENT, new AffinityData(spell));
                 registry.addEmiStackAfter(EmiStack.of(newRing),
                     stack -> stack.getItemStack().getItem() == ItemRegistry.AFFINITY_RING.get());
 
