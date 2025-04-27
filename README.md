@@ -8,16 +8,16 @@ planned!
 
 ## Supported Mods
 
-| Mod                         | Support | Notes                                                 |
-|-----------------------------|:-------:|-------------------------------------------------------|
-| Actually Additions          |    ✅    | NeoForge only                                         |
-| Chipped                     |    ✅    | Fabric & NeoForge                                     |
-| Farmer's Delight            |    ✅    | NeoForge only (Fabric version has native EMI support) |
-| Iron's Spells 'n Spellbooks |    ✅    | NeoForge only                                         |
-| PneumaticCraft              |    ✅    | NeoForge only                                         |
-| Rechiseled                  |    ✅    | Fabric & NeoForge                                     |
-| Reliquary                   |    ✅    | NeoForge only                                         |
-| Tech Reborn                 |    ✅    | Fabric only                                           |
+| Mod                         | Support | Notes                                                             |
+|-----------------------------|:-------:|-------------------------------------------------------------------|
+| Actually Additions          |    ✅    | NeoForge only, v1.0+ only                                         |
+| Chipped                     |    ✅    | Fabric & NeoForge, v1.0+ only                                     |
+| Farmer's Delight            |    ✅    | NeoForge only (Fabric version has native EMI support), v1.0+ only |
+| Iron's Spells 'n Spellbooks |    ✅    | NeoForge only, v1.0+ only                                         |
+| PneumaticCraft              |    ✅    | NeoForge only, v1.0+ only                                         |
+| Rechiseled                  |    ✅    | Fabric & NeoForge, v1.0+ only                                     |
+| Reliquary                   |    ✅    | NeoForge only, v1.0+ only                                         |
+| Tech Reborn                 |    ✅    | Fabric only                                                       |
 
 ✅: Support Completed<br>
 🚧: Support In Progress<br>
