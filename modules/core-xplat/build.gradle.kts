@@ -6,7 +6,7 @@ plugins {
 
 submodule {
     val emi_version: String by project
-    xplatExternalDependency { "dev.emi:emi-$it:$emi_version" }
+    xplatExternalDependency(include = false) { "dev.emi:emi-$it:$emi_version" }
 }
 
 kpublish {
