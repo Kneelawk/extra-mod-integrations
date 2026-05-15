@@ -8,7 +8,7 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import reliquary.crafting.AlkahestryChargingRecipe;
 import reliquary.init.ModItems;
-import reliquary.items.AlkahestryTomeItem;
+import reliquary.item.AlkahestryTomeItem;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
