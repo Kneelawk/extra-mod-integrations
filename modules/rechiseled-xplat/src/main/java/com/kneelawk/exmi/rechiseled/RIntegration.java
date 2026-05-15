@@ -1,8 +1,8 @@
 package com.kneelawk.exmi.rechiseled;
 
 import com.supermartijn642.rechiseled.Rechiseled;
-import com.supermartijn642.rechiseled.chiseling.ChiselingRecipe;
-import com.supermartijn642.rechiseled.chiseling.ChiselingRecipes;
+import com.supermartijn642.rechiseled.api.chiseling.ChiselingRecipe;
+import com.supermartijn642.rechiseled.api.chiseling.ChiselingRecipeManager;
 
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
@@ -24,7 +24,7 @@ public class RIntegration implements ExMIPlugin {
 
         registry.addWorkstation(CHISELING, CHISEL);
 
-        for (ChiselingRecipe recipe : ChiselingRecipes.getAllRecipes()) {
+        for (ChiselingRecipe recipe : ChiselingRecipeManager.get(true).getAllRecipes()) {
             registry.addRecipe(new ChiselingEmiRecipe(recipe));
         }
     }

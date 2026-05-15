@@ -3,7 +3,9 @@ package com.kneelawk.exmi.rechiseled;
 import java.util.List;
 import java.util.stream.Stream;
 
-import com.supermartijn642.rechiseled.chiseling.ChiselingRecipe;
+import com.supermartijn642.rechiseled.api.chiseling.ChiselingRecipe;
+import com.supermartijn642.rechiseled.api.chiseling.ChiselingBlockShape;
+import com.supermartijn642.rechiseled.api.chiseling.ItemWithWorth;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -22,18 +24,20 @@ public class ChiselingEmiRecipe extends EmiIngredientRecipe {
     private final List<EmiStack> stacks;
 
     public ChiselingEmiRecipe(ChiselingRecipe recipe) {
-        id = recipe.getRecipeId().withPrefix("/");
-        stacks = recipe.getEntries().stream().flatMap(e -> {
-            if (e.hasRegularItem() && e.hasConnectingItem()) {
-                return Stream.of(e.getRegularItem(), e.getConnectingItem());
-            } else if (e.hasRegularItem()) {
-                return Stream.of(e.getRegularItem());
-            } else if (e.hasConnectingItem()) {
-                return Stream.of(e.getConnectingItem());
+        id = recipe.entries().getFirst().recipe().withPrefix("/");
+        stacks = recipe.entries().stream().flatMap(e -> {
+            ItemWithWorth regularItem = e.getRegularItem(ChiselingBlockShape.BLOCK);
+            ItemWithWorth connectingItem = e.getConnectingItem(ChiselingBlockShape.BLOCK);
+            if (regularItem != null && connectingItem != null) {
+                return Stream.of(regularItem, connectingItem);
+            } else if (regularItem != null) {
+                return Stream.of(regularItem);
+            } else if (connectingItem != null) {
+                return Stream.of(connectingItem);
             } else {
                 return Stream.of();
             }
-        }).map(EmiStack::of).toList();
+        }).map(ItemWithWorth::item).map(EmiStack::of).toList();
         ingredient = EmiIngredient.of(stacks);
     }
 
